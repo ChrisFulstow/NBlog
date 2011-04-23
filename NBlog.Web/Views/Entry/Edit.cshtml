@@ -1,0 +1,88 @@
+﻿@model EntryController.EditModel
+@{
+    var IsCreating = string.IsNullOrWhiteSpace(Model.Slug);
+    ViewBag.Title = IsCreating ? "New Post" : "Edit Post - " + Model.Title;
+    var Heading = IsCreating ? "New Post" : "Edit Post";
+}
+<article class="form">
+
+    <h1>@Heading</h1>
+    
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        
+        @Html.HiddenFor(m => m.Slug)
+        
+        <div class="field long">
+            @Html.LabelFor(m => m.Title)<br />
+            @Html.EditorFor(m => m.Title)
+            @Html.ValidationMessageFor(m => m.Title)
+        </div>
+        
+       if (!IsCreating)
+       {
+            <div class="field long">
+                @Html.LabelFor(m => m.NewSlug)<br />
+                @Html.TextBoxFor(m => m.NewSlug, new { @class = "text-box" })
+                @Html.ValidationMessageFor(m => m.NewSlug)
+            </div>
+            
+            <div class="field short">
+                @Html.LabelFor(m => m.Date)<br />
+                @Html.TextBoxFor(m => m.Date, new { @class = "text-box" })
+                @Html.ValidationMessageFor(m => m.Date)
+            </div>
+       }
+        
+        <div class="field long markdown">
+            @Html.TextAreaFor(m => m.Markdown, new { @class = "text-box" })
+            @Html.ValidationMessageFor(m => m.Markdown)
+        </div>
+        
+        <div class="field">
+            @Html.LabelFor(m => m.IsCodePrettified)<br />
+            @Html.RadioButtonFor(m => m.IsCodePrettified, true) Yes<br />
+            @Html.RadioButtonFor(m => m.IsCodePrettified, false) No<br />
+        </div>
+        
+        <div class="field">
+            @Html.LabelFor(m => m.IsPublished)<br />
+            @Html.RadioButtonFor(m => m.IsPublished, true) Yes<br />
+            @Html.RadioButtonFor(m => m.IsPublished, false) No<br />
+        </div>
+        
+        <div class="field">
+            <input type="submit" value="Save" />
+            @Html.ActionLink("< Back", "Index", "Home", null, new { @class = "button" })
+        </div>
+    }
+
+</article>
+
+@section Scripts {
+<script>
+
+    $(function () {
+        
+        var alertOnLeaving = true;
+        window.onbeforeunload = function() {
+            return alertOnLeaving ? 'If you navigate away from this page you\'ll lose any unsaved changes' : null;
+        }
+
+        $("#Date").datepicker();
+        
+        $(".form form").submit(function() {
+            if ($(this).valid()) { alertOnLeaving = false; }
+        });
+        
+
+        $("textarea#Markdown").wmd({
+		    "preview": true,
+            "helpLink": "http://daringfireball.net/projects/markdown/",
+		    "helpHoverTitle": "Markdown Help",
+		});
+    });
+
+</script>
+}

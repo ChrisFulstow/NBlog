@@ -1,0 +1,48 @@
+﻿<#@ template language="C#" HostSpecific="True" #>
+<#
+
+var mvcHost = (MvcTextTemplateHost)(Host);
+
+// You can use Reflector to see the available MvcTextTemplateHost properties, it's in this assembly:
+// "C:\Program Files\Microsoft Visual Studio 10.0\Common7\IDE\Microsoft.VisualStudio.Web.Mvc.3.0.dll"
+
+#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using NBlog.Web.Application;
+using NBlog.Web.Application.Service;
+
+namespace <#= mvcHost.Namespace #>
+{
+    public partial class <#= mvcHost.ControllerRootName #>Controller : LayoutController
+    {
+        public <#= mvcHost.ControllerRootName #>Controller(IServices services) : base(services) { }
+
+        [HttpGet]
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpPost]
+		[ValidateAntiForgeryToken]
+        public ActionResult Index(IndexModel model)
+        {
+            if (!ModelState.IsValid)
+                return View();
+
+            return null;
+        }
+    }
+	
+	public partial class <#= mvcHost.ControllerRootName #>Controller
+    {
+        public class IndexModel
+        {
+            // public string Property1 { get; set; }
+        }
+    }
+}

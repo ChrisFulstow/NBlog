@@ -1,0 +1,134 @@
+﻿
+body { font: 100%/1.5 'Segoe UI', Arial, sans-serif; background-color: #efefef; }
+
+h1, h2, h3, h4, h5, h6, #site-name, #tag-line
+{
+	line-height: 1.2;
+	font-family: 'Trebuchet MS', Arial, sans-serif;
+	color: #333;
+	font-weight: bold;
+}
+
+h1 { font-size: 150%; margin-bottom: 25px; padding-bottom: 2px; border-bottom: 1px solid; clear: both; }
+h2 { font-size: 130%; margin: 20px 0 15px 0; }
+h3 { font-size: 110%; margin: 20px 0 15px 0; }
+h4 { font-size: 100%; }
+h5 { font-size: 100%; }
+h6 { font-size: 90%; }
+
+#container
+{
+    width: 910px;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 0 10px 4px #d5d5d5;
+    -moz-box-shadow: 0 0 10px 4px #d5d5d5;
+    -webkit-box-shadow: 0 0 10px 4px #d5d5d5;
+}
+
+header
+{
+    height: 79px;
+    padding: 0 25px;
+}
+
+
+#site { float: left; margin: 13px 0; background-color:transparent; }
+#site a { text-decoration: none; }
+#site-name { font-size: 160%; }
+#tag-line { font-size: 120%; color:#4a0; }
+
+#topbar { float: right; margin-top: 6px; background-color:transparent; }
+#topbar #links { text-align: right;  margin:  0 4px 7px 0; }
+#search { clear: both; text-align:right; }
+#search .box { width: 300px; }
+
+.crossbar
+{
+    background-color: #efefef;
+    background-image: -moz-linear-gradient(center top, #eeeeee 0%,#dddddd 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #eeeeee),color-stop(1, #dddddd));
+    border-top: 1px solid #bbb;
+    border-bottom: 1px solid #bbb;
+    padding: 10px 20px;
+    text-align: center;
+    box-shadow: 0 3px 10px 0px #e8e8e8; -moz-box-shadow: 0 3px 10px 0px #e8e8e8; -webkit-box-shadow: 0 3px 10px 0px #e8e8e8;
+}
+
+article { padding: 25px; }
+article.entry li p { margin-bottom: 0; }
+
+article.entry p,
+.wmd-preview p,
+article.entry pre.prettyprint,
+article.entry ol,
+article.entry ul
+{ margin-bottom: 15px; }
+
+.entry-date { margin-bottom: 20px; margin-top: 20px; font-style:italic; }
+pre.prettyprint code { font-size: 11pt; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, serif; }
+article.entry pre.prettyprint { border: 1px dotted #777; padding: 10px; background-color: #f8f8f8; }
+
+footer { margin-top: 30px; margin-bottom: 30px; padding-top: 10px; padding-bottom: 10px; border-top: 1px dotted #999; text-align: center; }
+
+.text-links a { text-decoration:none; }
+.text-links a:link { border-bottom:1px dotted; color:#04b; }
+.text-links a:visited { border-bottom:1px dotted; color:#59d; }
+.text-links a:link:hover, .text-links a:visited:hover { border-bottom:1px solid; }
+
+.admin-box
+{
+    font-weight: bold;
+    padding: 5px 10px;
+    margin-bottom: 15px;
+    background-color: #FFFAD4;
+    border: 1px solid #fcefa1;
+}
+
+ul.entry-list { margin: 0; }
+ul.entry-list li
+{
+    list-style-type: none;
+    margin: 20px;
+}
+
+ul.entry-list li .date { font-size: 100%; }
+
+.watermark { color: #999; }
+
+.form input#Title { font-size: 140%; width: 800px; }
+.form input#NewSlug { width: 800px; }
+
+.form .text-box, .form textarea, .form .wmd-preview, .field-validation-error { border: 1px solid #bbb; padding: 5px 7px; }
+#search .box { border: 1px solid #bbb; padding: 3px 4px; }
+.form .text-box, .form .markdown, .form .wmd-preview { width: 100%; }
+.form textarea { height: 350px; }
+.form .wmd-preview { background-color:#f5f5f5; height: 350px; overflow: auto; }
+
+.form label {font-weight:bold; margin-bottom:15px;}
+
+a.button {color:}
+
+.form .field 
+{
+    margin-bottom: 25px;
+}
+
+.form .field.short { width: 400px; }
+.form .field.medium { width: 600px; }
+.form .field.long { width: 800px; }
+.form .field textarea.small { height: 175px; }
+
+.field-validation-error { display:block; color: #aa0000; border: 1px dotted #aa0000; background-color: #ffdddd; width: 100%; margin: 15px 0; }
+
+::-moz-selection{ background: #FFFF55; color:#333; text-shadow: none; }
+::selection { background: #FFFF55; color:#333; text-shadow: none; } 
+
+.ui-datepicker { font-size: 100%; }
+
+.publication-status
+{
+    font-weight: bold;
+    color: #aa0000;
+    display: inline;
+}

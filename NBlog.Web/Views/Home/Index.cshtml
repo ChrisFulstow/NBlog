@@ -1,0 +1,27 @@
+﻿@model HomeController.IndexModel
+<article>
+
+    @if (Model.User.IsAdmin)
+    {
+        <div class="admin-box text-links">
+            Admin:
+            @Html.ActionLink("New Post", "Add", "Entry")
+        </div>
+    }
+
+    <h1>Latest Posts</h1>
+        
+    <ul class="entry-list text-links">
+    @foreach (var entry in Model.Entries)
+    {
+        if (!Model.User.IsAdmin && !entry.IsPublished) { continue; }
+        
+        <li>
+            @Html.ActionLink(entry.Title, "Show", "Entry", new { id = entry.Key }, null)
+            <div class="date">@entry.Date</div>
+            @if (!entry.IsPublished) { <div class="publication-status">(Unpublished)</div> }
+        </li>
+    }
+    </ul>
+
+</article>

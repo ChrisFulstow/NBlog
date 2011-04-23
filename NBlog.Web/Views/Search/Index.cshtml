@@ -1,0 +1,24 @@
+﻿@model SearchController.IndexModel
+
+<article>
+
+    <h1>Search Results</h1>
+
+    @if (Model.Results.Any())
+    {
+        <ul class="entry-list">
+        @foreach (var result in @Model.Results)
+        { 
+            <li>
+                @Html.ActionLink(result.Title, "Show", "Entry", new { id = result.Slug }, null)
+                <div class="date">@result.Date</div>
+            </li>
+        }
+        </ul>
+    }
+    else
+    { 
+        <p>Sorry, no results matching "@Model.QueryText".</p>
+    }
+
+</article>

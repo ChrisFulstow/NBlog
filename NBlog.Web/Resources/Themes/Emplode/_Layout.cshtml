@@ -1,0 +1,235 @@
+﻿@model NBlog.Web.Application.LayoutModel
+<!doctype html>
+<html lang="en" class="no-js">
+
+<head>
+	<meta charset="utf-8">
+	<!--[if IE]><![endif]-->
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>@(ViewBag.Title ?? Model.Config.Title)</title>
+    <meta name="description" content="@Model.Config.MetaDescription">
+	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+
+    <link href="@Url.Action("Index", "Feed")" rel="alternate" type="application/rss+xml" title="@Model.Config.Title" />
+
+	<link rel="shortcut icon" href="@Url.Content("~/favicon.ico")">
+	
+    <link rel="Stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css">
+    <link rel="Stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/smoothness/jquery-ui.css">
+    <link rel="Stylesheet" href="@Url.Action("Css", "Script")">
+
+	<script src="@Url.Content("~/resources/scripts/modernizr-1.5.min.js")"></script>
+
+</head>
+<!--[if lt IE 7 ]> <body class="ie6"> <![endif]-->
+<!--[if IE 7 ]>    <body class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <body class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <body class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <body> <!--<![endif]-->
+
+<div id="header">
+	<div class="center_wrapper">
+		<div id="toplinks">
+			<div id="toplinks_inner">
+				@(Model.User.IsAuthenticated ? Html.ActionLink("Sign Out", "Logout", "Authentication") : Html.ActionLink("Sign In", "Login", "Authentication"))
+			</div>
+		</div>
+		<div class="clearer">&nbsp;</div>
+
+		<div id="site_title">
+			<h1><a href="@Url.Action("Index", "Home")">@Model.Config.Heading</a></h1>
+			<p>@Model.Config.Tagline</p>
+		</div>
+	</div>
+</div>
+
+<div id="navigation">
+	<div class="center_wrapper">
+        @Html.Partial("/Resources/Themes/Emplode/_TopMenu.cshtml")
+		<div class="clearer">&nbsp;</div>
+	</div>
+</div>
+
+<div id="layout_body">
+	<div id="main_wrapper_outer">
+		<div id="main_wrapper_inner">
+			<div class="center_wrapper">
+				<div class="left" id="main">
+					<div id="main_content">
+						@RenderBody()
+					</div>
+				</div>
+
+				<div class="right" id="sidebar">
+					<div id="sidebar_content">
+
+                        <div class="box">
+                            <div class="box_title">Search</div>
+                            <div class="box_content">
+                                <form action="@Url.Action("Index", "Search")">
+					                <input type="text" class="box" name="q" />
+				                </form>
+                            </div>
+                        </div>
+					
+						<div class="box">
+							<div class="box_title">About</div>
+							<div class="box_content">
+								Aenean sit amet dui at felis lobortis dignissim. Pellentesque risus nibh, feugiat in, convallis id, congue ac, sem. Sed tempor neque in quam.
+							</div>
+						</div>
+
+						<div class="box">
+							<div class="box_title">Categories</div>
+							<div class="box_content">
+								<ul>
+									<li><a href="#">Link 1</a></li>
+									<li><a href="#">Link 2</a></li>
+									<li><a href="#">Link 3</a></li>
+									<li><a href="#">Link 4</a></li>
+									<li><a href="#">Link 5</a></li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="box">
+							<div class="box_title">Gallery</div>
+							<div class="box_content">
+								<div class="thumbnails">
+									<a href="#" class="thumb"><img src="sample-thumbnail.jpg" width="75" height="75" alt="" /></a>
+									<a href="#" class="thumb"><img src="sample-thumbnail.jpg" width="75" height="75" alt="" /></a>
+									<a href="#" class="thumb"><img src="sample-thumbnail.jpg" width="75" height="75" alt="" /></a>
+									<a href="#" class="thumb"><img src="sample-thumbnail.jpg" width="75" height="75" alt="" /></a>
+									<a href="#" class="thumb"><img src="sample-thumbnail.jpg" width="75" height="75" alt="" /></a>
+									<a href="#" class="thumb"><img src="sample-thumbnail.jpg" width="75" height="75" alt="" /></a>
+									<div class="clearer">&nbsp;</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<div class="clearer">&nbsp;</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div id="dashboard">
+	<div id="dashboard_content">
+		<div class="center_wrapper">
+
+			<div class="col3 left">
+				<div class="col3_content">
+
+					<h4>Tincidunt</h4>
+					<ul>
+						<li><a href="#">Consequat molestie</a></li>
+						<li><a href="#">Sem justo</a></li>
+						<li><a href="#">Semper eros</a></li>
+						<li><a href="#">Magna sed purus</a></li>
+						<li><a href="#">Tincidunt morbi</a></li>
+					</ul>
+
+				</div>
+			</div>
+
+			<div class="col3mid left">
+				<div class="col3_content">
+
+					<h4>Fermentum</h4>
+					<ul>
+						<li><a href="#">Semper fermentum</a></li>
+						<li><a href="#">Sem justo</a></li>
+						<li><a href="#">Magna sed purus</a></li>
+						<li><a href="#">Tincidunt nisl</a></li>						
+						<li><a href="#">Consequat molestie</a></li>
+					</ul>
+
+				</div>
+			</div>
+
+			<div class="col3 right">
+				<div class="col3_content">
+
+					<h4>Praesent</h4>
+					<ul>
+						<li><a href="#">Semper lobortis</a></li>
+						<li><a href="#">Consequat molestie</a></li>				
+						<li><a href="#">Magna sed purus</a></li>
+						<li><a href="#">Sem morbi</a></li>
+						<li><a href="#">Tincidunt sed</a></li>
+					</ul>
+
+				</div>
+			</div>
+
+			<div class="clearer">&nbsp;</div>
+
+		</div>
+	</div>
+</div>
+
+<div id="footer">
+	<div class="center_wrapper">
+
+		<div class="left">
+			&copy; 2011 Website.com - Powered by <a href="http://nblog.codeplex.com/" target="_blank">NBlog</a>
+		</div>
+		<div class="right">
+			<a href="http://templates.arcsin.se/">Website template</a> by <a href="http://arcsin.se/">Arcsin</a> 
+		</div>
+		
+		<div class="clearer">&nbsp;</div>
+
+	</div>
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<script>    !window.jQuery && document.write('<script src="/resources/scripts/jquery-1.4.4.min.js"><\/script>')</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"></script>
+<script src="@Url.Action("JavaScript", "Script")"></script>
+
+@RenderSection("Scripts", required: false)
+
+<script>
+    $(function () {
+        $.datepicker.setDefaults({
+            dateFormat: 'dd M yy',
+            changeMonth: true,
+            changeYear: true,
+            constrainInput: true,
+            currentText: 'Today',
+            showAnim: 'slide',
+            showButtonPanel: true
+
+        });
+        $("#search .box").watermark("search");
+        $("input:submit, input:button, a.button, button").button();
+        var a = $("pre:has(code)").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+<!--[if lt IE 7 ]>
+<script src="/resources/scripts/js/dd_belatedpng.js?v=1"></script>
+<![endif]-->
+
+@*<script src="/resources/scripts/profiling/yahoo-profiling.min.js?v=1"></script>
+<script src="/resources/scripts/profiling/config.js?v=1"></script>*@
+
+@if (!string.IsNullOrWhiteSpace(Model.Config.GoogleAnalyticsId))
+{
+<script>
+    var _gaq = [['_setAccount', '@Model.Config.GoogleAnalyticsId'], ['_trackPageview']];
+    (function (d, t) {
+        var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+        g.async = true; g.src = '//www.google-analytics.com/ga.js'; s.parentNode.insertBefore(g, s);
+    })(document, 'script');
+</script>
+}
+
+</body>
+</html>

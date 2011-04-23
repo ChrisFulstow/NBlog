@@ -1,0 +1,12 @@
+﻿@using NBlog.Web.Application.Service
+@{
+    var themeService = DependencyResolver.Current.GetService<IThemeService>();
+    var layout = themeService.Current.Layout;
+    
+    if (string.IsNullOrEmpty(layout))
+    {
+        layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    
+    Layout = layout;
+}
