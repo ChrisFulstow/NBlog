@@ -203,6 +203,7 @@
     <Compile Include="Application\Service\Internal\ThemeService.cs" />
     <Compile Include="Application\Service\Entity\Theme.cs" />
     <Compile Include="Application\Storage\IRepository.cs" />
+    <Compile Include="Application\Storage\Mongo\MongoRepository.cs" />
     <Compile Include="Application\Storage\RepositoryKeys.cs" />
     <Compile Include="Application\Storage\Json\JsonRepository.cs" />
     <Compile Include="Application\Storage\Sql\PetaPoco.cs" />

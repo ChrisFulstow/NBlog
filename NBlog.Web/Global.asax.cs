@@ -80,6 +80,12 @@ namespace NBlog.Web
                 new NamedParameter("databaseName", "NBlog")
             });
 
+            builder.RegisterType<SqlRepository>().Named<IRepository>("mongo").InstancePerLifetimeScope().WithParameters(new[] {
+                new NamedParameter("keys", repositoryKeys),
+                new NamedParameter("connectionString", "mongodb://localhost"),
+                new NamedParameter("databaseName", "nblog")
+            });
+
             builder.RegisterType<ConfigService>().As<IConfigService>().InstancePerLifetimeScope()
                 .WithParameter(GetResolvedParameterByName<IRepository>("json"));
 

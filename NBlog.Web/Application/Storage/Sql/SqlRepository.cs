@@ -10,9 +10,10 @@ namespace NBlog.Web.Application.Storage.Sql
     public class SqlRepository : IRepository
     {
         private readonly RepositoryKeys _keys;
-        private readonly Database _database;
+        private readonly Database _db;
         private readonly string _serverConnectionString;
         private readonly string _databaseName;
+
 
         public SqlRepository(RepositoryKeys keys, string connectionString, string databaseName)
         {
@@ -20,31 +21,21 @@ namespace NBlog.Web.Application.Storage.Sql
             _serverConnectionString = connectionString;
             _databaseName = databaseName;
 
-            const string databaseNamePattern = @"[a-z0-9_]+";
-            if (!Regex.IsMatch(databaseName, databaseNamePattern, RegexOptions.IgnoreCase))
-            {
-                throw new Exception("Invalid database name '" + "', must match " + databaseNamePattern);
-            }
+            AssertValidDatabaseName();
 
             if (!DatabaseExists())
             {
                 CreateDatabase();
             }
 
-            var databaseConnectionString = new SqlConnectionStringBuilder(_serverConnectionString)
-            {
-                InitialCatalog = _databaseName,
-                ApplicationName = "NBlog"
-            };
-
-            _database = new Database(databaseConnectionString.ToString(), "System.Data.SqlClient");
+            _db = new Database(GetDatabaseConnectionString(), "System.Data.SqlClient");
         }
 
 
-        public TEntity Single<TEntity, TKey>(TKey key) where TEntity : new()
+        public TEntity Single<TEntity, TKey>(TKey key) where TEntity : class, new()
         {
             var keyName = _keys.GetKeyName<TEntity>();
-            var entity = _database.Single<TEntity>(string.Format("WHERE [{0}] = @0", keyName), key);
+            var entity = _db.Single<TEntity>(string.Format("WHERE [{0}] = @0", keyName), key);
             return entity;
         }
 
@@ -55,38 +46,32 @@ namespace NBlog.Web.Application.Storage.Sql
 
             if (Exists<TEntity>(keyValue))
             {
-                _database.Update(item);
+                _db.Update(item);
             }
             else
             {
-                _database.Insert(item);
+                _db.Insert(item);
             }
         }
 
 
-        public IEnumerable<TEntity> All<TEntity>() where TEntity : new()
+        public IEnumerable<TEntity> All<TEntity>() where TEntity : class, new()
         {
-            return _database.Query<TEntity>("SELECT * FROM " + GetTableName<TEntity>());
+            return _db.Query<TEntity>("SELECT * FROM " + GetTableName<TEntity>());
         }
 
 
-        public bool Exists<TEntity>(string key) where TEntity : class, new()
+        public bool Exists<TEntity>(object key) where TEntity : class, new()
         {
             var pkName = _keys.GetKeyName<TEntity>();
-            var entity = _database.SingleOrDefault<TEntity>(string.Format("WHERE [{0}] = @0", pkName), key);
+            var entity = _db.SingleOrDefault<TEntity>(string.Format("WHERE [{0}] = @0", pkName), key);
             return (entity != null);
-        }
-
-
-        public bool Exists<TEntity, TKey>(TKey key) where TEntity : new()
-        {
-            return _database.Exists<TEntity>(key);
         }
 
 
         public void Delete<TEntity, TKey>(TKey key)
         {
-            _database.Delete(key);
+            _db.Delete(key);
         }
 
 
@@ -153,6 +138,28 @@ namespace NBlog.Web.Application.Storage.Sql
         private static string GetTableName<TEntity>()
         {
             return "[" + typeof(TEntity).Name + "]";
+        }
+
+
+        private void AssertValidDatabaseName()
+        {
+            const string databaseNamePattern = @"[a-z0-9_]+";
+            if (!Regex.IsMatch(_databaseName, databaseNamePattern, RegexOptions.IgnoreCase))
+            {
+                throw new Exception("Invalid database name '" + "', must match " + databaseNamePattern);
+            }
+        }
+
+
+        private string GetDatabaseConnectionString()
+        {
+            var builder = new SqlConnectionStringBuilder(_serverConnectionString)
+            {
+                InitialCatalog = _databaseName,
+                ApplicationName = "NBlog"
+            };
+
+            return builder.ToString();
         }
     }
 }

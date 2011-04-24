@@ -21,13 +21,13 @@ namespace NBlog.Web.Application.Storage.Json
         public string DataPath { get { return _dataPath; } }
 
 
-        public TEntity Single<TEntity>(string key) where TEntity : new()
+        public TEntity Single<TEntity>(string key) where TEntity : class, new()
         {
             return Single<TEntity, string>(key);
         }
 
 
-        public TEntity Single<TEntity, TKey>(TKey key) where TEntity : new()
+        public TEntity Single<TEntity, TKey>(TKey key) where TEntity : class, new()
         {
             var filename = key.ToString();
             var recordPath = Path.Combine(_dataPath, typeof(TEntity).Name, filename + ".json");
@@ -37,7 +37,7 @@ namespace NBlog.Web.Application.Storage.Json
         }
 
 
-        public IEnumerable<TEntity> All<TEntity>() where TEntity : new()
+        public IEnumerable<TEntity> All<TEntity>() where TEntity : class, new()
         {
             var folderPath = Path.Combine(_dataPath, typeof(TEntity).Name);
             var filePaths = Directory.GetFiles(folderPath, "*.json", SearchOption.TopDirectoryOnly);
@@ -66,17 +66,14 @@ namespace NBlog.Web.Application.Storage.Json
             File.WriteAllText(recordPath, json);
         }
 
-        public bool Exists<TEntity>(string key) where TEntity : class, new()
-        {
-            return Exists<TEntity, string>(key);
-        }
 
-        public bool Exists<TEntity, TKey>(TKey key) where TEntity : new()
+        public bool Exists<TEntity>(object key) where TEntity : class, new()
         {
             var folderPath = GetEntityPath<TEntity>();
             var recordPath = Path.Combine(folderPath, key + ".json");
             return File.Exists(recordPath);
         }
+
 
         public void DeleteAll<TEntity>()
         {

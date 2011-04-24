@@ -8,32 +8,18 @@ namespace NBlog.Web.Application.Storage
 {
     public class RepositoryKeys
     {
-        private readonly Dictionary<Type, Expression<Func<object, object>>> _keys = new Dictionary<Type, Expression<Func<object, object>>>();
+        private readonly Dictionary<Type, Expression<Func<object, object>>> _keys =
+            new Dictionary<Type, Expression<Func<object, object>>>();
 
         public void Add<T>(Expression<Func<T, object>> expression)
         {
-            // use a conversion expression:
-
-            Expression<Func<object, T>> convert = myObj => (T)myObj;
-
-            var param = Expression.Parameter(typeof(object), "obj");  // don't need name?
-            var body = Expression.Invoke(expression, Expression.Invoke(convert, param));
+            // use a conversion expression to convert Expression<Func<T, object>> into Expression<Func<object, object>>:
+            Expression<Func<object, T>> converter = obj => (T)obj;
+            var param = Expression.Parameter(typeof(object));
+            var body = Expression.Invoke(expression, Expression.Invoke(converter, param));
             var lambda = Expression.Lambda<Func<object, object>>(body, param);
 
-
-            //var objectParam = new[] { Expression.Parameter(typeof(object), expression.Parameters[0].Name) };
-            //var convertedExpression = Expression.Lambda<Func<object, object>>(expression.Body, objectParam);
-
-
             _keys.Add(typeof(T), lambda);
-        }
-
-
-        public static Expression<Func<TModel, TToProperty>> Cast<TModel, TFromProperty, TToProperty>(Expression<Func<TModel, TFromProperty>> expression)
-        {
-            Expression converted = Expression.Convert(expression.Body, typeof(TToProperty));
-
-            return Expression.Lambda<Func<TModel, TToProperty>>(converted, expression.Parameters);
         }
 
 
@@ -43,10 +29,12 @@ namespace NBlog.Web.Application.Storage
             return getValue(item);
         }
 
+
         public string GetKeyName<T>(T item)
         {
             return GetKeyName<T>();
         }
+
 
         public string GetKeyName<T>()
         {
@@ -58,14 +46,5 @@ namespace NBlog.Web.Application.Storage
             var memberName = body.Member.Name;
             return memberName;            
         }
-
-        //private static string GetMemberName<T>(Expression<Func<object, object>> expression)
-        //{
-        //    var conversionBody = (InvocationExpression)expression.Body;
-        //    var conversionExpression = (Expression<Func<T, object>>)conversionBody.Expression;
-        //    var body = (MemberExpression)conversionExpression.Body;
-        //    var memberName = body.Member.Name;
-        //    return memberName;
-        //}
     }
 }
