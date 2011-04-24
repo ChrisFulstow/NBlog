@@ -204,6 +204,7 @@
     <Compile Include="Application\Service\Entity\Theme.cs" />
     <Compile Include="Application\Storage\IRepository.cs" />
     <Compile Include="Application\Storage\Json\JsonRepository.cs" />
+    <Compile Include="Application\Storage\Sql\SqlRepository.cs" />
     <Compile Include="Application\StringExtensions.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />

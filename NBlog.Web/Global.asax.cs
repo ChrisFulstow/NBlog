@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Autofac;
+using Autofac.Core;
 using Autofac.Features.ResolveAnything;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.Web;
@@ -16,6 +17,7 @@ using NBlog.Web.Application.Service;
 using NBlog.Web.Application.Service.Internal;
 using NBlog.Web.Application.Storage;
 using NBlog.Web.Application.Storage.Json;
+using NBlog.Web.Application.Storage.Sql;
 using Quartz;
 using Quartz.Impl;
 
@@ -42,7 +44,7 @@ namespace NBlog.Web
 
             // entry pages
             routes.MapRouteLowercase("", "{id}", new { controller = "Entry", action = "Show" });
-            
+
             // combined scripts
             routes.MapRouteLowercase("", "resources/min.css", new { controller = "Script", action = "Css" });
             routes.MapRouteLowercase("", "resources/min.js", new { controller = "Script", action = "JavaScript" });
@@ -59,9 +61,16 @@ namespace NBlog.Web
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
-            builder.RegisterType<JsonRepository>().As<IRepository>().InstancePerLifetimeScope().WithParameter("dataPath", HttpContext.Current.Server.MapPath(dataPath));
-            builder.RegisterType<ConfigService>().As<IConfigService>().InstancePerLifetimeScope();
-            builder.RegisterType<EntryService>().As<IEntryService>().InstancePerLifetimeScope();
+
+            builder.RegisterType<JsonRepository>().Named<IRepository>("json").InstancePerLifetimeScope().WithParameter("dataPath", HttpContext.Current.Server.MapPath(dataPath));
+            builder.RegisterType<SqlRepository>().Named<IRepository>("sql").InstancePerLifetimeScope();
+
+            builder.RegisterType<ConfigService>().As<IConfigService>().InstancePerLifetimeScope()
+                .WithParameter(GetResolvedParameterByName<IRepository>("json"));
+            
+            builder.RegisterType<EntryService>().As<IEntryService>().InstancePerLifetimeScope()
+                .WithParameter(GetResolvedParameterByName<IRepository>("sql"));
+
             builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
             builder.RegisterType<MessageService>().As<IMessageService>().InstancePerLifetimeScope();
             builder.RegisterType<ThemeService>().As<IThemeService>().InstancePerLifetimeScope();
@@ -70,6 +79,14 @@ namespace NBlog.Web
 
             var container = builder.Build();
             return container;
+        }
+
+
+        public static ResolvedParameter GetResolvedParameterByName<T>(string key)
+        {
+            return new ResolvedParameter(
+                (pi, c) => pi.ParameterType == typeof(T),
+                (pi, c) => c.ResolveNamed<T>(key));
         }
 
 
@@ -88,7 +105,7 @@ namespace NBlog.Web
 
             AreaRegistration.RegisterAllAreas();
             RegisterRoutes(RouteTable.Routes);
-            
+
             InitialiseJobScheduler(container);
         }
 
@@ -127,7 +144,7 @@ namespace NBlog.Web
             ISchedulerFactory factory = new StdSchedulerFactory();
             var scheduler = factory.GetScheduler();
             scheduler.JobFactory = new AutofacJobFactory(new ContainerProvider(container));
-            scheduler.Start();            
+            scheduler.Start();
         }
 
 
@@ -143,7 +160,7 @@ namespace NBlog.Web
             return true;
         }
 
-        
+
         protected void EnforceLowercaseUrl()
         {
             var path = Request.Url.AbsolutePath;
