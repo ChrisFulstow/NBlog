@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Reflection;
@@ -14,6 +15,7 @@ using Elmah;
 using NBlog.Web.Application;
 using NBlog.Web.Application.Job;
 using NBlog.Web.Application.Service;
+using NBlog.Web.Application.Service.Entity;
 using NBlog.Web.Application.Service.Internal;
 using NBlog.Web.Application.Storage;
 using NBlog.Web.Application.Storage.Json;
@@ -62,12 +64,25 @@ namespace NBlog.Web
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
 
-            builder.RegisterType<JsonRepository>().Named<IRepository>("json").InstancePerLifetimeScope().WithParameter("dataPath", HttpContext.Current.Server.MapPath(dataPath));
-            builder.RegisterType<SqlRepository>().Named<IRepository>("sql").InstancePerLifetimeScope();
+            var repositoryKeys = new RepositoryKeys();
+            repositoryKeys.Add<Entry>(e => e.Slug);
+            repositoryKeys.Add<Config>(c => c.Site);
+            repositoryKeys.Add<User>(u => u.Username);
+
+            builder.RegisterType<JsonRepository>().Named<IRepository>("json").InstancePerLifetimeScope().WithParameters(new[] {
+                new NamedParameter("keys", repositoryKeys),
+                new NamedParameter("dataPath", HttpContext.Current.Server.MapPath(dataPath))
+            });
+
+            builder.RegisterType<SqlRepository>().Named<IRepository>("sql").InstancePerLifetimeScope().WithParameters(new[] {
+                new NamedParameter("keys", repositoryKeys),
+                new NamedParameter("connectionString", "Server=.;Trusted_Connection=True;"),
+                new NamedParameter("databaseName", "NBlog")
+            });
 
             builder.RegisterType<ConfigService>().As<IConfigService>().InstancePerLifetimeScope()
                 .WithParameter(GetResolvedParameterByName<IRepository>("json"));
-            
+
             builder.RegisterType<EntryService>().As<IEntryService>().InstancePerLifetimeScope()
                 .WithParameter(GetResolvedParameterByName<IRepository>("sql"));
 

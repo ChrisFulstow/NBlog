@@ -14,9 +14,10 @@ namespace NBlog.Web.Controllers
     {
         private readonly IRepository _repository;
 
-        public AdminController(IServices services, IRepository repository) : base(services)
+        public AdminController(IServices services, IRepository repositoryToBackup)
+            : base(services)
         {
-            _repository = repository;
+            _repository = repositoryToBackup;
         }
 
         [AdminOnly]

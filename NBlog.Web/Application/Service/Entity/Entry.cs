@@ -1,4 +1,5 @@
 ﻿using System;
+using PetaPoco;
 
 namespace NBlog.Web.Application.Service.Entity
 {

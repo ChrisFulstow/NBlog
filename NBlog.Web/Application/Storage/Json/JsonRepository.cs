@@ -1,44 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Web;
-using AppLimit.CloudComputing.SharpBox;
-using AppLimit.CloudComputing.SharpBox.DropBox;
-using Ionic.Zip;
 using NBlog.Web.Application.Service.Entity;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace NBlog.Web.Application.Storage.Json
 {
     public class JsonRepository : IRepository
     {
+        private readonly RepositoryKeys _keys;
         private readonly string _dataPath;
-        private readonly Dictionary<Type, Func<object, string>> _keys = new Dictionary<Type, Func<object, string>>();
 
-        public JsonRepository(string dataPath)
+        public JsonRepository(RepositoryKeys keys, string dataPath)
         {
+            _keys = keys;
             _dataPath = dataPath;
-
-            // todo: make this an external configuration
-            RegisterKey<Entry>(e => e.Slug);
-            RegisterKey<Config>(e => e.Site);
-            RegisterKey<User>(e => e.Username);
         }
 
 
         public string DataPath { get { return _dataPath; } }
 
 
-        public TEntity Single<TEntity>(string key)
+        public TEntity Single<TEntity>(string key) where TEntity : new()
         {
             return Single<TEntity, string>(key);
         }
 
 
-        public TEntity Single<TEntity, TKey>(TKey key)
+        public TEntity Single<TEntity, TKey>(TKey key) where TEntity : new()
         {
             var filename = key.ToString();
             var recordPath = Path.Combine(_dataPath, typeof(TEntity).Name, filename + ".json");
@@ -48,7 +37,7 @@ namespace NBlog.Web.Application.Storage.Json
         }
 
 
-        public IQueryable<TEntity> All<TEntity>()
+        public IEnumerable<TEntity> All<TEntity>() where TEntity : new()
         {
             var folderPath = Path.Combine(_dataPath, typeof(TEntity).Name);
             var filePaths = Directory.GetFiles(folderPath, "*.json", SearchOption.TopDirectoryOnly);
@@ -61,28 +50,28 @@ namespace NBlog.Web.Application.Storage.Json
                 list.Add(entity);
             }
 
-            return list.AsQueryable();
+            return list;
         }
 
 
-        public void Save<TEntity>(TEntity item)
+        public void Save<TEntity>(TEntity item) where TEntity : class, new()
         {
             var json = JsonConvert.SerializeObject(item, Formatting.Indented);
             var folderPath = GetEntityPath<TEntity>();
             if (!Directory.Exists(folderPath)) { Directory.CreateDirectory(folderPath); }
 
-            var filename = GetKeyValue(item);
+            var filename = _keys.GetKeyValue(item);
             var recordPath = Path.Combine(folderPath, filename + ".json");
 
             File.WriteAllText(recordPath, json);
         }
 
-        public bool Exists<TEntity>(string key)
+        public bool Exists<TEntity>(string key) where TEntity : class, new()
         {
             return Exists<TEntity, string>(key);
         }
 
-        public bool Exists<TEntity, TKey>(TKey key)
+        public bool Exists<TEntity, TKey>(TKey key) where TEntity : new()
         {
             var folderPath = GetEntityPath<TEntity>();
             var recordPath = Path.Combine(folderPath, key + ".json");
@@ -105,16 +94,6 @@ namespace NBlog.Web.Application.Storage.Json
             File.Delete(recordPath);
         }
 
-        private void RegisterKey<T>(Func<T, string> key)
-        {
-            _keys.Add(typeof(T), f => key((T)f));
-        }
-
-
-        private string GetKeyValue<T>(T item)
-        {
-            return _keys[typeof(T)](item);
-        }
 
         // todo: need a TEntity + TKey version of this too that does Path.Combine(folderPath, key + ".json");
         private string GetEntityPath<TEntity>()
