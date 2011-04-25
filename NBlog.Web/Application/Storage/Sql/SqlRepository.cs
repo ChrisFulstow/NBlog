@@ -71,7 +71,9 @@ namespace NBlog.Web.Application.Storage.Sql
 
         public void Delete<TEntity>(object key) where TEntity : class, new()
         {
-            _db.Delete(key);
+            var tableName = GetTableName<TEntity>();
+            var keyName = _keys.GetKeyName<TEntity>();
+            _db.Execute(string.Format("DELETE FROM {0} WHERE [{1}] = @0", tableName, keyName), key);
         }
 
 
