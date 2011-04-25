@@ -18,7 +18,7 @@ namespace NBlog.Web.Application.Storage.Mongo
         }
 
 
-        public TEntity Single<TEntity, TKey>(TKey key) where TEntity : class, new()
+        public TEntity Single<TEntity>(object key) where TEntity : class, new()
         {
             throw new NotImplementedException();
         }
@@ -41,8 +41,7 @@ namespace NBlog.Web.Application.Storage.Mongo
             throw new NotImplementedException();
         }
 
-
-        public void Delete<TEntity, TKey>(TKey key)
+        public void Delete<TEntity>(object key) where TEntity : class, new()
         {
             throw new NotImplementedException();
         }

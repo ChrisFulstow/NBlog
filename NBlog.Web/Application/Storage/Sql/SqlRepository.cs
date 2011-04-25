@@ -32,7 +32,7 @@ namespace NBlog.Web.Application.Storage.Sql
         }
 
 
-        public TEntity Single<TEntity, TKey>(TKey key) where TEntity : class, new()
+        public TEntity Single<TEntity>(object key) where TEntity : class, new()
         {
             var keyName = _keys.GetKeyName<TEntity>();
             var entity = _db.Single<TEntity>(string.Format("WHERE [{0}] = @0", keyName), key);
@@ -69,7 +69,7 @@ namespace NBlog.Web.Application.Storage.Sql
         }
 
 
-        public void Delete<TEntity, TKey>(TKey key)
+        public void Delete<TEntity>(object key) where TEntity : class, new()
         {
             _db.Delete(key);
         }

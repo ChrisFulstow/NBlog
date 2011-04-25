@@ -6,6 +6,10 @@ using System.Linq.Expressions;
 
 namespace NBlog.Web.Application.Storage
 {
+    /// <summary>
+    /// A hash table for mapping entitiy types to their lookup key properties.
+    /// Used by data repositories.
+    /// </summary>
     public class RepositoryKeys
     {
         private readonly Dictionary<Type, Expression<Func<object, object>>> _keys =
@@ -13,7 +17,7 @@ namespace NBlog.Web.Application.Storage
 
         public void Add<T>(Expression<Func<T, object>> expression)
         {
-            // use a conversion expression to convert Expression<Func<T, object>> into Expression<Func<object, object>>:
+            // use a conversion expression to convert Expression<Func<T, object>> to an Expression<Func<object, object>>:
             Expression<Func<object, T>> converter = obj => (T)obj;
             var param = Expression.Parameter(typeof(object));
             var body = Expression.Invoke(expression, Expression.Invoke(converter, param));

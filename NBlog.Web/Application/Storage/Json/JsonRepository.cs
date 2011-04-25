@@ -21,13 +21,7 @@ namespace NBlog.Web.Application.Storage.Json
         public string DataPath { get { return _dataPath; } }
 
 
-        public TEntity Single<TEntity>(string key) where TEntity : class, new()
-        {
-            return Single<TEntity, string>(key);
-        }
-
-
-        public TEntity Single<TEntity, TKey>(TKey key) where TEntity : class, new()
+        public TEntity Single<TEntity>(object key) where TEntity : class, new()
         {
             var filename = key.ToString();
             var recordPath = Path.Combine(_dataPath, typeof(TEntity).Name, filename + ".json");
@@ -74,7 +68,7 @@ namespace NBlog.Web.Application.Storage.Json
             return File.Exists(recordPath);
         }
 
-
+        // todo: not in IRepository? should be?
         public void DeleteAll<TEntity>()
         {
             var folderPath = GetEntityPath<TEntity>();
@@ -84,7 +78,8 @@ namespace NBlog.Web.Application.Storage.Json
             }
         }
 
-        public void Delete<TEntity, TKey>(TKey key)
+
+        public void Delete<TEntity>(object key) where TEntity : class, new()
         {
             var folderPath = GetEntityPath<TEntity>();
             var recordPath = Path.Combine(folderPath, key + ".json");

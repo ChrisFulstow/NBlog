@@ -29,7 +29,7 @@ namespace NBlog.Web.Application.Service.Internal
                 var isUpdate = _repository.Exists<Entry>(entry.Slug);
                 if (isUpdate)
                 {
-                    var oldEntry = _repository.Single<Entry, string>(entry.Slug);
+                    var oldEntry = _repository.Single<Entry>(entry.Slug);
                     entry.DateCreated = oldEntry.DateCreated;                    
                 }
                 else
@@ -45,7 +45,7 @@ namespace NBlog.Web.Application.Service.Internal
 
         public Entry GetBySlug(string slug)
         {
-            return _repository.Single<Entry, string>(slug);
+            return _repository.Single<Entry>(slug);
         }
 
         public List<Entry> GetList()
@@ -55,7 +55,7 @@ namespace NBlog.Web.Application.Service.Internal
 
         public void Delete(string slug)
         {
-            _repository.Delete<Entry, string>(slug);
+            _repository.Delete<Entry>(slug);
         }
 
         public bool Exists(string slug)

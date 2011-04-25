@@ -72,6 +72,7 @@
     <Compile Include="EntryControllerTests.cs" />
     <Compile Include="JsonRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SlugTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBlog.Web\NBlog.Web.csproj">

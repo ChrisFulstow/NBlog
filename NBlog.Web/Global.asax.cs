@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Reflection;
@@ -8,7 +7,6 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Core;
-using Autofac.Features.ResolveAnything;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.Web;
 using Elmah;
