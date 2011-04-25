@@ -1,14 +1,16 @@
-﻿using System.IO;
+using System;
+using System.IO;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Gallio.Framework;
+using MbUnit.Framework;
 using NBlog.Web.Application;
 using NBlog.Web.Application.Service.Entity;
 using NBlog.Web.Application.Storage;
 using NBlog.Web.Application.Storage.Json;
 
-namespace NBlog.Tests
+namespace NBlog.Tests.MbUnit
 {
-    [TestClass]
+    [TestFixture]
     public class JsonRepositoryTests
     {
         public TestContext TestContext { get; set; }
@@ -16,7 +18,7 @@ namespace NBlog.Tests
         private JsonRepository _jsonRepository;
         private string _dataPath;
 
-        [TestInitialize]
+        [SetUp]
         public void TestInit()
         {
             _keys = new RepositoryKeys();
@@ -24,12 +26,18 @@ namespace NBlog.Tests
             _keys.Add<Config>(c => c.Site);
             _keys.Add<User>(u => u.Username);
 
-            _dataPath = Path.Combine(TestContext.TestDir, "JsonRepository");
+            _dataPath = Path.Combine(Path.GetTempPath(), "JsonRepositoryTests");
+
+            if (Directory.Exists(_dataPath))
+            {
+                Directory.Delete(_dataPath, recursive: true);
+            }
+
             _jsonRepository = new JsonRepository(_keys, _dataPath);
         }
 
 
-        [TestCleanup]
+        [TearDown]
         public void TestCleanup()
         {
             if (Directory.Exists(_dataPath))
@@ -39,7 +47,7 @@ namespace NBlog.Tests
         }
 
 
-        [TestMethod]
+        [Test]
         public void Single_Should_Return_Correct_Entity_By_Key()
         {
             // arrange
@@ -49,7 +57,7 @@ namespace NBlog.Tests
 
             // act
             _jsonRepository.Save(entry);
-            
+
             var keyValue = _keys.GetKeyValue(entry);
             var retrievedEntry = _jsonRepository.Single<Entry>(keyValue);
 
@@ -58,7 +66,7 @@ namespace NBlog.Tests
         }
 
 
-        [TestMethod]
+        [Test]
         public void List_Should_Return_All_Entities()
         {
             // arrange
@@ -73,7 +81,7 @@ namespace NBlog.Tests
             Assert.IsTrue(all.Count() == 3);
         }
 
-        [TestMethod]
+        [Test]
         public void Exists_Should_Be_True_When_Entity_Exists()
         {
             // arrange
@@ -87,7 +95,7 @@ namespace NBlog.Tests
         }
 
 
-        [TestMethod]
+        [Test]
         public void Exists_Should_Be_False_When_Entity_Deleted()
         {
             // arrange
@@ -100,5 +108,6 @@ namespace NBlog.Tests
             // assert
             Assert.IsFalse(exists);
         }
+
     }
 }

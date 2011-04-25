@@ -1,13 +1,17 @@
+﻿using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Text;
+using Gallio.Framework;
+using MbUnit.Framework;
+using MbUnit.Framework.ContractVerifiers;
 using NBlog.Web.Application;
 
-namespace NBlog.Tests
+namespace NBlog.Tests.MbUnit
 {
-    [TestClass]
+    [TestFixture]
     public class SlugTests
     {
-        [TestMethod]
+        [Test]
         public void ToSlugUrl_Should_Build_Correct_Slugs()
         {
             // arrange

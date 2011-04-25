@@ -1,8 +1,6 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MbUnit.Framework;
 using NBlog.Web.Application.Service;
 using NBlog.Web.Application.Service.Entity;
 using NBlog.Web.Controllers;
@@ -10,10 +8,10 @@ using NSubstitute;
 
 namespace NBlog.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class EntryControllerTests
     {
-        [TestMethod]
+        [Test]
         public void ListTest()
         {
             // arrange
