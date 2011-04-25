@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
@@ -11,7 +10,7 @@ using NBlog.Web.Application.Storage;
 using NBlog.Web.Application.Storage.Json;
 using NBlog.Web.Application.Storage.Sql;
 
-namespace NBlog.Tests.Repository
+namespace NBlog.Tests
 {
     public class RepositoryTests
     {
