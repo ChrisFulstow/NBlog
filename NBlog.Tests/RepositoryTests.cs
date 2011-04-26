@@ -4,10 +4,12 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using MbUnit.Framework;
+using MongoDB.Driver;
 using NBlog.Web.Application;
 using NBlog.Web.Application.Service.Entity;
 using NBlog.Web.Application.Storage;
 using NBlog.Web.Application.Storage.Json;
+using NBlog.Web.Application.Storage.Mongo;
 using NBlog.Web.Application.Storage.Sql;
 
 namespace NBlog.Tests
@@ -18,6 +20,8 @@ namespace NBlog.Tests
         private static readonly string JsonWorkingFolder;
         private static readonly string SqlConnectionString;
         private static readonly string SqlDatabaseName;
+        private static readonly string MongoConnectionString;
+        private static readonly string MongoDatabaseName;
 
         static RepositoryTests()
         {
@@ -27,8 +31,12 @@ namespace NBlog.Tests
             Keys.Add<User>(u => u.Username);
 
             JsonWorkingFolder = Path.Combine(Path.GetTempPath(), "NBlogIntegrationTests");
+
             SqlConnectionString = "Server=.;Trusted_Connection=True;";
             SqlDatabaseName = "NBlogIntegrationTests";
+
+            MongoDatabaseName = "nblog-integration-tests";
+            MongoConnectionString = "mongodb://localhost";
         }
 
 
@@ -54,6 +62,11 @@ namespace NBlog.Tests
                     cmd.ExecuteNonQuery();
                 }
             }
+            else if (repositoryType == typeof(MongoRepository))
+            {
+                var server = MongoServer.Create(MongoConnectionString);
+                server.DropDatabase(MongoDatabaseName);
+            }
         }
 
 
@@ -63,7 +76,7 @@ namespace NBlog.Tests
             if (Instance.GetType() == typeof(SqlRepository))
             {
                 const string dropSql = @"
-                    ALTER DATABASE [{0}] SET OFFLINE WITH ROLLBACK IMMEDIATE
+                    ALTER DATABASE [{0}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
                     DROP DATABASE [{0}]";
 
                 using (var cnn = new SqlConnection(SqlConnectionString))
@@ -80,6 +93,7 @@ namespace NBlog.Tests
         {
             yield return BuildJsonRepository();
             yield return BuildSqlRepository();
+            yield return BuildMongoRepository();
         }
 
 
@@ -96,6 +110,12 @@ namespace NBlog.Tests
         private static SqlRepository BuildSqlRepository()
         {
             return new SqlRepository(Keys, SqlConnectionString, SqlDatabaseName);
+        }
+
+
+        private static MongoRepository BuildMongoRepository()
+        {
+            return new MongoRepository(Keys, MongoConnectionString, MongoDatabaseName);
         }
 
 
@@ -116,6 +136,18 @@ namespace NBlog.Tests
 
             // assert
             Assert.AreEqual(retrievedEntry.Title, title);
+        }
+
+
+        [Test, ExpectedException(typeof(Exception))]
+        //[Test]
+        public void Single_Should_Throw_When_Entity_Does_Not_Exist()
+        {
+            // arrange
+            var repository = Instance;
+
+            // act
+            var entry = repository.Single<Entry>("this-entry-does-not-exist");
         }
 
 

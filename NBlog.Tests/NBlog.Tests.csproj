@@ -34,6 +34,7 @@
   <ItemGroup>
     <Reference Include="Gallio" />
     <Reference Include="MbUnit" />
+    <Reference Include="MongoDB.Driver, Version=1.0.0.4098, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL" />
     <Reference Include="NSubstitute">
       <HintPath>..\NBlog.Lib\NSubstitute.dll</HintPath>
     </Reference>
@@ -55,8 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntryControllerTests.cs" />
-    <Compile Include="JsonRepositoryTests.cs" />
-    <Compile Include="Repository\RepositoryTests.cs" />
+    <Compile Include="RepositoryTests.cs" />
     <Compile Include="SlugTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

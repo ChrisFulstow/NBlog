@@ -61,6 +61,12 @@
     <Content Include="Ionic.Zip.dll" />
     <Content Include="MarkdownSharp.dll" />
     <Content Include="MarkdownSharp.pdb" />
+    <Content Include="MongoDB.Bson.dll" />
+    <Content Include="MongoDB.Bson.pdb" />
+    <Content Include="MongoDB.Bson.xml" />
+    <Content Include="MongoDB.Driver.dll" />
+    <Content Include="MongoDB.Driver.pdb" />
+    <Content Include="MongoDB.Driver.XML" />
     <Content Include="Newtonsoft.Json.dll" />
     <Content Include="Newtonsoft.Json.pdb" />
     <Content Include="Newtonsoft.Json.xml" />
