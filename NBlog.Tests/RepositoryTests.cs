@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -17,11 +18,14 @@ namespace NBlog.Tests
     public class RepositoryTests
     {
         private static readonly RepositoryKeys Keys;
+
         private static readonly string JsonWorkingFolder;
-        private static readonly string SqlConnectionString;
-        private static readonly string SqlDatabaseName;
-        private static readonly string MongoConnectionString;
-        private static readonly string MongoDatabaseName;
+
+        private static readonly string SqlConnectionString = ConfigurationManager.AppSettings["SqlConnectionString"];
+        private static readonly string SqlDatabaseName = ConfigurationManager.AppSettings["SqlDatabaseName"];
+
+        private static readonly string MongoConnectionString =  ConfigurationManager.AppSettings["MongoConnectionString"];
+        private static readonly string MongoDatabaseName = ConfigurationManager.AppSettings["MongoDatabaseName"];
 
         static RepositoryTests()
         {
@@ -31,12 +35,6 @@ namespace NBlog.Tests
             Keys.Add<User>(u => u.Username);
 
             JsonWorkingFolder = Path.Combine(Path.GetTempPath(), "NBlogIntegrationTests");
-
-            SqlConnectionString = "Server=.;Trusted_Connection=True;";
-            SqlDatabaseName = "NBlogIntegrationTests";
-
-            MongoDatabaseName = "nblog-integration-tests";
-            MongoConnectionString = "mongodb://localhost";
         }
 
 

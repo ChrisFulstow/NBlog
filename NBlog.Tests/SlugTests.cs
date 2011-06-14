@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Gallio.Framework;
+﻿using System.Collections.Generic;
 using MbUnit.Framework;
-using MbUnit.Framework.ContractVerifiers;
 using NBlog.Web.Application;
 
-namespace NBlog.Tests.MbUnit
+namespace NBlog.Tests
 {
     [TestFixture]
     public class SlugTests
