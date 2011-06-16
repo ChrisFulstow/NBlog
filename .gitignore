@@ -1,7 +1,9 @@
 #Project specific files
 Web.Release.Config
 NBlog.Web.Publish.xml
-chrisfulstow.com/
+chrisfulstow-com/
+mongoleaf-com/
+MongoLeaf/
 
 #OS junk files
 [Tt]humbs.db

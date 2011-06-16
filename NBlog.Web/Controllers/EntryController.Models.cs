@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using NBlog.Web.Application;
+using NBlog.Web.Application.Infrastructure;
 
 namespace NBlog.Web.Controllers
 {

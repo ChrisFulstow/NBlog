@@ -162,6 +162,9 @@
     <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.WebPages.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
@@ -183,15 +186,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\AdminOnlyAttribute.cs" />
-    <Compile Include="Application\AutofacFilterProvider.cs" />
-    <Compile Include="Application\DateExtensions.cs" />
-    <Compile Include="Application\Html\HtmlExtensions.cs" />
-    <Compile Include="Application\Job\AutofacJobFactory.cs" />
-    <Compile Include="Application\Job\Backup.cs" />
-    <Compile Include="Application\NoBindingAttribute.cs" />
-    <Compile Include="Application\RouteExtensions.cs" />
-    <Compile Include="Application\RssResult.cs" />
+    <Compile Include="Application\Infrastructure\AdminOnlyAttribute.cs" />
+    <Compile Include="Application\Infrastructure\AutofacFilterProvider.cs" />
+    <Compile Include="Application\Infrastructure\DateExtensions.cs" />
+    <Compile Include="Application\Infrastructure\HtmlExtensions.cs" />
+    <Compile Include="Application\Infrastructure\AutofacJobFactory.cs" />
+    <Compile Include="Application\Infrastructure\HttpTenantSelector.cs" />
+    <Compile Include="Application\Infrastructure\ThemeableRazorViewEngine.cs" />
+    <Compile Include="Application\Jobs\Backup.cs" />
+    <Compile Include="Application\Infrastructure\NoBindingAttribute.cs" />
+    <Compile Include="Application\Infrastructure\RouteExtensions.cs" />
+    <Compile Include="Application\Infrastructure\RssResult.cs" />
     <Compile Include="Application\Service\Entity\Config.cs" />
     <Compile Include="Application\Service\IConfigService.cs" />
     <Compile Include="Application\Service\IEntryService.cs" />
@@ -202,12 +207,12 @@
     <Compile Include="Application\Service\IThemeService.cs" />
     <Compile Include="Application\Service\IUserService.cs" />
     <Compile Include="Application\Service\Internal\Services.cs" />
-    <Compile Include="Application\LayoutController.cs" />
+    <Compile Include="Application\Infrastructure\LayoutController.cs" />
     <Compile Include="Application\Service\Entity\Entry.cs" />
     <Compile Include="Application\Service\Entity\User.cs" />
     <Compile Include="Application\Service\Internal\EntryService.cs" />
     <Compile Include="Application\Service\Internal\UserService.cs" />
-    <Compile Include="Application\Html\SecurityExtensions.cs" />
+    <Compile Include="Application\Infrastructure\SecurityExtensions.cs" />
     <Compile Include="Application\Service\Internal\ConfigService.cs" />
     <Compile Include="Application\Service\MessageService.cs" />
     <Compile Include="Application\Service\Internal\ThemeService.cs" />
@@ -218,12 +223,12 @@
     <Compile Include="Application\Storage\Json\JsonRepository.cs" />
     <Compile Include="Application\Storage\Sql\PetaPoco.cs" />
     <Compile Include="Application\Storage\Sql\SqlRepository.cs" />
-    <Compile Include="Application\StringExtensions.cs" />
+    <Compile Include="Application\Infrastructure\StringExtensions.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\ContactController.Models.cs" />
-    <Compile Include="Controllers\ScriptController.cs" />
+    <Compile Include="Controllers\ResourceController.cs" />
     <Compile Include="Controllers\SearchController.Models.cs" />
     <Compile Include="Controllers\EntryController.cs" />
     <Compile Include="Controllers\AuthenticationController.Models.cs" />
@@ -231,7 +236,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ErrorController.Models.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Application\LayoutModel.cs" />
+    <Compile Include="Application\Infrastructure\LayoutModel.cs" />
     <Compile Include="Controllers\HomeController.Models.cs" />
     <Compile Include="Controllers\FeedController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
@@ -239,144 +244,131 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\Themes\Emplode\EmplodeMenu.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Jobs.config" />
-    <Content Include="Resources\Css\Handheld.css" />
-    <Content Include="Resources\Css\jquery-ui-base.css" />
-    <Content Include="Resources\Css\jquery-ui-smoothness.css" />
-    <Content Include="Resources\Css\Style.css" />
-    <Content Include="Resources\Scripts\dd_belatedpng.js" />
-    <Content Include="Resources\Scripts\Fancybox\blank.gif" />
-    <Content Include="Resources\Scripts\Fancybox\fancybox-x.png" />
-    <Content Include="Resources\Scripts\Fancybox\fancybox-y.png" />
-    <Content Include="Resources\Scripts\Fancybox\fancybox.png" />
-    <Content Include="Resources\Scripts\Fancybox\fancy_close.png" />
-    <Content Include="Resources\Scripts\Fancybox\fancy_loading.png" />
-    <Content Include="Resources\Scripts\Fancybox\fancy_nav_left.png" />
-    <Content Include="Resources\Scripts\Fancybox\fancy_nav_right.png" />
-    <Content Include="Resources\Scripts\Fancybox\fancy_shadow_e.png" />
-    <Content Include="Resources\Scripts\Fancybox\fancy_shadow_n.png" />
-    <Content Include="Resources\Scripts\Fancybox\fancy_shadow_ne.png" />
-    <Content Include="Resources\Scripts\Fancybox\fancy_shadow_nw.png" />
-    <Content Include="Resources\Scripts\Fancybox\fancy_shadow_s.png" />
-    <Content Include="Resources\Scripts\Fancybox\fancy_shadow_se.png" />
-    <Content Include="Resources\Scripts\Fancybox\fancy_shadow_sw.png" />
-    <Content Include="Resources\Scripts\Fancybox\fancy_shadow_w.png" />
-    <Content Include="Resources\Scripts\Fancybox\fancy_title_left.png" />
-    <Content Include="Resources\Scripts\Fancybox\fancy_title_main.png" />
-    <Content Include="Resources\Scripts\Fancybox\fancy_title_over.png" />
-    <Content Include="Resources\Scripts\Fancybox\fancy_title_right.png" />
-    <Content Include="Resources\Scripts\Fancybox\jquery.easing-1.3.pack.js" />
-    <Content Include="Resources\Scripts\Fancybox\jquery.fancybox-1.3.2.css" />
-    <Content Include="Resources\Scripts\Fancybox\jquery.fancybox-1.3.2.js" />
-    <Content Include="Resources\Scripts\Fancybox\jquery.fancybox-1.3.2.pack.js" />
-    <Content Include="Resources\Scripts\Fancybox\jquery.mousewheel-3.0.4.pack.js" />
-    <Content Include="Resources\Scripts\jquery-1.4.4.min.js" />
-    <Content Include="Resources\Scripts\jquery.unobtrusive-ajax.js" />
-    <Content Include="Resources\Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Resources\Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Resources\Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Resources\Scripts\jquery.watermark.js" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\aolW.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\blogger.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\claimid.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\facebookW.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\fadegrey.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\flickr.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\flickrW.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\googleB.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\googleW.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\livejournal.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\myopenid.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\myopenidB.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\myopenidW.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\myspaceW.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\openidB.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\openidico.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\openidW.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\technorati.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\verisign.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\vidoop.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\wordpress.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\yahooB.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\images\yahooW.png" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\jquery.openid.js" />
-    <Content Include="Resources\Scripts\jQueryOpenIdPlugin\openid.css" />
-    <Content Include="Resources\Scripts\modernizr-1.5.min.js" />
-    <Content Include="Resources\Scripts\plugins.js" />
-    <Content Include="Resources\Scripts\Prettify\lang-apollo.js" />
-    <Content Include="Resources\Scripts\Prettify\lang-css.js" />
-    <Content Include="Resources\Scripts\Prettify\lang-hs.js" />
-    <Content Include="Resources\Scripts\Prettify\lang-lisp.js" />
-    <Content Include="Resources\Scripts\Prettify\lang-lua.js" />
-    <Content Include="Resources\Scripts\Prettify\lang-ml.js" />
-    <Content Include="Resources\Scripts\Prettify\lang-proto.js" />
-    <Content Include="Resources\Scripts\Prettify\lang-scala.js" />
-    <Content Include="Resources\Scripts\Prettify\lang-sql.js" />
-    <Content Include="Resources\Scripts\Prettify\lang-vb.js" />
-    <Content Include="Resources\Scripts\Prettify\lang-vhdl.js" />
-    <Content Include="Resources\Scripts\Prettify\lang-wiki.js" />
-    <Content Include="Resources\Scripts\Prettify\lang-yaml.js" />
-    <Content Include="Resources\Scripts\Prettify\prettify.css" />
-    <Content Include="Resources\Scripts\Prettify\prettify.js" />
-    <Content Include="Resources\Scripts\Profiling\charts.swf" />
-    <Content Include="Resources\Scripts\Profiling\config.js" />
-    <Content Include="Resources\Scripts\Profiling\yahoo-profiling.css" />
-    <Content Include="Resources\Scripts\Profiling\yahoo-profiling.min.js" />
-    <Content Include="App_Data\nblog\Entry\fusce-eget-neque-molestie-lorem-vestibulum-accumsan-sed-nec-augue.json" />
-    <Content Include="App_Data\nblog\Entry\lorem-ipsum-dolor-sit-amet-consectetur-adipiscing-elit.json" />
-    <Content Include="App_Data\nblog\Entry\pellentesque-orci-mauris-imperdiet-et-varius-id.json" />
+    <Content Include="Scripts\dd_belatedpng.js" />
+    <Content Include="Scripts\Fancybox\blank.gif" />
+    <Content Include="Scripts\Fancybox\fancybox-x.png" />
+    <Content Include="Scripts\Fancybox\fancybox-y.png" />
+    <Content Include="Scripts\Fancybox\fancybox.png" />
+    <Content Include="Scripts\Fancybox\fancy_close.png" />
+    <Content Include="Scripts\Fancybox\fancy_loading.png" />
+    <Content Include="Scripts\Fancybox\fancy_nav_left.png" />
+    <Content Include="Scripts\Fancybox\fancy_nav_right.png" />
+    <Content Include="Scripts\Fancybox\fancy_shadow_e.png" />
+    <Content Include="Scripts\Fancybox\fancy_shadow_n.png" />
+    <Content Include="Scripts\Fancybox\fancy_shadow_ne.png" />
+    <Content Include="Scripts\Fancybox\fancy_shadow_nw.png" />
+    <Content Include="Scripts\Fancybox\fancy_shadow_s.png" />
+    <Content Include="Scripts\Fancybox\fancy_shadow_se.png" />
+    <Content Include="Scripts\Fancybox\fancy_shadow_sw.png" />
+    <Content Include="Scripts\Fancybox\fancy_shadow_w.png" />
+    <Content Include="Scripts\Fancybox\fancy_title_left.png" />
+    <Content Include="Scripts\Fancybox\fancy_title_main.png" />
+    <Content Include="Scripts\Fancybox\fancy_title_over.png" />
+    <Content Include="Scripts\Fancybox\fancy_title_right.png" />
+    <Content Include="Scripts\Fancybox\jquery.easing-1.3.pack.js" />
+    <Content Include="Scripts\Fancybox\jquery.fancybox-1.3.2.css" />
+    <Content Include="Scripts\Fancybox\jquery.fancybox-1.3.2.js" />
+    <Content Include="Scripts\Fancybox\jquery.fancybox-1.3.2.pack.js" />
+    <Content Include="Scripts\Fancybox\jquery.mousewheel-3.0.4.pack.js" />
+    <Content Include="Scripts\jquery-1.4.4.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jquery.watermark.js" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\aolW.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\blogger.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\claimid.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\facebookW.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\fadegrey.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\flickr.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\flickrW.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\googleB.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\googleW.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\livejournal.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\myopenid.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\myopenidB.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\myopenidW.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\myspaceW.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\openidB.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\openidico.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\openidW.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\technorati.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\verisign.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\vidoop.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\wordpress.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\yahooB.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\images\yahooW.png" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\jquery.openid.js" />
+    <Content Include="Scripts\jQueryOpenIdPlugin\openid.css" />
+    <Content Include="Scripts\modernizr-1.5.min.js" />
+    <Content Include="Scripts\plugins.js" />
+    <Content Include="Scripts\Prettify\lang-apollo.js" />
+    <Content Include="Scripts\Prettify\lang-css.js" />
+    <Content Include="Scripts\Prettify\lang-hs.js" />
+    <Content Include="Scripts\Prettify\lang-lisp.js" />
+    <Content Include="Scripts\Prettify\lang-lua.js" />
+    <Content Include="Scripts\Prettify\lang-ml.js" />
+    <Content Include="Scripts\Prettify\lang-proto.js" />
+    <Content Include="Scripts\Prettify\lang-scala.js" />
+    <Content Include="Scripts\Prettify\lang-sql.js" />
+    <Content Include="Scripts\Prettify\lang-vb.js" />
+    <Content Include="Scripts\Prettify\lang-vhdl.js" />
+    <Content Include="Scripts\Prettify\lang-wiki.js" />
+    <Content Include="Scripts\Prettify\lang-yaml.js" />
+    <Content Include="Scripts\Prettify\prettify.css" />
+    <Content Include="Scripts\Prettify\prettify.js" />
+    <Content Include="Scripts\Profiling\charts.swf" />
+    <Content Include="Scripts\Profiling\config.js" />
+    <Content Include="Scripts\Profiling\yahoo-profiling.css" />
+    <Content Include="Scripts\Profiling\yahoo-profiling.min.js" />
+    <Content Include="App_Data\localhost\Entry\fusce-eget-neque-molestie-lorem-vestibulum-accumsan-sed-nec-augue.json" />
+    <Content Include="App_Data\localhost\Entry\lorem-ipsum-dolor-sit-amet-consectetur-adipiscing-elit.json" />
+    <Content Include="App_Data\localhost\Entry\pellentesque-orci-mauris-imperdiet-et-varius-id.json" />
     <None Include="CodeTemplates\AddController\Controller.tt">
       <LastGenOutput>Controller.cs</LastGenOutput>
     </None>
-    <Content Include="Resources\Themes\Default\style.css" />
-    <Content Include="Resources\Themes\Emplode\Images\backgrounds.gif" />
-    <Content Include="Resources\Themes\Emplode\Images\grain.gif" />
-    <Content Include="Resources\Themes\Emplode\Images\grain_dark.gif" />
-    <Content Include="Resources\Themes\Emplode\Images\grain_light.gif" />
-    <Content Include="Resources\Themes\Emplode\Images\main_wrapper_inner.gif" />
-    <Content Include="Resources\Themes\Emplode\Images\toplinks.gif" />
-    <Content Include="Resources\Themes\Emplode\style.css" />
     <Content Include="robots.txt" />
-    <Content Include="Views\Authentication\Login.cshtml" />
-    <Content Include="Views\Contact\Index.cshtml" />
-    <Content Include="Views\Contact\Confirm.cshtml" />
-    <Content Include="Views\Entry\Edit.cshtml" />
-    <Content Include="Views\Entry\Show.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Resources\Scripts\wmd\images\wmd-buttons.png" />
-    <Content Include="Resources\Scripts\wmd\jquery-wmd-plugin.js" />
-    <Content Include="Resources\Scripts\wmd\jquery.wmd.js" />
-    <Content Include="Resources\Scripts\wmd\jquery.wmd.min.js" />
-    <Content Include="Resources\Scripts\wmd\wmd.css" />
+    <Content Include="Scripts\wmd\images\wmd-buttons.png" />
+    <Content Include="Scripts\wmd\jquery-wmd-plugin.js" />
+    <Content Include="Scripts\wmd\jquery.wmd.js" />
+    <Content Include="Scripts\wmd\jquery.wmd.min.js" />
+    <Content Include="Scripts\wmd\wmd.css" />
+    <Content Include="Themes\Default\favicon.ico" />
+    <Content Include="Themes\Default\style.css" />
+    <Content Include="Themes\Default\Views\Authentication\Login.cshtml" />
+    <Content Include="Themes\Default\Views\Contact\Confirm.cshtml" />
+    <Content Include="Themes\Default\Views\Contact\Index.cshtml" />
+    <Content Include="Themes\Default\Views\Entry\Edit.cshtml" />
+    <Content Include="Themes\Default\Views\Entry\Show.cshtml" />
+    <Content Include="Themes\Default\Views\Error\Index.cshtml" />
+    <Content Include="Themes\Default\Views\Home\Index.cshtml" />
+    <Content Include="Themes\Default\Views\Search\Index.cshtml" />
+    <Content Include="Themes\Default\Views\Web.config" />
+    <Content Include="Themes\Default\Views\_Layout.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Themes\Default\Views\_ViewStart.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Resources\Scripts\jquery.validate.js" />
-    <Content Include="Resources\Scripts\jquery.validate.min.js" />
-    <Content Include="Resources\Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Resources\Scripts\MicrosoftAjax.js" />
-    <Content Include="Resources\Scripts\MicrosoftAjax.debug.js" />
-    <Content Include="Resources\Scripts\MicrosoftMvcAjax.js" />
-    <Content Include="Resources\Scripts\MicrosoftMvcAjax.debug.js" />
-    <Content Include="Resources\Scripts\MicrosoftMvcValidation.js" />
-    <Content Include="Resources\Scripts\MicrosoftMvcValidation.debug.js" />
-    <Content Include="Views\Web.config" />
-    <Content Include="Views\Error\Index.cshtml" />
-    <Content Include="Views\Search\Index.cshtml" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\MicrosoftAjax.js" />
+    <Content Include="Scripts\MicrosoftAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Jobs.Debug.config" />
-    <Content Include="Resources\Themes\Default\_Layout.cshtml" />
-    <Content Include="Resources\Themes\Emplode\_Layout.cshtml" />
-    <Content Include="Resources\Themes\Web.config" />
-    <Content Include="Resources\Themes\Emplode\_TopMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\nblog\Config\settings.json" />
-    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="App_Data\localhost\Config\settings.json" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -395,11 +387,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>8080</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:8080</IISUrl>
+          <IISUrl>http://localhost:8888</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

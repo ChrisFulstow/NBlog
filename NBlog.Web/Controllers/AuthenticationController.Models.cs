@@ -1,4 +1,5 @@
 ﻿using NBlog.Web.Application;
+using NBlog.Web.Application.Infrastructure;
 
 namespace NBlog.Web.Controllers
 {

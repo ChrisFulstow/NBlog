@@ -3,6 +3,7 @@ using System.IO;
 using AppLimit.CloudComputing.SharpBox;
 using AppLimit.CloudComputing.SharpBox.DropBox;
 using Ionic.Zip;
+using NBlog.Web.Application.Infrastructure;
 using NBlog.Web.Application.Storage;
 
 namespace NBlog.Web.Application.Service.Internal

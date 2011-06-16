@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using NBlog.Web.Application;
+using NBlog.Web.Application.Infrastructure;
 using NBlog.Web.Application.Service;
 
 namespace NBlog.Web.Controllers

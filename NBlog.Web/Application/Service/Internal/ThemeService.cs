@@ -5,19 +5,19 @@ namespace NBlog.Web.Application.Service.Internal
 {
     public class ThemeService : IThemeService
     {
-        private IConfigService ConfigService { get; set; }
+        private readonly IConfigService _configService;
 
         public ThemeService(IConfigService configService)
         {
-            ConfigService = configService;
+            _configService = configService;
         }
 
         public Theme Current
         {
             get
             {
-                var themeBasePath = String.Format("~/Resources/Themes/{0}", ConfigService.Current.Theme);
-                return new Theme(ConfigService.Current.Theme, themeBasePath);
+                var themeBasePath = String.Format("~/Themes/{0}", _configService.Current.Theme);
+                return new Theme(_configService.Current.Theme, themeBasePath);
             }
         }
     }

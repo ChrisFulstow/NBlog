@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using NBlog.Web.Application;
+using NBlog.Web.Application.Infrastructure;
 
 namespace NBlog.Web.Controllers
 {

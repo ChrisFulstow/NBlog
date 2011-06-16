@@ -7,6 +7,7 @@ using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using DotNetOpenAuth.OpenId.Extensions.SimpleRegistration;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NBlog.Web.Application;
+using NBlog.Web.Application.Infrastructure;
 using NBlog.Web.Application.Service;
 using System.Web;
 using System.Web.Configuration;

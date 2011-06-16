@@ -5,6 +5,7 @@ using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using NBlog.Web.Application;
+using NBlog.Web.Application.Infrastructure;
 using NBlog.Web.Application.Service;
 
 namespace NBlog.Web.Controllers

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Web;
+using NBlog.Web.Application.Infrastructure;
 using NBlog.Web.Application.Service.Entity;
 using Newtonsoft.Json;
 
@@ -9,22 +11,29 @@ namespace NBlog.Web.Application.Storage.Json
     public class JsonRepository : IRepository
     {
         private readonly RepositoryKeys _keys;
-        private readonly string _dataPath;
+        private readonly HttpTenantSelector _tenantSelector;
 
-        public JsonRepository(RepositoryKeys keys, string dataPath)
+
+        public string DataPath
         {
-            _keys = keys;
-            _dataPath = dataPath;
+            get
+            {
+                return HttpContext.Current.Server.MapPath("~/App_Data/" + _tenantSelector.Name);
+            }
         }
 
 
-        public string DataPath { get { return _dataPath; } }
+        public JsonRepository(RepositoryKeys keys, HttpTenantSelector tenantSelector)
+        {
+            _keys = keys;
+            _tenantSelector = tenantSelector;
+        }
 
 
         public TEntity Single<TEntity>(object key) where TEntity : class, new()
         {
             var filename = key.ToString();
-            var recordPath = Path.Combine(_dataPath, typeof(TEntity).Name, filename + ".json");
+            var recordPath = Path.Combine(DataPath, typeof(TEntity).Name, filename + ".json");
             var json = File.ReadAllText(recordPath);
             var item = JsonConvert.DeserializeObject<TEntity>(json);
             return item;
@@ -33,7 +42,7 @@ namespace NBlog.Web.Application.Storage.Json
 
         public IEnumerable<TEntity> All<TEntity>() where TEntity : class, new()
         {
-            var folderPath = Path.Combine(_dataPath, typeof(TEntity).Name);
+            var folderPath = Path.Combine(DataPath, typeof(TEntity).Name);
             var filePaths = Directory.GetFiles(folderPath, "*.json", SearchOption.TopDirectoryOnly);
 
             var list = new List<TEntity>();
@@ -90,7 +99,7 @@ namespace NBlog.Web.Application.Storage.Json
         // todo: need a TEntity + TKey version of this too that does Path.Combine(folderPath, key + ".json");
         private string GetEntityPath<TEntity>()
         {
-            return Path.Combine(_dataPath, typeof(TEntity).Name);
+            return Path.Combine(DataPath, typeof(TEntity).Name);
         }
     }
 }

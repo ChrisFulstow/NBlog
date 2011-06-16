@@ -1,4 +1,5 @@
 using System.Web;
+using NBlog.Web.Application.Infrastructure;
 
 namespace NBlog.Web.Application.Service.Entity
 {
@@ -12,7 +13,7 @@ namespace NBlog.Web.Application.Service.Entity
         {
             Name = name;
             BasePath = basePath;
-            Layout = basePath.UriCombine("/_Layout.cshtml");
+            Layout = basePath.UriCombine("/Views/_Layout.cshtml");
         }
 
         public string Css(string name)

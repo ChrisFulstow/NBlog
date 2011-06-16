@@ -7,6 +7,7 @@ using System.Linq;
 using MbUnit.Framework;
 using MongoDB.Driver;
 using NBlog.Web.Application;
+using NBlog.Web.Application.Infrastructure;
 using NBlog.Web.Application.Service.Entity;
 using NBlog.Web.Application.Storage;
 using NBlog.Web.Application.Storage.Json;
@@ -101,7 +102,7 @@ namespace NBlog.Tests
 
         private static JsonRepository BuildJsonRepository()
         {
-            return new JsonRepository(Keys, JsonWorkingFolder);
+            return new JsonRepository(Keys, new HttpTenantSelector());
         }
 
 

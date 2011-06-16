@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using System.Web;
@@ -8,15 +7,14 @@ using System.Web.Routing;
 using Autofac;
 using Autofac.Core;
 using Autofac.Integration.Mvc;
-using Autofac.Integration.Web;
 using Elmah;
-using NBlog.Web.Application;
-using NBlog.Web.Application.Job;
+using NBlog.Web.Application.Infrastructure;
 using NBlog.Web.Application.Service;
 using NBlog.Web.Application.Service.Entity;
 using NBlog.Web.Application.Service.Internal;
 using NBlog.Web.Application.Storage;
 using NBlog.Web.Application.Storage.Json;
+using NBlog.Web.Application.Storage.Mongo;
 using NBlog.Web.Application.Storage.Sql;
 using Quartz;
 using Quartz.Impl;
@@ -33,6 +31,13 @@ namespace NBlog.Web
             // homepage
             routes.MapRouteLowercase("", "", new { controller = "Home", action = "Index" });
 
+            // favicon
+            routes.MapRouteLowercase("", "favicon.ico", new { controller = "Resource", action = "Favicon" });
+
+            // combined scripts
+            routes.MapRouteLowercase("", "min.css", new { controller = "Resource", action = "Css" });
+            routes.MapRouteLowercase("", "min.js", new { controller = "Resource", action = "JavaScript" });
+
             // feed
             routes.MapRouteLowercase("", "feed", new { controller = "Feed", action = "Index" });
 
@@ -45,10 +50,6 @@ namespace NBlog.Web
             // entry pages
             routes.MapRouteLowercase("", "{id}", new { controller = "Entry", action = "Show" });
 
-            // combined scripts
-            routes.MapRouteLowercase("", "resources/min.css", new { controller = "Script", action = "Css" });
-            routes.MapRouteLowercase("", "resources/min.js", new { controller = "Script", action = "JavaScript" });
-
             // general route
             routes.MapRouteLowercase("", "{controller}/{action}/{id}", new { id = UrlParameter.Optional });
         }
@@ -56,11 +57,13 @@ namespace NBlog.Web
 
         protected IContainer RegisterDependencies()
         {
-            var dataPath = "~/App_Data/" + ConfigurationManager.AppSettings["NBlog_Site"];
-
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
+            
+            builder.RegisterType<ThemeableRazorViewEngine>().As<IViewEngine>().InstancePerLifetimeScope().WithParameter(
+                new NamedParameter("tenantSelector", new HttpTenantSelector())
+            );
 
             var repositoryKeys = new RepositoryKeys();
             repositoryKeys.Add<Entry>(e => e.Slug);
@@ -69,7 +72,7 @@ namespace NBlog.Web
 
             builder.RegisterType<JsonRepository>().Named<IRepository>("json").InstancePerLifetimeScope().WithParameters(new[] {
                 new NamedParameter("keys", repositoryKeys),
-                new NamedParameter("dataPath", HttpContext.Current.Server.MapPath(dataPath))
+                new NamedParameter("tenantSelector", new HttpTenantSelector())
             });
 
             builder.RegisterType<SqlRepository>().Named<IRepository>("sql").InstancePerLifetimeScope().WithParameters(new[] {
@@ -78,7 +81,7 @@ namespace NBlog.Web
                 new NamedParameter("databaseName", "NBlog")
             });
 
-            builder.RegisterType<SqlRepository>().Named<IRepository>("mongo").InstancePerLifetimeScope().WithParameters(new[] {
+            builder.RegisterType<MongoRepository>().Named<IRepository>("mongo").InstancePerLifetimeScope().WithParameters(new[] {
                 new NamedParameter("keys", repositoryKeys),
                 new NamedParameter("connectionString", "mongodb://localhost"),
                 new NamedParameter("databaseName", "nblog")
@@ -88,7 +91,7 @@ namespace NBlog.Web
                 .WithParameter(GetResolvedParameterByName<IRepository>("json"));
 
             builder.RegisterType<EntryService>().As<IEntryService>().InstancePerLifetimeScope()
-                .WithParameter(GetResolvedParameterByName<IRepository>("sql"));
+                .WithParameter(GetResolvedParameterByName<IRepository>("json"));
 
             builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
             builder.RegisterType<MessageService>().As<IMessageService>().InstancePerLifetimeScope();
@@ -117,7 +120,7 @@ namespace NBlog.Web
 
             // replace the default FilterAttributeFilterProvider with one that has Autofac property injection
             FilterProviders.Providers.Remove(FilterProviders.Providers.Single(f => f is FilterAttributeFilterProvider));
-            FilterProviders.Providers.Add(new AutofacFilterProvider(new ContainerProvider(container)));
+            FilterProviders.Providers.Add(new AutofacFilterProvider(new Autofac.Integration.Web.ContainerProvider(container)));
 
             HtmlHelper.ClientValidationEnabled = true;
             HtmlHelper.UnobtrusiveJavaScriptEnabled = true;
@@ -162,7 +165,7 @@ namespace NBlog.Web
             // Quartz.NET scheduler
             ISchedulerFactory factory = new StdSchedulerFactory();
             var scheduler = factory.GetScheduler();
-            scheduler.JobFactory = new AutofacJobFactory(new ContainerProvider(container));
+            scheduler.JobFactory = new AutofacJobFactory(new Autofac.Integration.Web.ContainerProvider(container));
             scheduler.Start();
         }
 

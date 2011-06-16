@@ -11,9 +11,8 @@ namespace NBlog.Web.Application.Service.Internal
         public ConfigService(IRepository repository)
         {
             _repository = repository;
-            Current = _repository.Single<Config>("settings");
         }
 
-        public Config Current { get; private set; }
+        public Config Current { get { return _repository.Single<Config>("settings"); } }
     }
 }
