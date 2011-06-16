@@ -1,10 +1,10 @@
 ﻿{
 	"Site": "localhost-8080",
 	"Theme": "Default",
-	"MetaDescription": "NBlog, an experimental ASP.NET MVC 3.0 blog platform.",
+	"MetaDescription": "NBlog, an ASP.NET MVC 3.0 blog platform.",
 	"Heading": "NBlog",
 	"Title": "NBlog",
-	"Tagline": "A blog platform for the discerning .NET developer",
+	"Tagline": "A blog platform for ASP.NET MVC developers",
 	"Crossbar": "ASP.NET MVC 3.0, Razor, JSON.NET, Markdown, Autofac, AntiXSS, HTML5 & CSS3, OpenID, NSubstitute, ELMAH",
 	"Admins":
 	[

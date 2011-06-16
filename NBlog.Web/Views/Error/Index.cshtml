@@ -1,9 +1,0 @@
-﻿@model ErrorController.ErrorModel
-@{
-    ViewBag.Title = Model.Heading;
-}
-<article>
-    <h1>@Model.Heading</h1>
-    <p>@Model.Message</p>
-    <p>@Html.ActionLink("Continue »", "Index", "Home")</p>
-</article>

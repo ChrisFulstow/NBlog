@@ -1,7 +1,0 @@
-{
-  "Slug": "pellentesque-orci-mauris-imperdiet-et-varius-id",
-  "Title": "Pellentesque orci mauris imperdiet et varius id",
-  "Author": "Chris Fulstow",
-  "DateCreated": "\/Date(1290152985339+1100)\/",
-  "Markdown": "Aliquam id risus id risus cursus pellentesque at vel tellus. Mauris semper tellus non risus consequat egestas. Aenean enim libero, tempus at pharetra et, viverra molestie leo. Pellentesque interdum, libero sed elementum vulputate, eros nunc feugiat tortor, ac tempus odio ipsum sed nulla. In aliquet augue quis est congue volutpat. Maecenas sapien orci, interdum elementum pellentesque ac, feugiat quis sem.\r\n\r\n    using System;\r\n    class ExampleClass\r\n    {\r\n        static void Main()\r\n        {\r\n            Console.WriteLine(\"Hello, world!\");\r\n        }\r\n    }\r\n\r\nDuis blandit, sapien sit amet mollis blandit, turpis nulla tincidunt purus, nec bibendum elit metus commodo turpis. Etiam dictum lorem est, et congue eros. In neque libero, ullamcorper non suscipit vitae, suscipit vel velit. Pellentesque lobortis vestibulum ultricies. Etiam sem sem, iaculis sit amet lobortis eu, imperdiet non lacus. Curabitur eros velit, volutpat vitae sollicitudin sit amet, iaculis vitae odio. Nunc lorem enim, sodales ut volutpat nec, sollicitudin et urna. Integer ultricies dapibus arcu id bibendum. Nunc scelerisque bibendum purus porttitor placerat. Nunc volutpat tincidunt dolor, nec consequat nibh aliquam non. Curabitur cursus purus nec purus tincidunt laoreet. "
-}
