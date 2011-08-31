@@ -85,7 +85,6 @@
     <Reference Include="Autofac.Integration.Web">
       <HintPath>..\NBlog.Lib\Autofac.Integration.Web.dll</HintPath>
     </Reference>
-    <Reference Include="Common.Logging, Version=1.2.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e" />
     <Reference Include="dotless.Core">
       <HintPath>..\NBlog.Lib\SquishIt\dotless.Core.dll</HintPath>
     </Reference>
