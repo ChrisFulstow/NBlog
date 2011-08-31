@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using MbUnit.Framework;
 using MongoDB.Driver;
-using NBlog.Web.Application;
 using NBlog.Web.Application.Infrastructure;
 using NBlog.Web.Application.Service.Entity;
 using NBlog.Web.Application.Storage;
