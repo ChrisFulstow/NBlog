@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using MbUnit.Framework;
-using NBlog.Web.Application;
 using NBlog.Web.Application.Infrastructure;
 
 namespace NBlog.Tests

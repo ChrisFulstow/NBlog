@@ -32,9 +32,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Gallio" />
-    <Reference Include="MbUnit" />
-    <Reference Include="MongoDB.Driver, Version=1.0.0.4098, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL" />
+    <Reference Include="Gallio">
+      <HintPath>..\NBlog.Lib\Gallio\Gallio.dll</HintPath>
+    </Reference>
+    <Reference Include="Gallio35">
+      <HintPath>..\NBlog.Lib\Gallio\Gallio35.dll</HintPath>
+    </Reference>
+    <Reference Include="MbUnit">
+      <HintPath>..\NBlog.Lib\Gallio\MbUnit.dll</HintPath>
+    </Reference>
+    <Reference Include="MbUnit35">
+      <HintPath>..\NBlog.Lib\Gallio\MbUnit35.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\NBlog.Lib\MongoDB.Driver.dll</HintPath>
+    </Reference>
     <Reference Include="NSubstitute">
       <HintPath>..\NBlog.Lib\NSubstitute.dll</HintPath>
     </Reference>
@@ -43,8 +55,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
-    <Reference Include="Gallio35" />
-    <Reference Include="MbUnit35" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
