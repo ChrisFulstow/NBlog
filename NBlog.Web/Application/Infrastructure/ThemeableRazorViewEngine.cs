@@ -10,16 +10,23 @@ namespace NBlog.Web.Application.Infrastructure
         public ThemeableRazorViewEngine(IThemeService themeService)
         {
             _themeService = themeService;
+
+            base.ViewLocationFormats = new[]
+            {
+                _themeService.Current.BasePath + "/Views/{1}/{0}.cshtml",
+                _themeService.Current.BasePath + "/Views/Shared/{0}.cshtml",
+                "~/Themes/Default/Views/{1}/{0}.cshtml"                
+            };
+
+            base.PartialViewLocationFormats = new string[] {
+                _themeService.Current.BasePath + "/Views/{1}/{0}.cshtml",
+                _themeService.Current.BasePath + "/Views/Shared/{0}.cshtml",
+                "~/Themes/Default/Views/Shared/{0}.cshtml"
+            };
         }
 
         public override ViewEngineResult FindView(ControllerContext controllerContext, string viewName, string masterName, bool useCache)
-        {
-            ViewLocationFormats = new[]
-            {
-                _themeService.Current.BasePath + "/Views/{1}/{0}.cshtml",
-                "~/Themes/Default/Views/{1}/{0}.cshtml"
-            };
-
+        {           
             // bypass the view cache, the view will change depending on the current theme
             const bool useViewCache = false;
 
