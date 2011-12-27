@@ -1,4 +1,5 @@
-﻿@model NBlog.Web.Application.Infrastructure.LayoutModel
+﻿@using System.Reflection
+@model NBlog.Web.Application.Infrastructure.LayoutModel
 <!doctype html>
 <html lang="en" class="no-js">
 <head>
@@ -68,7 +69,7 @@
     </div>	
 
 	<footer class="text-links">
-        Powered by <a href="http://chrisfulstow.com/nblog">NBlog</a>
+        Powered by <a href="http://chrisfulstow.com/nblog">NBlog</a> Build @BuildNumberProvider.GetBuildNumber()
 	</footer>
 </div>
 
