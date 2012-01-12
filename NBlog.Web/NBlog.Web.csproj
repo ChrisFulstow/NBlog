@@ -187,6 +187,7 @@
   <ItemGroup>
     <Compile Include="Application\Infrastructure\AdminOnlyAttribute.cs" />
     <Compile Include="Application\Infrastructure\AutofacFilterProvider.cs" />
+    <Compile Include="Application\Infrastructure\BuildNumberProvider.cs" />
     <Compile Include="Application\Infrastructure\DateExtensions.cs" />
     <Compile Include="Application\Infrastructure\HtmlExtensions.cs" />
     <Compile Include="Application\Infrastructure\AutofacJobFactory.cs" />
