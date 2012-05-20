@@ -376,6 +376,7 @@
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Jobs.Debug.config" />
+    <Content Include="Themes\Default\Views\Entry\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\localhost\Config\settings.json" />

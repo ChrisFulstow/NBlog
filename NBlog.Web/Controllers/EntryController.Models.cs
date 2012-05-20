@@ -48,5 +48,11 @@ namespace NBlog.Web.Controllers
             public string Html { get; set; }
             public bool IsCodePrettified { get; set; }
         }
+
+        public class DeleteModel : LayoutModel
+        {
+            public string Title { get; set; }
+            public string Slug { get; set; }
+        }
     }
 }
