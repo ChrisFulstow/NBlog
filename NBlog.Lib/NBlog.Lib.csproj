@@ -62,6 +62,10 @@
     <Content Include="HtmlSanitizationLibrary.xml" />
     <Content Include="Ionic.Zip.dll" />
     <Content Include="MarkdownSharp.dll" />
+    <Content Include="Microsoft.WindowsAzure.ServiceRuntime.dll" />
+    <Content Include="Microsoft.WindowsAzure.ServiceRuntime.xml" />
+    <Content Include="Microsoft.WindowsAzure.StorageClient.dll" />
+    <Content Include="Microsoft.WindowsAzure.StorageClient.xml" />
     <Content Include="MongoDB.Bson.dll" />
     <Content Include="MongoDB.Bson.xml" />
     <Content Include="MongoDB.Driver.dll" />
