@@ -18,6 +18,7 @@ using NBlog.Web.Application.Storage.Mongo;
 using NBlog.Web.Application.Storage.Sql;
 using Quartz;
 using Quartz.Impl;
+using NBlog.Web.Application.Storage.Azure;
 
 namespace NBlog.Web
 {
@@ -85,6 +86,11 @@ namespace NBlog.Web
                 new NamedParameter("keys", repositoryKeys),
                 new NamedParameter("connectionString", "mongodb://localhost"),
                 new NamedParameter("databaseName", "nblog")
+            });
+
+            builder.RegisterType<AzureBlobRepository>().Named<IRepository>("azure").InstancePerHttpRequest().WithParameters(new[] {
+                new NamedParameter("keys", repositoryKeys),
+                new NamedParameter("tenantSelector", new HttpTenantSelector())
             });
 
             builder.RegisterType<ConfigService>().As<IConfigService>().InstancePerLifetimeScope()

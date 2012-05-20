@@ -112,6 +112,14 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NBlog.Lib\Microsoft.WindowsAzure.ServiceRuntime.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NBlog.Lib\Microsoft.WindowsAzure.StorageClient.dll</HintPath>
+    </Reference>
     <Reference Include="MongoDB.Bson">
       <HintPath>..\NBlog.Lib\MongoDB.Bson.dll</HintPath>
     </Reference>
@@ -217,6 +225,8 @@
     <Compile Include="Application\Service\MessageService.cs" />
     <Compile Include="Application\Service\Internal\ThemeService.cs" />
     <Compile Include="Application\Service\Entity\Theme.cs" />
+    <Compile Include="Application\Storage\Azure\AzureBlobRepository.cs" />
+    <Compile Include="Application\Storage\Azure\AzureExtensions.cs" />
     <Compile Include="Application\Storage\IRepository.cs" />
     <Compile Include="Application\Storage\Mongo\MongoRepository.cs" />
     <Compile Include="Application\Storage\RepositoryKeys.cs" />
