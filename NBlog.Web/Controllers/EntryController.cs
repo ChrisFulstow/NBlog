@@ -143,5 +143,29 @@ namespace NBlog.Web.Controllers
 
             return RedirectToAction("Show", "Entry", new { id = entry.Slug });
         }
+
+        [AdminOnly]
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult Delete(DeleteModel model)
+        {
+            Services.Entry.Delete(model.Slug);
+            return RedirectToAction("Index", "Home");
+        }
+
+        [AdminOnly]
+        [HttpGet]
+        public ActionResult Delete([Bind(Prefix = "id")] string slug)
+        {
+            var entry = Services.Entry.GetBySlug(slug);
+
+            var model = new DeleteModel
+            {
+                Title = entry.Title,
+                Slug = slug
+            };
+
+            return View(model);
+        }
     }
 }
