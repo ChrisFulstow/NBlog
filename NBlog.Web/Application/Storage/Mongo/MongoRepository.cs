@@ -12,6 +12,7 @@ namespace NBlog.Web.Application.Storage.Mongo
         private readonly string _databaseName;
 
         private readonly MongoServer _server;
+        private readonly MongoClient _client;
         private readonly MongoDatabase _db;
 
         public MongoRepository(RepositoryKeys keys, string connectionString, string databaseName)
@@ -20,7 +21,8 @@ namespace NBlog.Web.Application.Storage.Mongo
             _connectionString = connectionString;
             _databaseName = databaseName;
 
-            _server = MongoServer.Create(_connectionString);
+            _client = new MongoClient(connectionString);
+            _server = _client.GetServer();
             _db = _server.GetDatabase(databaseName);
         }
 
