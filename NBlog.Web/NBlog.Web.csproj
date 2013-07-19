@@ -243,7 +243,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Readme\Elmah.txt" />
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
     <Content Include="Scripts\dd_belatedpng.js" />
@@ -413,7 +412,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\web.config" />
     <Content Include="packages.config" />
     <Content Include="Themes\Default\Views\Authentication\Login.cshtml" />
     <Content Include="Themes\Default\Views\Contact\Confirm.cshtml" />
