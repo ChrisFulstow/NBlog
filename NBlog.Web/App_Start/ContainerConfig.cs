@@ -36,6 +36,22 @@ namespace NBlog.Web
             InitialiseJobScheduler(container);
         }
 
+        private static ResolvedParameter GetResolvedParameterByName<T>(string key)
+        {
+            return new ResolvedParameter(
+                (pi, c) => pi.ParameterType == typeof(T),
+                (pi, c) => c.ResolveNamed<T>(key));
+        }
+
+        private static void InitialiseJobScheduler(IContainer container)
+        {
+            // Quartz.NET scheduler
+            ISchedulerFactory factory = new StdSchedulerFactory();
+            var scheduler = factory.GetScheduler();
+            scheduler.JobFactory = new AutofacJobFactory(new Autofac.Integration.Mvc.RequestLifetimeScopeProvider(container));
+            scheduler.Start();
+        }
+
         private static IContainer RegisterDependencies()
         {
             var builder = new ContainerBuilder();
@@ -89,22 +105,6 @@ namespace NBlog.Web
 
             var container = builder.Build();
             return container;
-        }
-
-        private static void InitialiseJobScheduler(IContainer container)
-        {
-            // Quartz.NET scheduler
-            ISchedulerFactory factory = new StdSchedulerFactory();
-            var scheduler = factory.GetScheduler();
-            scheduler.JobFactory = new AutofacJobFactory(new Autofac.Integration.Mvc.RequestLifetimeScopeProvider(container));
-            scheduler.Start();
-        }
-
-        private static ResolvedParameter GetResolvedParameterByName<T>(string key)
-        {
-            return new ResolvedParameter(
-                (pi, c) => pi.ParameterType == typeof(T),
-                (pi, c) => c.ResolveNamed<T>(key));
         }
     }
 }

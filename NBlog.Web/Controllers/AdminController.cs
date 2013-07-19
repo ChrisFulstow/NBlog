@@ -25,14 +25,20 @@ namespace NBlog.Web.Controllers
         [HttpGet]
         public ActionResult Backup()
         {
+            var jsonRepository = GetJsonRepository();
+            var backupFilename = Services.Cloud.ArchiveFolder(jsonRepository.DataPath);
+
+            return Content("Backup complete: " + backupFilename);
+        }
+
+        private JsonRepository GetJsonRepository()
+        {
             var jsonRepository = _repository as JsonRepository;
 
             if (jsonRepository == null)
                 throw new Exception("Backup currently supports only JsonRepository");
 
-            var backupFilename = Services.Cloud.ArchiveFolder(jsonRepository.DataPath);
-
-            return Content("Backup complete: " + backupFilename);
+            return jsonRepository;
         }
     }
 }
