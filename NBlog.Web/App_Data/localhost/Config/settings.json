@@ -22,8 +22,8 @@
 	{
 		"ConsumerKey": "DropBox_Key",
 		"ConsumerSecret": "DropBox_Secret",
-		"UserName": "DropBox_UserName",
-		"Password": "DropBox_Password"
+		"UserToken": "DropBox_UserToken",
+		"UserSecret": "DropBox_UserSecret"
 	},
 	Disqus:
 	{
