@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.20617.1 PREVIEW
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBlog.Web", "NBlog.Web\NBlog.Web.csproj", "{980CCF7B-946B-41D2-9F71-4EDC4E04AEAD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBlog.Lib", "NBlog.Lib\NBlog.Lib.csproj", "{093D2FDF-2411-461F-8D74-DFC3B84B050C}"
