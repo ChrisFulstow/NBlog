@@ -20,6 +20,8 @@ namespace NBlog.Web
 {
     public class ContainerConfig
     {
+        private const string DefaultRepositoryName = "json";
+
         public static void SetUpContainer()
         {
             var container = RegisterDependencies();
@@ -70,14 +72,14 @@ namespace NBlog.Web
             });
 
             builder.RegisterControllers(typeof(ContainerConfig).Assembly)
-                .WithParameter(GetResolvedParameterByName<IRepository>("json"));
+                .WithParameter(GetResolvedParameterByName<IRepository>(DefaultRepositoryName));
             builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
 
             builder.RegisterType<ConfigService>().As<IConfigService>().InstancePerLifetimeScope()
-                .WithParameter(GetResolvedParameterByName<IRepository>("json"));
+                .WithParameter(GetResolvedParameterByName<IRepository>(DefaultRepositoryName));
 
             builder.RegisterType<EntryService>().As<IEntryService>().InstancePerLifetimeScope()
-                .WithParameter(GetResolvedParameterByName<IRepository>("json"));
+                .WithParameter(GetResolvedParameterByName<IRepository>(DefaultRepositoryName));
 
             builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
             builder.RegisterType<MessageService>().As<IMessageService>().InstancePerLifetimeScope();
