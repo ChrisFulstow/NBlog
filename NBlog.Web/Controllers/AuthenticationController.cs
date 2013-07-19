@@ -1,7 +1,4 @@
-﻿using System;
-using System.Web.Mvc;
-using System.Web.Security;
-using DotNetOpenAuth.Messaging;
+﻿using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId;
 using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using DotNetOpenAuth.OpenId.Extensions.SimpleRegistration;
@@ -9,14 +6,21 @@ using DotNetOpenAuth.OpenId.RelyingParty;
 using NBlog.Web.Application;
 using NBlog.Web.Application.Infrastructure;
 using NBlog.Web.Application.Service;
+using System;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Configuration;
+using System.Web.Mvc;
+using System.Web.Security;
 
 namespace NBlog.Web.Controllers
 {
     public partial class AuthenticationController : LayoutController
     {
-        public AuthenticationController(IServices services) : base(services) { }
+        public AuthenticationController(IServices services)
+            : base(services)
+        {
+        }
 
         [HttpGet]
         public ActionResult Login(string returnUrl)
@@ -25,7 +29,6 @@ namespace NBlog.Web.Controllers
             return View(model);
         }
 
-        
         [HttpGet]
         public ActionResult Logout(string returnUrl)
         {
@@ -35,10 +38,9 @@ namespace NBlog.Web.Controllers
             return Redirect(url);
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult OpenId(LoginModel model)
+        public async Task<ActionResult> OpenId(LoginModel model)
         {
             Identifier id;
             if (Identifier.TryParse(model.OpenID_Identifier, out id))
@@ -47,9 +49,13 @@ namespace NBlog.Web.Controllers
                 {
                     var openId = new OpenIdRelyingParty();
                     var returnToUrl = new Uri(Url.Action("OpenIdCallback", "Authentication", new { ReturnUrl = model.ReturnUrl }, Request.Url.Scheme), UriKind.Absolute);
-                    var request = openId.CreateRequest(id, Realm.AutoDetect, returnToUrl);
+                    var requestTask = openId.CreateRequestAsync(id, Realm.AutoDetect, returnToUrl);
 
-                    // add request for name and email using sreg (OpenID Simple Registration Extension)
+                    await requestTask;
+                    var request = requestTask.Result;
+
+                    // add request for name and email using sreg (OpenID Simple Registration
+                    // Extension)
                     request.AddExtension(new ClaimsRequest
                     {
                         Email = DemandLevel.Require,
@@ -65,7 +71,10 @@ namespace NBlog.Web.Controllers
                     axRequest.Attributes.AddRequired(WellKnownAttributes.Contact.Email);
                     request.AddExtension(axRequest);
 
-                    return request.RedirectingResponse.AsActionResult();
+                    var redirectingResponseTask = request.GetRedirectingResponseAsync();
+                    await redirectingResponseTask;
+
+                    return redirectingResponseTask.Result.AsActionResult();
                 }
                 catch (ProtocolException ex)
                 {
@@ -80,15 +89,17 @@ namespace NBlog.Web.Controllers
             }
         }
 
-
         [HttpGet]
         [ValidateInput(false)]
-        public ActionResult OpenIdCallback(string returnUrl)
+        public async Task<ActionResult> OpenIdCallback(string returnUrl)
         {
             var model = new LoginModel { ReturnUrl = returnUrl };
             var openId = new OpenIdRelyingParty();
-            var openIdResponse = openId.GetResponse();
+            var openIdResponseTask = openId.GetResponseAsync();
 
+            await openIdResponseTask;
+
+            var openIdResponse = openIdResponseTask.Result;
             if (openIdResponse.Status == AuthenticationStatus.Authenticated)
             {
                 var friendlyName = GetFriendlyName(openIdResponse);
@@ -102,7 +113,6 @@ namespace NBlog.Web.Controllers
             model.Message = "Sorry, login failed.";
             return View("Login", model);
         }
-
 
         private void SetAuthCookie(string username, bool createPersistentCookie, string userData)
         {
@@ -137,7 +147,6 @@ namespace NBlog.Web.Controllers
 
             Response.Cookies.Add(cookie);
         }
-
 
         private string GetFriendlyName(IAuthenticationResponse authResponse)
         {

@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System;
+using System.Collections.Generic;
 
 namespace NBlog.Web.Application.Storage.Mongo
 {
@@ -24,7 +24,6 @@ namespace NBlog.Web.Application.Storage.Mongo
             _db = _server.GetDatabase(databaseName);
         }
 
-
         public TEntity Single<TEntity>(object key) where TEntity : class, new()
         {
             var collection = GetCollection<TEntity>();
@@ -37,14 +36,12 @@ namespace NBlog.Web.Application.Storage.Mongo
             return entity;
         }
 
-
         public IEnumerable<TEntity> All<TEntity>() where TEntity : class, new()
         {
             var collection = GetCollection<TEntity>();
             var entity = collection.FindAllAs<TEntity>();
             return entity;
         }
-
 
         public bool Exists<TEntity>(object key) where TEntity : class, new()
         {
@@ -54,13 +51,11 @@ namespace NBlog.Web.Application.Storage.Mongo
             return (entity != null);
         }
 
-
         public void Save<TEntity>(TEntity item) where TEntity : class, new()
         {
             var collection = GetCollection<TEntity>();
             collection.Save(item);
         }
-
 
         public void Delete<TEntity>(object key) where TEntity : class, new()
         {
@@ -68,7 +63,6 @@ namespace NBlog.Web.Application.Storage.Mongo
             var query = new QueryDocument("_id", BsonValue.Create(key));
             collection.Remove(query);
         }
-
 
         private MongoCollection GetCollection<TEntity>()
         {

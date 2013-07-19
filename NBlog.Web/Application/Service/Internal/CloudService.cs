@@ -1,10 +1,10 @@
-using System;
-using System.IO;
 using AppLimit.CloudComputing.SharpBox;
-using AppLimit.CloudComputing.SharpBox.DropBox;
+using AppLimit.CloudComputing.SharpBox.StorageProvider.DropBox;
 using Ionic.Zip;
 using NBlog.Web.Application.Infrastructure;
 using NBlog.Web.Application.Storage;
+using System;
+using System.IO;
 
 namespace NBlog.Web.Application.Service.Internal
 {
@@ -12,7 +12,7 @@ namespace NBlog.Web.Application.Service.Internal
     {
         private const string ArchiveFolderPath = "/NBlog";
         private readonly ICloudStorageConfiguration _cloudStorageConfiguration;
-        private readonly ICloudeStorageCredentials _cloudeStorageCredentials;
+        private readonly ICloudStorageAccessToken _cloudStorageAccessToken;
         private readonly IConfigService _configService;
 
         public CloudService(IConfigService configService)
@@ -24,13 +24,12 @@ namespace NBlog.Web.Application.Service.Internal
 
             _cloudStorageConfiguration = DropBoxConfiguration.GetStandardConfiguration();
 
-            _cloudeStorageCredentials = new DropBoxCredentials
-            {
-                ConsumerKey = config.Cloud.ConsumerKey,
-                ConsumerSecret = config.Cloud.ConsumerSecret,
-                UserName = config.Cloud.UserName,
-                Password = config.Cloud.Password
-            };
+            _cloudStorageAccessToken = DropBoxStorageProviderTools.LoginWithMobileAPI(
+                username: config.Cloud.UserName,
+                password: config.Cloud.Password,
+                appkey: config.Cloud.ConsumerKey,
+                appsecret: config.Cloud.ConsumerSecret
+                );
         }
 
         public string ArchiveFolder(string folderPath)
@@ -53,19 +52,18 @@ namespace NBlog.Web.Application.Service.Internal
         private void Save(string filename, MemoryStream memoryStream)
         {
             var storage = new CloudStorage();
-            storage.Open(_cloudStorageConfiguration, _cloudeStorageCredentials);
+            storage.Open(_cloudStorageConfiguration, _cloudStorageAccessToken);
 
             var backupFolder = storage.GetFolder(ArchiveFolderPath);
             if (backupFolder == null) { throw new Exception("Cloud folder not found: " + ArchiveFolderPath); }
 
             var cloudFile = storage.CreateFile(backupFolder, filename);
-            using (var cloudStream = cloudFile.GetContentStream(FileAccess.Write))
+            using (var cloudStream = cloudFile.GetDataTransferAccessor().GetUploadStream(memoryStream.Position))
             {
                 cloudStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
             }
 
             if (storage.IsOpened) { storage.Close(); }
         }
-
     }
 }
