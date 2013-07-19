@@ -37,8 +37,6 @@ namespace NBlog.Web
         private static IContainer RegisterDependencies()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterControllers(typeof(ContainerConfig).Assembly);
-            builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
 
             builder.RegisterType<ThemeableRazorViewEngine>().As<IViewEngine>().InstancePerLifetimeScope().WithParameter(
                 new NamedParameter("tenantSelector", new HttpTenantSelector())
@@ -70,6 +68,10 @@ namespace NBlog.Web
                 new NamedParameter("keys", repositoryKeys),
                 new NamedParameter("tenantSelector", new HttpTenantSelector())
             });
+
+            builder.RegisterControllers(typeof(ContainerConfig).Assembly)
+                .WithParameter(GetResolvedParameterByName<IRepository>("json"));
+            builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
 
             builder.RegisterType<ConfigService>().As<IConfigService>().InstancePerLifetimeScope()
                 .WithParameter(GetResolvedParameterByName<IRepository>("json"));

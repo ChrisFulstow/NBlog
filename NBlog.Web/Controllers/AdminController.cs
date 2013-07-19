@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using NBlog.Web.Application;
+﻿using NBlog.Web.Application;
 using NBlog.Web.Application.Infrastructure;
 using NBlog.Web.Application.Service;
 using NBlog.Web.Application.Storage;
 using NBlog.Web.Application.Storage.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 
 namespace NBlog.Web.Controllers
 {
@@ -15,10 +15,10 @@ namespace NBlog.Web.Controllers
     {
         private readonly IRepository _repository;
 
-        public AdminController(IServices services, IRepository repositoryToBackup)
+        public AdminController(IServices services, IRepository repository)
             : base(services)
         {
-            _repository = repositoryToBackup;
+            _repository = repository;
         }
 
         [AdminOnly]
@@ -26,7 +26,7 @@ namespace NBlog.Web.Controllers
         public ActionResult Backup()
         {
             var jsonRepository = _repository as JsonRepository;
-            
+
             if (jsonRepository == null)
                 throw new Exception("Backup currently supports only JsonRepository");
 
@@ -35,5 +35,4 @@ namespace NBlog.Web.Controllers
             return Content("Backup complete: " + backupFilename);
         }
     }
-
 }
