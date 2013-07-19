@@ -125,6 +125,9 @@
     <Reference Include="EcmaScript.NET">
       <HintPath>..\packages\YUICompressor.NET.2.0.0.0\lib\NET20\EcmaScript.NET.dll</HintPath>
     </Reference>
+    <Reference Include="Elmah">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlSanitizationLibrary">
       <HintPath>..\packages\AntiXSS.4.2.1\lib\net40\HtmlSanitizationLibrary.dll</HintPath>
     </Reference>
@@ -243,7 +246,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Readme\Elmah.txt" />
     <Content Include="Global.asax" />
+    <Content Include="robots.txt" />
     <Content Include="Scripts\dd_belatedpng.js" />
     <Content Include="Scripts\Fancybox\blank.gif" />
     <Content Include="Scripts\Fancybox\fancybox-x.png" />
@@ -273,6 +278,12 @@
     <Content Include="Scripts\jquery-1.4.4.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Jobs.config" />
+    <Content Include="Jobs.Debug.config" />
+    <Content Include="App_Data\localhost\Config\settings.json" />
+    <Content Include="App_Data\localhost\Entry\fusce-eget-neque-molestie-lorem-vestibulum-accumsan-sed-nec-augue.json" />
+    <Content Include="App_Data\localhost\Entry\lorem-ipsum-dolor-sit-amet-consectetur-adipiscing-elit.json" />
+    <Content Include="App_Data\localhost\Entry\pellentesque-orci-mauris-imperdiet-et-varius-id.json" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -427,7 +438,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
