@@ -1,6 +1,6 @@
-﻿using System.Web;
+﻿using Microsoft.Security.Application;
+using System.Web;
 using System.Web.Mvc;
-using Microsoft.Security.Application;
 
 namespace NBlog.Web.Application.Infrastructure
 {
@@ -11,8 +11,9 @@ namespace NBlog.Web.Application.Infrastructure
         /// </summary>
         public static IHtmlString Safe(this HtmlHelper html, string unsafeHtml)
         {
-            var safeHtml = Sanitizer.GetSafeHtmlFragment(unsafeHtml);
-            return MvcHtmlString.Create(safeHtml);
+            /// removes <pre> - Tags and disables therefore prettify.js
+            //var safeHtml = Sanitizer.GetSafeHtmlFragment(unsafeHtml);
+            return MvcHtmlString.Create(unsafeHtml);
         }
     }
 }
