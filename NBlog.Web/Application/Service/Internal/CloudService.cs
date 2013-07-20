@@ -72,6 +72,7 @@ namespace NBlog.Web.Application.Service.Internal
             var backupFolder = _dropBoxClient.GetMetaData(ArchiveFolderPath);
             if (!FolderExists(backupFolder)) { throw new Exception("Cloud folder not found: " + ArchiveFolderPath); }
 
+            memoryStream.Position = 0;
             _dropBoxClient.UploadFile(ArchiveFolderPath, filename, memoryStream);
         }
     }
