@@ -14,7 +14,6 @@ namespace NBlog.Web.Application.Service.Internal
 
         private readonly IConfigService _configService;
         private readonly DropNetClient _dropBoxClient;
-        private UserLogin _accessToken = null;
 
         public CloudService(IConfigService configService)
         {
