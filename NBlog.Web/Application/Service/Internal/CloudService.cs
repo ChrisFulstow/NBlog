@@ -45,6 +45,23 @@ namespace NBlog.Web.Application.Service.Internal
             return archiveFilename;
         }
 
+        /// <summary>
+        /// Use a breakpoint to set-up a connection to your DropBox app and follow the described
+        /// steps
+        /// </summary>
+        public void SetUp()
+        {
+            _dropBoxClient.GetToken();
+
+            // copy URL into the browser and log into dropbox
+            var url = _dropBoxClient.BuildAuthorizeUrl();
+
+            // save token information into the config
+            var token = _dropBoxClient.GetAccessToken();
+
+            _dropBoxClient.UserLogin = token;
+        }
+
         private static bool FolderExists(DropNet.Models.MetaData backupFolder)
         {
             return backupFolder != null && !backupFolder.Is_Deleted && backupFolder.Is_Dir;

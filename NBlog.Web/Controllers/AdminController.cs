@@ -31,6 +31,19 @@ namespace NBlog.Web.Controllers
             return Content("Backup complete: " + backupFilename);
         }
 
+        /// <summary>
+        /// Just to be used once to set up a connection to your dropbox-app. Set a breakpoint in
+        /// CloudSerice.SetUp and follow the described steps.
+        /// </summary>
+        /// <returns></returns>
+        [AdminOnly]
+        [HttpGet]
+        public ActionResult SetUp()
+        {
+            Services.Cloud.SetUp();
+            return RedirectToAction("Index", "Home");
+        }
+
         private JsonRepository GetJsonRepository()
         {
             var jsonRepository = _repository as JsonRepository;
