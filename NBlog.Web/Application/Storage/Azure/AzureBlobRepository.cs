@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Microsoft.WindowsAzure;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
+using NBlog.Web.Application.Infrastructure;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.ServiceRuntime;
-using Microsoft.WindowsAzure.StorageClient;
-using NBlog.Web.Application.Infrastructure;
-using Newtonsoft.Json;
 
 namespace NBlog.Web.Application.Storage.Azure
 {
@@ -21,7 +21,7 @@ namespace NBlog.Web.Application.Storage.Azure
             _keys = keys;
             _tenantSelector = tenantSelector;
 
-            var storage = CloudStorageAccount.Parse(RoleEnvironment.GetConfigurationSettingValue("AzureBlobRepository.ConnectionString"));
+            var storage = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("AzureBlobRepository.ConnectionString"));
             var blobClient = storage.CreateCloudBlobClient();
             string name = GetContainerSafeName(tenantSelector);
             _container = blobClient.GetContainerReference(name);
@@ -43,7 +43,7 @@ namespace NBlog.Web.Application.Storage.Azure
         public TEntity Single<TEntity>(object key) where TEntity : class, new()
         {
             string relativePath = GetItemPath<TEntity>(key.ToString());
-            CloudBlob blob = _container.GetBlobReference(relativePath);
+            ICloudBlob blob = _container.GetBlobReferenceFromServer(relativePath);
             if (!blob.Exists())
             {
                 throw new FileNotFoundException("The item '" + relativePath + "' could not be found. Container: " + _container.Name + " " + _container.Uri);
@@ -61,7 +61,7 @@ namespace NBlog.Web.Application.Storage.Azure
 
             foreach (var blob in blobs)
             {
-                CloudBlob b = _container.GetBlobReference(blob.Uri.ToString());
+                ICloudBlob b = _container.GetBlobReferenceFromServer(blob.Uri.ToString());
                 string json = b.DownloadText();
 
                 var entity = JsonConvert.DeserializeObject<TEntity>(json);
@@ -74,7 +74,7 @@ namespace NBlog.Web.Application.Storage.Azure
         public bool Exists<TEntity>(object key) where TEntity : class, new()
         {
             string relativePath = GetItemPath<TEntity>(key.ToString());
-            CloudBlob blob = _container.GetBlobReference(relativePath);
+            ICloudBlob blob = _container.GetBlobReferenceFromServer(relativePath);
             return blob.Exists();
         }
 
@@ -83,14 +83,14 @@ namespace NBlog.Web.Application.Storage.Azure
             var json = JsonConvert.SerializeObject(item, Formatting.Indented);
             var key = _keys.GetKeyValue(item).ToString();
             string relativePath = GetItemPath<TEntity>(key);
-            CloudBlob blob = _container.GetBlobReference(relativePath);
+            ICloudBlob blob = _container.GetBlobReferenceFromServer(relativePath);
             blob.UploadText(json);
         }
 
         public void Delete<TEntity>(object key) where TEntity : class, new()
         {
             string relativePath = GetItemPath<TEntity>(key.ToString());
-            CloudBlob blob = _container.GetBlobReference(relativePath);
+            ICloudBlob blob = _container.GetBlobReferenceFromServer(relativePath);
             blob.Delete();
         }
     }

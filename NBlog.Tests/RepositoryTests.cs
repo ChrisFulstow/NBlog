@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
-using System.IO;
-using System.Linq;
 using MbUnit.Framework;
 using MongoDB.Driver;
 using NBlog.Web.Application.Infrastructure;
@@ -12,6 +6,12 @@ using NBlog.Web.Application.Storage;
 using NBlog.Web.Application.Storage.Json;
 using NBlog.Web.Application.Storage.Mongo;
 using NBlog.Web.Application.Storage.Sql;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
+using System.IO;
+using System.Linq;
 
 namespace NBlog.Tests
 {
@@ -24,7 +24,7 @@ namespace NBlog.Tests
         private static readonly string SqlConnectionString = ConfigurationManager.AppSettings["SqlConnectionString"];
         private static readonly string SqlDatabaseName = ConfigurationManager.AppSettings["SqlDatabaseName"];
 
-        private static readonly string MongoConnectionString =  ConfigurationManager.AppSettings["MongoConnectionString"];
+        private static readonly string MongoConnectionString = ConfigurationManager.AppSettings["MongoConnectionString"];
         private static readonly string MongoDatabaseName = ConfigurationManager.AppSettings["MongoDatabaseName"];
 
         static RepositoryTests()
@@ -36,7 +36,6 @@ namespace NBlog.Tests
 
             JsonWorkingFolder = Path.Combine(Path.GetTempPath(), "NBlogIntegrationTests");
         }
-
 
         [TearDown]
         public void TestCleanup()
@@ -62,11 +61,10 @@ namespace NBlog.Tests
             }
             else if (repositoryType == typeof(MongoRepository))
             {
-                var server = MongoServer.Create(MongoConnectionString);
+                var server = new MongoClient(MongoConnectionString).GetServer();
                 server.DropDatabase(MongoDatabaseName);
             }
         }
-
 
         [FixtureTearDown]
         public void FixtureTearDown()
@@ -86,7 +84,6 @@ namespace NBlog.Tests
             }
         }
 
-
         public static IEnumerable<IRepository> GetInstances()
         {
             yield return BuildJsonRepository();
@@ -94,28 +91,23 @@ namespace NBlog.Tests
             yield return BuildMongoRepository();
         }
 
-
         [Factory("GetInstances")]
         public IRepository Instance;
-
 
         private static JsonRepository BuildJsonRepository()
         {
             return new JsonRepository(Keys, new HttpTenantSelector());
         }
 
-
         private static SqlRepository BuildSqlRepository()
         {
             return new SqlRepository(Keys, SqlConnectionString, SqlDatabaseName);
         }
 
-
         private static MongoRepository BuildMongoRepository()
         {
             return new MongoRepository(Keys, MongoConnectionString, MongoDatabaseName);
         }
-
 
         [Test]
         public void Single_Should_Return_Correct_Entity_By_Key()
@@ -136,7 +128,6 @@ namespace NBlog.Tests
             Assert.AreEqual(retrievedEntry.Title, title);
         }
 
-
         [Test, ExpectedException(typeof(Exception))]
         //[Test]
         public void Single_Should_Throw_When_Entity_Does_Not_Exist()
@@ -147,7 +138,6 @@ namespace NBlog.Tests
             // act
             var entry = repository.Single<Entry>("this-entry-does-not-exist");
         }
-
 
         [Test]
         public void List_Should_Return_All_Entities()
@@ -165,7 +155,6 @@ namespace NBlog.Tests
             Assert.IsTrue(all.Count() == 3);
         }
 
-
         [Test]
         public void Exists_Should_Be_True_When_Entity_Exists()
         {
@@ -179,7 +168,6 @@ namespace NBlog.Tests
             // assert
             Assert.IsTrue(exists);
         }
-
 
         [Test]
         public void Exists_Should_Be_False_When_Entity_Deleted()

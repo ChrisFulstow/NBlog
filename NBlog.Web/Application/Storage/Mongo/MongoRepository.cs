@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System;
+using System.Collections.Generic;
 
 namespace NBlog.Web.Application.Storage.Mongo
 {
@@ -12,6 +12,7 @@ namespace NBlog.Web.Application.Storage.Mongo
         private readonly string _databaseName;
 
         private readonly MongoServer _server;
+        private readonly MongoClient _client;
         private readonly MongoDatabase _db;
 
         public MongoRepository(RepositoryKeys keys, string connectionString, string databaseName)
@@ -20,10 +21,10 @@ namespace NBlog.Web.Application.Storage.Mongo
             _connectionString = connectionString;
             _databaseName = databaseName;
 
-            _server = MongoServer.Create(_connectionString);
+            _client = new MongoClient(connectionString);
+            _server = _client.GetServer();
             _db = _server.GetDatabase(databaseName);
         }
-
 
         public TEntity Single<TEntity>(object key) where TEntity : class, new()
         {
@@ -37,14 +38,12 @@ namespace NBlog.Web.Application.Storage.Mongo
             return entity;
         }
 
-
         public IEnumerable<TEntity> All<TEntity>() where TEntity : class, new()
         {
             var collection = GetCollection<TEntity>();
             var entity = collection.FindAllAs<TEntity>();
             return entity;
         }
-
 
         public bool Exists<TEntity>(object key) where TEntity : class, new()
         {
@@ -54,13 +53,11 @@ namespace NBlog.Web.Application.Storage.Mongo
             return (entity != null);
         }
 
-
         public void Save<TEntity>(TEntity item) where TEntity : class, new()
         {
             var collection = GetCollection<TEntity>();
             collection.Save(item);
         }
-
 
         public void Delete<TEntity>(object key) where TEntity : class, new()
         {
@@ -68,7 +65,6 @@ namespace NBlog.Web.Application.Storage.Mongo
             var query = new QueryDocument("_id", BsonValue.Create(key));
             collection.Remove(query);
         }
-
 
         private MongoCollection GetCollection<TEntity>()
         {
