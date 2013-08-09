@@ -30,6 +30,7 @@ MongoLeaf/
 *.log
 *.sbr
 *.sdf
+packages/
 ipch/
 obj/
 [Bb]in

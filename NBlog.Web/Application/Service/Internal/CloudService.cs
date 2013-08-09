@@ -1,36 +1,30 @@
-using System;
-using System.IO;
-using AppLimit.CloudComputing.SharpBox;
-using AppLimit.CloudComputing.SharpBox.DropBox;
+using DropNet;
+using DropNet.Models;
 using Ionic.Zip;
 using NBlog.Web.Application.Infrastructure;
 using NBlog.Web.Application.Storage;
+using System;
+using System.IO;
 
 namespace NBlog.Web.Application.Service.Internal
 {
     public class CloudService : ICloudService
     {
         private const string ArchiveFolderPath = "/NBlog";
-        private readonly ICloudStorageConfiguration _cloudStorageConfiguration;
-        private readonly ICloudeStorageCredentials _cloudeStorageCredentials;
+
         private readonly IConfigService _configService;
+        private readonly DropNetClient _dropBoxClient;
 
         public CloudService(IConfigService configService)
         {
             _configService = configService;
             var config = _configService.Current;
 
-            // currently using DropBox, but this could be made configurable
-
-            _cloudStorageConfiguration = DropBoxConfiguration.GetStandardConfiguration();
-
-            _cloudeStorageCredentials = new DropBoxCredentials
-            {
-                ConsumerKey = config.Cloud.ConsumerKey,
-                ConsumerSecret = config.Cloud.ConsumerSecret,
-                UserName = config.Cloud.UserName,
-                Password = config.Cloud.Password
-            };
+            _dropBoxClient = new DropNetClient(
+                apiKey: config.Cloud.ConsumerKey,
+                appSecret: config.Cloud.ConsumerSecret,
+                userToken: config.Cloud.UserToken,
+                userSecret: config.Cloud.UserSecret);
         }
 
         public string ArchiveFolder(string folderPath)
@@ -50,22 +44,35 @@ namespace NBlog.Web.Application.Service.Internal
             return archiveFilename;
         }
 
-        private void Save(string filename, MemoryStream memoryStream)
+        /// <summary>
+        /// Use a breakpoint to set-up a connection to your DropBox app and follow the described
+        /// steps
+        /// </summary>
+        public void SetUp()
         {
-            var storage = new CloudStorage();
-            storage.Open(_cloudStorageConfiguration, _cloudeStorageCredentials);
+            _dropBoxClient.GetToken();
 
-            var backupFolder = storage.GetFolder(ArchiveFolderPath);
-            if (backupFolder == null) { throw new Exception("Cloud folder not found: " + ArchiveFolderPath); }
+            // copy URL into the browser and log into dropbox
+            var url = _dropBoxClient.BuildAuthorizeUrl();
 
-            var cloudFile = storage.CreateFile(backupFolder, filename);
-            using (var cloudStream = cloudFile.GetContentStream(FileAccess.Write))
-            {
-                cloudStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
-            }
+            // save token information into the config
+            var token = _dropBoxClient.GetAccessToken();
 
-            if (storage.IsOpened) { storage.Close(); }
+            _dropBoxClient.UserLogin = token;
         }
 
+        private static bool FolderExists(DropNet.Models.MetaData backupFolder)
+        {
+            return backupFolder != null && !backupFolder.Is_Deleted && backupFolder.Is_Dir;
+        }
+
+        private void Save(string filename, MemoryStream memoryStream)
+        {
+            var backupFolder = _dropBoxClient.GetMetaData(ArchiveFolderPath);
+            if (!FolderExists(backupFolder)) { throw new Exception("Cloud folder not found: " + ArchiveFolderPath); }
+
+            memoryStream.Position = 0;
+            _dropBoxClient.UploadFile(ArchiveFolderPath, filename, memoryStream);
+        }
     }
 }

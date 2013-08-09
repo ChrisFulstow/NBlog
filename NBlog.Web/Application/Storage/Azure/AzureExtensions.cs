@@ -1,47 +1,69 @@
 ﻿namespace NBlog.Web.Application.Storage.Azure
 {
-    using Microsoft.WindowsAzure.StorageClient;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Blob;
+    using Microsoft.WindowsAzure.Storage.Shared.Protocol;
+    using System.IO;
 
     public static class AzureExtensions
     {
-        public static bool Exists(this CloudBlob blob)
+        public static void UploadText(this ICloudBlob blob, string text)
         {
-            try
-            {
-                blob.FetchAttributes();
-                return true;
-            }
-            catch (StorageClientException e)
-            {
-                if (e.ErrorCode == StorageErrorCode.ResourceNotFound)
-                {
-                    return false;
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            byte[] buffer = System.Text.Encoding.UTF8.GetBytes(text);
+            blob.UploadFromByteArray(buffer, 0, buffer.Length);
         }
 
-        public static bool Exists(this CloudBlobContainer container)
+        public static string DownloadText(this ICloudBlob blob)
         {
-            try
+            string text;
+            using (var memoryStream = new MemoryStream())
             {
-                container.FetchAttributes();
-                return true;
+                blob.DownloadToStream(memoryStream);
+                text = System.Text.Encoding.UTF8.GetString(memoryStream.ToArray());
             }
-            catch (StorageClientException e)
-            {
-                if (e.ErrorCode == StorageErrorCode.ResourceNotFound)
-                {
-                    return false;
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            return text;
         }
+
+        //public static bool Exists(this ICloudBlob blob)
+        //{
+        //    try
+        //    {
+        //        blob.FetchAttributes();
+        //        return true;
+        //    }
+        //    catch (StorageException e)
+        //    {
+        //        if (e.RequestInformation.ExtendedErrorInformation != null &&
+        //            e.RequestInformation.ExtendedErrorInformation.ErrorCode == StorageErrorCodeStrings.ResourceNotFound)
+        //        {
+        //            return false;
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+        //}
+
+        //public static bool Exists(this CloudBlobContainer container)
+        //{
+        //    try
+        //    {
+        //        container.FetchAttributes();
+        //        return true;
+        //    }
+        //    catch (StorageException e)
+        //    {
+        //        if (e.RequestInformation.ExtendedErrorInformation != null &&
+        //            e.RequestInformation.ExtendedErrorInformation.ErrorCode == StorageErrorCodeStrings.ResourceNotFound)
+        //        {
+        //            return false;
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+        //}
     }
 }
