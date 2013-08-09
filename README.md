@@ -43,3 +43,6 @@ To see NBlog it in action, check out [blog.appharbor.com][0] and [chrisfulstow.c
 [12]: http://quartznet.sourceforge.net/
 [13]: http://html5boilerplate.com/
 [14]: http://www.dropbox.com/
+
+##License
+NBlog is open source under the [The MIT License (MIT)](http://www.opensource.org/licenses/mit-license.php)
