@@ -1,4 +1,5 @@
-﻿using DotNetOpenAuth.Messaging;
+﻿using DotNetOpenAuth.GoogleOAuth2;
+using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId;
 using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using DotNetOpenAuth.OpenId.Extensions.SimpleRegistration;
@@ -15,9 +16,14 @@ namespace NBlog.Web.Controllers
 {
 	public partial class AuthenticationController : LayoutController
 	{
+		private IServices _services;
+		private static GoogleOAuth2Client client;
+		private static Uri returnToUrl;
+
 		public AuthenticationController(IServices services)
 			: base(services)
 		{
+			_services = services;
 		}
 
 		[HttpGet]
@@ -45,30 +51,42 @@ namespace NBlog.Web.Controllers
 			{
 				try
 				{
+					model.Config = _services.Config.Current;
 					var openId = new OpenIdRelyingParty();
-					var returnToUrl = new Uri(Url.Action("OpenIdCallback", "Authentication", new { ReturnUrl = model.ReturnUrl }, Request.Url.Scheme), UriKind.Absolute);
-					var request = openId.CreateRequest(id, Realm.AutoDetect, returnToUrl);
-
-					// add request for name and email using sreg (OpenID Simple Registration
-					// Extension)
-					request.AddExtension(new ClaimsRequest
+					returnToUrl = new Uri(Url.Action("OpenIdCallback", "Authentication", new { ReturnUrl = model.ReturnUrl }, Request.Url.Scheme), UriKind.Absolute);
+					// hack for google oauth2
+					if (model.OpenID_Identifier.Contains("google"))
 					{
-						Email = DemandLevel.Require,
-						FullName = DemandLevel.Require,
-						Nickname = DemandLevel.Require
-					});
+						client = new GoogleOAuth2Client(model.Config.ClientId, model.Config.ClientSecret);
+						client.RequestAuthentication(this.HttpContext, returnToUrl);
+						GoogleOAuth2Client.RewriteRequest();
+						return Redirect(returnToUrl.ToString());
+					}
+					else
+					{
+						var request = openId.CreateRequest(id, Realm.AutoDetect, returnToUrl);
 
-					// also add AX request
-					var axRequest = new FetchRequest();
-					axRequest.Attributes.AddRequired(WellKnownAttributes.Name.FullName);
-					axRequest.Attributes.AddRequired(WellKnownAttributes.Name.First);
-					axRequest.Attributes.AddRequired(WellKnownAttributes.Name.Last);
-					axRequest.Attributes.AddRequired(WellKnownAttributes.Contact.Email);
-					request.AddExtension(axRequest);
+						// add request for name and email using sreg (OpenID Simple Registration
+						// Extension)
+						request.AddExtension(new ClaimsRequest
+						{
+							Email = DemandLevel.Require,
+							FullName = DemandLevel.Require,
+							Nickname = DemandLevel.Require
+						});
 
-					var redirectingResponse = request.RedirectingResponse;
+						// also add AX request
+						var axRequest = new FetchRequest();
+						axRequest.Attributes.AddRequired(WellKnownAttributes.Name.FullName);
+						axRequest.Attributes.AddRequired(WellKnownAttributes.Name.First);
+						axRequest.Attributes.AddRequired(WellKnownAttributes.Name.Last);
+						axRequest.Attributes.AddRequired(WellKnownAttributes.Contact.Email);
+						request.AddExtension(axRequest);
 
-					return redirectingResponse.AsActionResult();
+						var redirectingResponse = request.RedirectingResponse;
+
+						return redirectingResponse.AsActionResult();
+					}
 				}
 				catch (ProtocolException ex)
 				{
@@ -88,17 +106,31 @@ namespace NBlog.Web.Controllers
 		public ActionResult OpenIdCallback(string returnUrl)
 		{
 			var model = new LoginModel { ReturnUrl = returnUrl };
-			var openId = new OpenIdRelyingParty();
-			var openIdResponse = openId.GetResponse();
-
-			if (openIdResponse.Status == AuthenticationStatus.Authenticated)
+			// hack for google oauth2
+			if (client != null)
 			{
-				var friendlyName = GetFriendlyName(openIdResponse);
+				var authenticationResult = client.VerifyAuthentication(this.HttpContext, returnToUrl);
+				if (authenticationResult.IsSuccessful)
+				{
+					// append google url for cookie because id is provider specific
+					SetAuthCookie(string.Format("https://accounts.google.com/o/oauth2/auth?id={0}", authenticationResult.ProviderUserId), true, authenticationResult.UserName);
+					return Redirect(returnUrl.AsNullIfEmpty() ?? Url.Action("Index", "Home"));
+				}
+			}
+			else
+			{
+				var openId = new OpenIdRelyingParty();
+				var openIdResponse = openId.GetResponse();
 
-				var isPersistentCookie = true;
-				SetAuthCookie(openIdResponse.ClaimedIdentifier, isPersistentCookie, friendlyName);
+				if (openIdResponse.Status == AuthenticationStatus.Authenticated)
+				{
+					var friendlyName = GetFriendlyName(openIdResponse);
 
-				return Redirect(returnUrl.AsNullIfEmpty() ?? Url.Action("Index", "Home"));
+					var isPersistentCookie = true;
+					SetAuthCookie(openIdResponse.ClaimedIdentifier, isPersistentCookie, friendlyName);
+
+					return Redirect(returnUrl.AsNullIfEmpty() ?? Url.Action("Index", "Home"));
+				}
 			}
 
 			model.Message = "Sorry, login failed.";

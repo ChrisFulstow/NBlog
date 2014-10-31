@@ -32,13 +32,7 @@ namespace NBlog.Web.Application.Service.Entity
 
 		public string ClientId { get; set; }
 
-		public string EmailAddress { get; set; }
-
 		public string ClientSecret { get; set; }
-
-		public string RedirectUris { get; set; }
-
-		public string JavascriptOrigins { get; set; }
 
 		public class CloudConfig
 		{
