@@ -83,7 +83,7 @@ namespace NBlog.Web
 				new NamedParameter("databaseName", "nblog")
 			});
 
-			builder.RegisterType<AzureBlobRepository>().Named<IRepository>("azure").InstancePerHttpRequest().WithParameters(new[] {
+			builder.RegisterType<AzureBlobRepository>().Named<IRepository>("azure").InstancePerRequest().WithParameters(new[] {
 				new NamedParameter("keys", repositoryKeys),
 				new NamedParameter("tenantSelector", new HttpTenantSelector())
 			});
