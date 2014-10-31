@@ -37,7 +37,7 @@ namespace NBlog.Web.Application.Storage.Azure
 
 		private string GetItemPath<TEntity>(string key)
 		{
-			return String.Format("{0}.{1}.json", typeof(TEntity).Name, key);
+			return String.Format("{0}/{1}.json", typeof(TEntity).Name, key);
 		}
 
 		public TEntity Single<TEntity>(object key) where TEntity : class, new()
