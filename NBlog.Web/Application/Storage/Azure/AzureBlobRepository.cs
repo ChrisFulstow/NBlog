@@ -43,7 +43,7 @@ namespace NBlog.Web.Application.Storage.Azure
 		public TEntity Single<TEntity>(object key) where TEntity : class, new()
 		{
 			string relativePath = GetItemPath<TEntity>(key.ToString());
-			ICloudBlob blob = _container.GetBlobReferenceFromServer(relativePath);
+			ICloudBlob blob = _container.GetBlockBlobReference(relativePath);
 			if (!blob.Exists())
 			{
 				throw new FileNotFoundException("The item '" + relativePath + "' could not be found. Container: " + _container.Name + " " + _container.Uri);
@@ -61,7 +61,7 @@ namespace NBlog.Web.Application.Storage.Azure
 
 			foreach (var blob in blobs)
 			{
-				ICloudBlob b = _container.GetBlobReferenceFromServer(blob.Uri.ToString());
+				ICloudBlob b = _container.GetBlockBlobReference(blob.Uri.ToString());
 				string json = b.DownloadText();
 
 				var entity = JsonConvert.DeserializeObject<TEntity>(json);
@@ -74,7 +74,7 @@ namespace NBlog.Web.Application.Storage.Azure
 		public bool Exists<TEntity>(object key) where TEntity : class, new()
 		{
 			string relativePath = GetItemPath<TEntity>(key.ToString());
-			ICloudBlob blob = _container.GetBlobReferenceFromServer(relativePath);
+			ICloudBlob blob = _container.GetBlockBlobReference(relativePath);
 			return blob.Exists();
 		}
 
@@ -83,14 +83,14 @@ namespace NBlog.Web.Application.Storage.Azure
 			var json = JsonConvert.SerializeObject(item, Formatting.Indented);
 			var key = _keys.GetKeyValue(item).ToString();
 			string relativePath = GetItemPath<TEntity>(key);
-			ICloudBlob blob = _container.GetBlobReferenceFromServer(relativePath);
+			ICloudBlob blob = _container.GetBlockBlobReference(relativePath);
 			blob.UploadText(json);
 		}
 
 		public void Delete<TEntity>(object key) where TEntity : class, new()
 		{
 			string relativePath = GetItemPath<TEntity>(key.ToString());
-			ICloudBlob blob = _container.GetBlobReferenceFromServer(relativePath);
+			ICloudBlob blob = _container.GetBlockBlobReference(relativePath);
 			blob.Delete();
 		}
 	}
