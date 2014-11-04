@@ -73,7 +73,7 @@ namespace NBlog.Web
 
 			builder.RegisterType<SqlRepository>().Named<IRepository>("sql").InstancePerLifetimeScope().WithParameters(new[] {
 				new NamedParameter("keys", repositoryKeys),
-				new NamedParameter("connectionString", "Server=.;Trusted_Connection=True;"),
+				new NamedParameter("connectionString", ConfigurationManager.ConnectionStrings["Sql"].ConnectionString),
 				new NamedParameter("databaseName", "NBlog")
 			});
 
