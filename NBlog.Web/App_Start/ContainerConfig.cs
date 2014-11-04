@@ -74,7 +74,7 @@ namespace NBlog.Web
 			builder.RegisterType<SqlRepository>().Named<IRepository>("sql").InstancePerLifetimeScope().WithParameters(new[] {
 				new NamedParameter("keys", repositoryKeys),
 				new NamedParameter("connectionString", ConfigurationManager.ConnectionStrings["Sql"].ConnectionString),
-				new NamedParameter("databaseName", "NBlog")
+				new NamedParameter("databaseName", ConfigurationManager.AppSettings["SqlDatabaseName"])
 			});
 
 			builder.RegisterType<MongoRepository>().Named<IRepository>("mongo").InstancePerLifetimeScope().WithParameters(new[] {
