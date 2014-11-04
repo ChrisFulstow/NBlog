@@ -215,6 +215,10 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
+    <Content Include="Schemas\dbo.Cloud.sql" />
+    <Content Include="Schemas\dbo.Config.sql" />
+    <Content Include="Schemas\dbo.ContactForm.sql" />
+    <Content Include="Schemas\dbo.Disqus.sql" />
     <Content Include="Scripts\dd_belatedpng.js" />
     <Content Include="Scripts\Fancybox\blank.gif" />
     <Content Include="Scripts\Fancybox\fancybox-x.png" />

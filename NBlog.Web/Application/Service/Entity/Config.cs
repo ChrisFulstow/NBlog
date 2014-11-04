@@ -1,17 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using PetaPoco;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NBlog.Web.Application.Service.Entity
 {
+	[TableName("Config")]
 	public class Config
 	{
-		public List<string> Admins { get; set; }
+		[Column("Admins")]
+		public string AdminsCsvString { get; set; }
 
+		[Ignore]
+		public List<string> Admins { get { return AdminsCsvString.Split(',').ToList(); } }
+
+		[ResultColumn]
 		public CloudConfig Cloud { get; set; }
 
+		[Ignore]
 		public ContactFormConfig ContactForm { get; set; }
 
 		public string Crossbar { get; set; }
 
+		[Ignore]
 		public DisqusConfig Disqus { get; set; }
 
 		public string GoogleAnalyticsId { get; set; }
@@ -34,6 +44,7 @@ namespace NBlog.Web.Application.Service.Entity
 
 		public string ClientSecret { get; set; }
 
+		[TableName("Cloud")]
 		public class CloudConfig
 		{
 			public string ConsumerKey { get; set; }
@@ -45,6 +56,7 @@ namespace NBlog.Web.Application.Service.Entity
 			public string UserToken { get; set; }
 		}
 
+		[TableName("ContactForm")]
 		public class ContactFormConfig
 		{
 			public string RecipientEmail { get; set; }
@@ -54,6 +66,7 @@ namespace NBlog.Web.Application.Service.Entity
 			public string Subject { get; set; }
 		}
 
+		[TableName("Disqus")]
 		public class DisqusConfig
 		{
 			public bool DevelopmentMode { get; set; }

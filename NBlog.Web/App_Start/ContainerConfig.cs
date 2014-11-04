@@ -13,6 +13,7 @@ using NBlog.Web.Application.Storage.Sql;
 using Quartz;
 using Quartz.Impl;
 using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
@@ -55,6 +56,9 @@ namespace NBlog.Web
 
 		private static IContainer RegisterDependencies()
 		{
+			var sqlConnectionString = ConfigurationManager.ConnectionStrings["Sql"].ConnectionString;
+			var sqlConnectionStringBuilder = new SqlConnectionStringBuilder(sqlConnectionString);
+			var sqlDatabaseName = sqlConnectionStringBuilder.InitialCatalog;
 			var builder = new ContainerBuilder();
 
 			builder.RegisterType<ThemeableRazorViewEngine>().As<IViewEngine>().InstancePerLifetimeScope().WithParameter(
@@ -74,7 +78,7 @@ namespace NBlog.Web
 			builder.RegisterType<SqlRepository>().Named<IRepository>("sql").InstancePerLifetimeScope().WithParameters(new[] {
 				new NamedParameter("keys", repositoryKeys),
 				new NamedParameter("connectionString", ConfigurationManager.ConnectionStrings["Sql"].ConnectionString),
-				new NamedParameter("databaseName", ConfigurationManager.AppSettings["SqlDatabaseName"])
+				new NamedParameter("databaseName", sqlDatabaseName)
 			});
 
 			builder.RegisterType<MongoRepository>().Named<IRepository>("mongo").InstancePerLifetimeScope().WithParameters(new[] {
