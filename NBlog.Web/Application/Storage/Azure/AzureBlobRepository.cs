@@ -1,10 +1,10 @@
-﻿using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.Storage;
+﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using NBlog.Web.Application.Infrastructure;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 
@@ -21,7 +21,7 @@ namespace NBlog.Web.Application.Storage.Azure
 			_keys = keys;
 			_tenantSelector = tenantSelector;
 
-			var storage = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("AzureBlobRepository.ConnectionString"));
+			var storage = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureBlob"].ConnectionString);
 			var blobClient = storage.CreateCloudBlobClient();
 			string name = GetContainerSafeName(tenantSelector);
 			_container = blobClient.GetContainerReference(name);

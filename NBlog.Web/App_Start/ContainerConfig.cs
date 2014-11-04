@@ -21,7 +21,7 @@ namespace NBlog.Web
 {
 	public class ContainerConfig
 	{
-		private static readonly string DefaultRepositoryName = ConfigurationManager.AppSettings["DefaultRepositoryName"];
+		private static readonly string RepositoryType = ConfigurationManager.AppSettings["RepositoryType"];
 
 		public static void SetUpContainer()
 		{
@@ -83,20 +83,20 @@ namespace NBlog.Web
 				new NamedParameter("databaseName", "nblog")
 			});
 
-			builder.RegisterType<AzureBlobRepository>().Named<IRepository>("azure").InstancePerRequest().WithParameters(new[] {
+			builder.RegisterType<AzureBlobRepository>().Named<IRepository>("azureblob").InstancePerRequest().WithParameters(new[] {
 				new NamedParameter("keys", repositoryKeys),
 				new NamedParameter("tenantSelector", new HttpTenantSelector())
 			});
 
 			builder.RegisterControllers(typeof(ContainerConfig).Assembly)
-				.WithParameter(GetResolvedParameterByName<IRepository>(DefaultRepositoryName));
+				.WithParameter(GetResolvedParameterByName<IRepository>(RepositoryType));
 			builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
 
 			builder.RegisterType<ConfigService>().As<IConfigService>().InstancePerLifetimeScope()
-				.WithParameter(GetResolvedParameterByName<IRepository>(DefaultRepositoryName));
+				.WithParameter(GetResolvedParameterByName<IRepository>(RepositoryType));
 
 			builder.RegisterType<EntryService>().As<IEntryService>().InstancePerLifetimeScope()
-				.WithParameter(GetResolvedParameterByName<IRepository>(DefaultRepositoryName));
+				.WithParameter(GetResolvedParameterByName<IRepository>(RepositoryType));
 
 			builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
 			builder.RegisterType<MessageService>().As<IMessageService>().InstancePerLifetimeScope();
