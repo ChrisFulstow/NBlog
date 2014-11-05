@@ -74,6 +74,7 @@
 	background-position: 0px 0px;
 	display: inline-block; 
 	list-style: none;
+    cursor: pointer;
 }
 
 .wmd-button > a
