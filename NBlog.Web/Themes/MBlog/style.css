@@ -45,7 +45,7 @@ header
 
 .crossbar
 {
-    border-bottom: 2px solid #3c454f;
+    border-bottom: 2px dotted #3c454f;
     clear: both;
 }
 
@@ -63,7 +63,7 @@ article.entry ul
 pre.prettyprint code { font-size: 11pt; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, serif; }
 article.entry pre.prettyprint { border: 1px dotted #777; padding: 10px; background-color: #f8f8f8; }
 
-footer { margin-top: 30px; margin-bottom: 30px; padding-top: 10px; padding-bottom: 10px; border-top: 1px dotted #999; text-align: center; }
+footer { margin-top: 30px; margin-bottom: 30px; padding-top: 10px; padding-bottom: 10px; border-top: 1px dotted #3c454f; text-align: center; }
 
 .text-links a { text-decoration:none; }
 .text-links a:link { border-bottom:1px dotted; color:#04b; }
@@ -75,8 +75,8 @@ footer { margin-top: 30px; margin-bottom: 30px; padding-top: 10px; padding-botto
     font-weight: bold;
     padding: 5px 10px;
     margin-bottom: 15px;
-    background-color: #FFFAD4;
-    border: 1px solid #fcefa1;
+    background-color: #999;
+    border: 1px solid #3c454f;
 }
 
 ul.entry-list { margin: 0; }
