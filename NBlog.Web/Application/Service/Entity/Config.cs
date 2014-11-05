@@ -1,5 +1,8 @@
-﻿using PetaPoco;
+﻿using Newtonsoft.Json;
+using PetaPoco;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 
 namespace NBlog.Web.Application.Service.Entity
@@ -8,11 +11,34 @@ namespace NBlog.Web.Application.Service.Entity
 	[PrimaryKey("Id")]
 	public class Config
 	{
+		private readonly bool isSqlRepositoryType = ConfigurationManager.AppSettings["RepositoryType"].Equals("sql", StringComparison.InvariantCultureIgnoreCase);
+
 		[Column("Admins")]
-		public string AdminsCsvString { get; set; }
+		public string AdminsCsv { get; set; }
+
+		[JsonProperty("Admins")]
+		private List<string> _admins;
 
 		[Ignore]
-		public List<string> Admins { get { return AdminsCsvString.Split(',').ToList(); } }
+		[JsonProperty("_Admins")]
+		public List<string> Admins
+		{
+			get
+			{
+				if (!isSqlRepositoryType)
+				{
+					return _admins;
+				}
+				else
+				{
+					return AdminsCsv.Split(',').ToList();
+				}
+			}
+			set
+			{
+				_admins = value;
+			}
+		}
 
 		public int CloudId { get; set; }
 

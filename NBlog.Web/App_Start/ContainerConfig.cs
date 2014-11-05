@@ -56,9 +56,11 @@ namespace NBlog.Web
 
 		private static IContainer RegisterDependencies()
 		{
+			// Get sql database name from initial catalog in the connection string
 			var sqlConnectionString = ConfigurationManager.ConnectionStrings["Sql"].ConnectionString;
 			var sqlConnectionStringBuilder = new SqlConnectionStringBuilder(sqlConnectionString);
 			var sqlDatabaseName = sqlConnectionStringBuilder.InitialCatalog;
+
 			var builder = new ContainerBuilder();
 
 			builder.RegisterType<ThemeableRazorViewEngine>().As<IViewEngine>().InstancePerLifetimeScope().WithParameter(
