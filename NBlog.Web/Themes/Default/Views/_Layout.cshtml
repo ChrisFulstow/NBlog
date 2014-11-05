@@ -74,7 +74,7 @@
 </div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-<script>    !window.jQuery && document.write('<script src="/resources/scripts/jquery-1.4.4.min.js"><\/script>')</script>
+<script>    !window.jQuery && document.write('<script src="/scripts/jquery-1.4.4.min.js"><\/script>')</script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"></script>
 <script src="@Url.Action("JavaScript", "Resource")"></script>
 
@@ -99,11 +99,11 @@
 @RenderSection("Scripts", required: false)
 
 <!--[if lt IE 7 ]>
-<script src="/resources/scripts/js/dd_belatedpng.js?v=1"></script>
+<script src="/scripts/js/dd_belatedpng.js?v=1"></script>
 <![endif]-->
 
-@*<script src="/resources/scripts/profiling/yahoo-profiling.min.js?v=1"></script>
-<script src="/resources/scripts/profiling/config.js?v=1"></script>*@
+@*<script src="/scripts/profiling/yahoo-profiling.min.js?v=1"></script>
+<script src="/scripts/profiling/config.js?v=1"></script>*@
 
 @if (!string.IsNullOrWhiteSpace(Model.Config.GoogleAnalyticsId))
 {
