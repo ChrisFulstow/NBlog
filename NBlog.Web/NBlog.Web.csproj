@@ -219,6 +219,7 @@
     <Content Include="Schemas\dbo.Config.sql" />
     <Content Include="Schemas\dbo.ContactForm.sql" />
     <Content Include="Schemas\dbo.Disqus.sql" />
+    <Content Include="Schemas\dbo.Entry.sql" />
     <Content Include="Scripts\dd_belatedpng.js" />
     <Content Include="Scripts\Fancybox\blank.gif" />
     <Content Include="Scripts\Fancybox\fancybox-x.png" />
@@ -319,7 +320,9 @@
     <Content Include="Scripts\wmd\wmd.css" />
     <Content Include="Themes\Default\favicon.ico" />
     <Content Include="Themes\Default\style.css" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application\Infrastructure\AdminOnlyAttribute.cs" />
@@ -361,7 +364,6 @@
     <Compile Include="Application\Storage\Json\JsonRepository.cs" />
     <Compile Include="Application\Storage\Mongo\MongoRepository.cs" />
     <Compile Include="Application\Storage\RepositoryKeys.cs" />
-    <Compile Include="Application\Storage\Sql\PetaPoco.cs" />
     <Compile Include="Application\Storage\Sql\SqlRepository.cs" />
     <Compile Include="App_Start\ContainerConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -383,6 +385,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\PetaPoco.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -408,9 +411,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>

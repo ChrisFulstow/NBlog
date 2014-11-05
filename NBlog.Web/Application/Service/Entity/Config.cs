@@ -5,6 +5,7 @@ using System.Linq;
 namespace NBlog.Web.Application.Service.Entity
 {
 	[TableName("Config")]
+	[PrimaryKey("Id")]
 	public class Config
 	{
 		[Column("Admins")]
@@ -13,15 +14,21 @@ namespace NBlog.Web.Application.Service.Entity
 		[Ignore]
 		public List<string> Admins { get { return AdminsCsvString.Split(',').ToList(); } }
 
+		public int CloudId { get; set; }
+
 		[ResultColumn]
 		public CloudConfig Cloud { get; set; }
 
-		[Ignore]
+		public int ContactFormId { get; set; }
+
+		[ResultColumn]
 		public ContactFormConfig ContactForm { get; set; }
 
 		public string Crossbar { get; set; }
 
-		[Ignore]
+		public int DisqusId { get; set; }
+
+		[ResultColumn]
 		public DisqusConfig Disqus { get; set; }
 
 		public string GoogleAnalyticsId { get; set; }
@@ -45,6 +52,7 @@ namespace NBlog.Web.Application.Service.Entity
 		public string ClientSecret { get; set; }
 
 		[TableName("Cloud")]
+		[PrimaryKey("Id")]
 		public class CloudConfig
 		{
 			public string ConsumerKey { get; set; }
@@ -57,6 +65,7 @@ namespace NBlog.Web.Application.Service.Entity
 		}
 
 		[TableName("ContactForm")]
+		[PrimaryKey("Id")]
 		public class ContactFormConfig
 		{
 			public string RecipientEmail { get; set; }
@@ -67,6 +76,7 @@ namespace NBlog.Web.Application.Service.Entity
 		}
 
 		[TableName("Disqus")]
+		[PrimaryKey("Id")]
 		public class DisqusConfig
 		{
 			public bool DevelopmentMode { get; set; }

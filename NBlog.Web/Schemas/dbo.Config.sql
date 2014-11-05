@@ -13,7 +13,7 @@
 	[Admins] NVARCHAR(MAX) NOT NULL DEFAULT 'http://cxfx.myopenid.com/',
 	[GoogleAnalyticsId] NVARCHAR(250) NOT NULL DEFAULT '',
 	[TwitterUsername] NVARCHAR(250) NOT NULL DEFAULT 'twitter',
-	[ContactForm] INT NOT NULL FOREIGN KEY REFERENCES [ContactForm],
-	[Cloud] INT NOT NULL FOREIGN KEY REFERENCES [Cloud],
-	[Disqus] INT NOT NULL FOREIGN KEY REFERENCES [Disqus]
+	[ContactFormId] INT NOT NULL FOREIGN KEY REFERENCES [ContactForm],
+	[CloudId] INT NOT NULL FOREIGN KEY REFERENCES [Cloud],
+	[DisqusId] INT NOT NULL FOREIGN KEY REFERENCES [Disqus]
 )
