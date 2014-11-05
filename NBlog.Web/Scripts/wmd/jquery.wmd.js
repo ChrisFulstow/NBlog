@@ -926,7 +926,8 @@ Attacklab.wmdBase = function(){
 			if(isEnabled) {
 				button.style.backgroundPosition = button.XShift + " " + normalYShift;
 				button.onmouseover = function(){
-					this.style.backgroundPosition = this.XShift + " " + highlightYShift;
+				    this.style.backgroundPosition = this.XShift + " " + highlightYShift;
+				    this.style.cursor = "pointer";
 				};
 							
 				button.onmouseout = function(){

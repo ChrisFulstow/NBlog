@@ -404,6 +404,9 @@
     <Content Include="Themes\Default\Views\Web.config" />
     <Content Include="Themes\Default\Views\_Layout.cshtml" />
     <Content Include="Themes\Default\Views\_ViewStart.cshtml" />
+    <Content Include="Scripts\wmd\jquery.wmd.min.js.map">
+      <DependentUpon>jquery.wmd.min.js</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
