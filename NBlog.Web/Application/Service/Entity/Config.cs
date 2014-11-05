@@ -7,7 +7,6 @@ using System.Linq;
 
 namespace NBlog.Web.Application.Service.Entity
 {
-	[TableName("Config")]
 	[PrimaryKey("Id")]
 	public class Config
 	{
