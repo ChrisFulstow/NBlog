@@ -7,6 +7,8 @@ namespace NBlog.Web.Application.Service.Entity
 	[PrimaryKey("Id")]
 	public class Entry
 	{
+		// Id for PetaPoco SqlRepository support
+		public int Id { get; set; }
 		[BsonId]
 		public string Slug { get; set; }
 		public string Title { get; set; }
