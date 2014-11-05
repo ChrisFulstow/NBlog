@@ -1,5 +1,5 @@
 ﻿
-body { font: 100%/1.5 'Segoe UI', Arial, sans-serif; background-color: #efefef; }
+body { font: 100%/1.5 'Segoe UI', Arial, sans-serif; background-color: #3c454f; }
 
 h1, h2, h3, h4, h5, h6, #site-name, #tag-line
 {
@@ -20,7 +20,7 @@ h6 { font-size: 90%; }
 {
     width: 910px;
     margin: 0 auto;
-    background-color: #fff;
+    background-color: #777;
     box-shadow: 0 0 10px 4px #d5d5d5;
     -moz-box-shadow: 0 0 10px 4px #d5d5d5;
     -webkit-box-shadow: 0 0 10px 4px #d5d5d5;
@@ -45,14 +45,8 @@ header
 
 .crossbar
 {
-    background-color: #efefef;
-    background-image: -moz-linear-gradient(center top, #eeeeee 0%,#dddddd 100%);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #eeeeee),color-stop(1, #dddddd));
-    border-top: 1px solid #bbb;
-    border-bottom: 1px solid #bbb;
-    padding: 10px 20px;
-    text-align: center;
-    box-shadow: 0 3px 10px 0px #e8e8e8; -moz-box-shadow: 0 3px 10px 0px #e8e8e8; -webkit-box-shadow: 0 3px 10px 0px #e8e8e8;
+    border-bottom: 2px solid #3c454f;
+    clear: both;
 }
 
 article { padding: 25px; }
