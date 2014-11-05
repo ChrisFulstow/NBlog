@@ -318,6 +318,8 @@
     <Content Include="Scripts\wmd\jquery.wmd.js" />
     <Content Include="Scripts\wmd\jquery.wmd.min.js" />
     <Content Include="Scripts\wmd\wmd.css" />
+    <Content Include="Themes\MBlog\favicon.ico" />
+    <Content Include="Themes\MBlog\style.css" />
     <Content Include="Themes\Default\favicon.ico" />
     <Content Include="Themes\Default\style.css" />
     <Content Include="Web.config">
@@ -407,6 +409,18 @@
     <Content Include="Scripts\wmd\jquery.wmd.min.js.map">
       <DependentUpon>jquery.wmd.min.js</DependentUpon>
     </Content>
+    <Content Include="Themes\MBlog\Views\_Layout.cshtml" />
+    <Content Include="Themes\MBlog\Views\_ViewStart.cshtml" />
+    <Content Include="Themes\MBlog\Views\Authentication\Login.cshtml" />
+    <Content Include="Themes\MBlog\Views\Contact\Confirm.cshtml" />
+    <Content Include="Themes\MBlog\Views\Contact\Index.cshtml" />
+    <Content Include="Themes\MBlog\Views\Entry\Delete.cshtml" />
+    <Content Include="Themes\MBlog\Views\Entry\Edit.cshtml" />
+    <Content Include="Themes\MBlog\Views\Entry\Show.cshtml" />
+    <Content Include="Themes\MBlog\Views\Error\Index.cshtml" />
+    <Content Include="Themes\MBlog\Views\Home\Index.cshtml" />
+    <Content Include="Themes\MBlog\Views\Search\Index.cshtml" />
+    <Content Include="Themes\MBlog\Views\Web.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
