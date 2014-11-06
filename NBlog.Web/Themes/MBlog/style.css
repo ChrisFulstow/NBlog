@@ -1,10 +1,10 @@
 ﻿
-body { font: 100%/1.5 'Segoe UI', Arial, sans-serif; font-size: 16px; background-color: #3c454f; }
+body { font: 100%/1.5 'Open Sans', Arial, sans-serif; font-size: 15.4px; background-color: #3c454f; }
 
 h1, h2, h3, h4, h5, h6, #site-name, #tag-line
 {
 	line-height: 1.2;
-	font-family: 'Trebuchet MS', Arial, sans-serif;
+	font-family: 'Open Sans', Arial, sans-serif;
 	color: #333;
 	font-weight: bold;
 }
