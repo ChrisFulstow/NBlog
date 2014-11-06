@@ -19,7 +19,7 @@ namespace NBlog.Web.Application.Service.Entity
 		private List<string> _admins;
 
 		[Ignore]
-		[JsonProperty("_Admins")]
+		[JsonIgnore]
 		public List<string> Admins
 		{
 			get
