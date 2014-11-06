@@ -39,7 +39,6 @@ header
 #topbar { float: right; margin-top: 6px; background-color:transparent; }
 #topbar #links { text-align: right;  margin:  0 4px 7px 0; }
 #search { clear: both; text-align:right; }
-#search .box { width: 300px; }
 
 .crossbar
 {
