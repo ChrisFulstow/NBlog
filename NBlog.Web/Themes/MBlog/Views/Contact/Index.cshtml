@@ -3,20 +3,25 @@
 <article class="form">
 
     <h1>Get in touch</h1>
-    
+
+    <p>
+        The e-mail form isn't working at the moment, since I don't have an SMTP host hooked up to it.  
+        In the meantime, feel free to contact me at this <a href="mailto:carr0461@gmail.com">address</a>.
+    </p>
+
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
 
         <div class="field short">
             @Html.LabelFor(m => m.SenderName)<br />
-            @Html.TextBoxFor(m => m.SenderName, new { @class="text-box short" })
+            @Html.TextBoxFor(m => m.SenderName, new { @class = "text-box short" })
             @Html.ValidationMessageFor(m => m.SenderName)
         </div>
-        
+
         <div class="field short">
             @Html.LabelFor(m => m.SenderEmail)<br />
-            @Html.TextBoxFor(m => m.SenderEmail, new { @class="text-box short" })
+            @Html.TextBoxFor(m => m.SenderEmail, new { @class = "text-box short" })
             @Html.ValidationMessageFor(m => m.SenderEmail)
         </div>
 

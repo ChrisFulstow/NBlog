@@ -63,10 +63,10 @@ article.entry pre.prettyprint { border: 1px dotted #777; padding: 10px; backgrou
 
 footer { margin-top: 30px; margin-bottom: 30px; padding-top: 10px; padding-bottom: 10px; border-top: 1px dotted #3c454f; text-align: center; }
 
-.text-links a { text-decoration:none; }
-.text-links a:link { border-bottom:1px dotted; color:#04b; }
-.text-links a:visited { border-bottom:1px dotted; color:#59d; }
-.text-links a:link:hover, .text-links a:visited:hover { border-bottom:1px solid; }
+a { text-decoration:none; }
+a:link { border-bottom:1px dotted; color:#04b; text-decoration:none; }
+a:visited { border-bottom:1px dotted; color:#59d; text-decoration:none; }
+a:link:hover, a:visited:hover { border-bottom:1px solid; text-decoration:none; }
 
 .admin-box
 {
