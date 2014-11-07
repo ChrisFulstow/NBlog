@@ -36,10 +36,12 @@
        }
         
         <div class="field long markdown">
-            @Html.TextAreaFor(m => m.Markdown, new { @class = "text-box" })
+            <div id="wmd-button-bar"></div>
+            @Html.TextAreaFor(m => m.Markdown, new { @class = "text-box, wmd-input", @id = "wmd-input" })
+            <div id="wmd-preview" class="wmd-preview"></div>
             @Html.ValidationMessageFor(m => m.Markdown)
         </div>
-        
+
         <div class="field">
             @Html.LabelFor(m => m.IsCodePrettified)<br />
             @Html.RadioButtonFor(m => m.IsCodePrettified, true) Yes<br />
@@ -76,12 +78,9 @@
             if ($(this).valid()) { alertOnLeaving = false; }
         });
         
-
-        $("textarea#Markdown").wmd({
-		    "preview": true,
-            "helpLink": "http://daringfireball.net/projects/markdown/",
-		    "helpHoverTitle": "Markdown Help",
-		});
+        var converter = new Markdown.getSanitizingConverter();        
+        var editor = new Markdown.Editor(converter);
+        editor.run();
     });
 
 </script>

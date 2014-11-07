@@ -313,11 +313,6 @@
     <Content Include="Scripts\Profiling\config.js" />
     <Content Include="Scripts\Profiling\yahoo-profiling.css" />
     <Content Include="Scripts\Profiling\yahoo-profiling.min.js" />
-    <Content Include="Scripts\wmd\images\wmd-buttons.png" />
-    <Content Include="Scripts\wmd\jquery-wmd-plugin.js" />
-    <Content Include="Scripts\wmd\jquery.wmd.js" />
-    <Content Include="Scripts\wmd\jquery.wmd.min.js" />
-    <Content Include="Scripts\wmd\wmd.css" />
     <Content Include="Themes\MBlog\favicon.ico" />
     <Content Include="Themes\MBlog\style.css" />
     <Content Include="Themes\Default\favicon.ico" />
@@ -406,9 +401,6 @@
     <Content Include="Themes\Default\Views\Web.config" />
     <Content Include="Themes\Default\Views\_Layout.cshtml" />
     <Content Include="Themes\Default\Views\_ViewStart.cshtml" />
-    <Content Include="Scripts\wmd\jquery.wmd.min.js.map">
-      <DependentUpon>jquery.wmd.min.js</DependentUpon>
-    </Content>
     <Content Include="Themes\MBlog\Views\_Layout.cshtml" />
     <Content Include="Themes\MBlog\Views\_ViewStart.cshtml" />
     <Content Include="Themes\MBlog\Views\Authentication\Login.cshtml" />
