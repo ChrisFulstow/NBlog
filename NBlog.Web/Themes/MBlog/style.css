@@ -106,12 +106,12 @@ a.button {color:}
     margin-bottom: 25px;
 }
 
-.form .field.short { width: 400px; }
-.form .field.medium { width: 600px; }
-.form .field.long { width: 800px; }
+.form .field.short {  }
+.form .field.medium {  }
+.form .field.long {  }
 .form .field textarea.small { height: 175px; }
 
-.field-validation-error { display:block; color: #aa0000; border: 1px dotted #aa0000; background-color: #ffdddd; width: 100%; margin: 15px 0; }
+.field-validation-error { display:block; color: #aa0000; border: 1px dotted #aa0000; background-color: #ffdddd; margin: 15px 0; }
 
 ::-moz-selection{ background: #FFFF55; color:#333; text-shadow: none; }
 ::selection { background: #FFFF55; color:#333; text-shadow: none; } 
