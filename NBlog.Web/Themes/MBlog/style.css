@@ -34,7 +34,7 @@ header
 #site { float: left; margin: 13px 0; background-color:transparent; }
 #site a { text-decoration: none; }
 #site-name { font-size: 160%; }
-#tag-line { font-size: 120%; color:#4a0; }
+#tag-line { font-size: 120%; color:#333; }
 
 #topbar { float: right; margin-top: 6px; background-color:transparent; }
 #topbar #links { text-align: right;  margin:  0 4px 7px 0; }
