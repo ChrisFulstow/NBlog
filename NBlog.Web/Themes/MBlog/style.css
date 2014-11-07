@@ -99,7 +99,9 @@ ul.entry-list li .date { font-size: 100%; }
 
 .form label {font-weight:bold; margin-bottom:15px;}
 
-a.button {color:}
+a.button { color:#555555; text-decoration: none; border-bottom: none }
+a.button:link { color:#555555; text-decoration: none; border-bottom: none }
+a.button:link:hover { color:#212121 }
 
 .form .field 
 {
