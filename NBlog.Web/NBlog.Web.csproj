@@ -400,6 +400,8 @@
     <Compile Include="Application\Storage\Sql\SqlRepository.cs" />
     <Compile Include="App_Start\ContainerConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AboutController.cs" />
+    <Compile Include="Controllers\AboutController.Models.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\AuthenticationController.Models.cs" />
@@ -449,6 +451,7 @@
     <Content Include="Themes\MBlog\Views\Home\Index.cshtml" />
     <Content Include="Themes\MBlog\Views\Search\Index.cshtml" />
     <Content Include="Themes\MBlog\Views\Web.config" />
+    <Content Include="Themes\MBlog\Views\About\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -456,7 +459,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\About\" />
+  </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>

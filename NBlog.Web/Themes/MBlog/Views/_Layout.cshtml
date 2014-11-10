@@ -58,10 +58,11 @@
             <div id="topbar">
                 <div id="links" class="text-links">
                     @(Model.User.IsAuthenticated ? Html.Safe("<strong>" + Model.User.FriendlyName + "</strong> |") : Html.Blank())
-                    @TwitterLink(@Model.Config.TwitterUsername)
+                    @TwitterLink(@Model.Config.TwitterUsername)                    
+                    @(Model.User.IsAuthenticated ? Html.ActionLink("Sign Out", "Logout", "Authentication") : Html.ActionLink("Sign In", "Login", "Authentication")) |
                     @Html.ActionLink("RSS", "Index", "Feed") |
                     @Html.ActionLink("Contact", "Index", "Contact") |
-                    @(Model.User.IsAuthenticated ? Html.ActionLink("Sign Out", "Logout", "Authentication") : Html.ActionLink("Sign In", "Login", "Authentication"))
+                    @Html.ActionLink("About", "Index", "About")
                 </div>
                 <div id="search">
                     <form action="@Url.Action("Index", "Search")">
