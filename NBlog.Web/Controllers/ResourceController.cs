@@ -28,7 +28,7 @@ namespace NBlog.Web.Controllers
 			Bundle.Css()
 				.Add(Services.Theme.Current.Css("style"))
 				.Add("~/scripts/jqueryopenidplugin/openid.css")
-				.Add("~/scripts/prettify/prettify.css")
+				.Add("~/content/prettify/prettify.css")
 				.ForceRelease()
 				.WithMinifier(new MsMinifier())
 				.AsCached(cacheKey, "");
