@@ -45,8 +45,8 @@ namespace NBlog.Web.Controllers
 
 			Bundle.JavaScript()
 				.Add("~/scripts/plugins.js").WithMinifier(new JavaScriptMinifiers.NullMinifier())
-				.Add("~/scripts/fancybox/jquery.mousewheel-3.0.4.pack.js").WithMinifier(new JavaScriptMinifiers.NullMinifier())
-				.Add("~/scripts/fancybox/jquery.fancybox-1.3.2.js").WithMinifier(new JavaScriptMinifiers.NullMinifier())
+				.Add("~/scripts/jquery.mousewheel-3.0.6.pack.js").WithMinifier(new JavaScriptMinifiers.NullMinifier())
+				.Add("~/scripts/jquery.fancybox.js").WithMinifier(new JavaScriptMinifiers.NullMinifier())
 				.Add("~/scripts/jQueryOpenIdPlugin/jquery.openid.js").WithMinifier(new JavaScriptMinifiers.NullMinifier())
 				.Add("~/scripts/jquery.validate.js").WithMinifier(new JavaScriptMinifiers.NullMinifier())
 				.Add("~/scripts/jquery.validate.unobtrusive.js").WithMinifier(new JavaScriptMinifiers.NullMinifier())

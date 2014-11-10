@@ -232,6 +232,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\fancybox\blank.gif" />
+    <Content Include="Content\fancybox\fancybox_buttons.png" />
+    <Content Include="Content\fancybox\fancybox_loading%402x.gif" />
+    <Content Include="Content\fancybox\fancybox_loading.gif" />
+    <Content Include="Content\fancybox\fancybox_overlay.png" />
+    <Content Include="Content\fancybox\fancybox_sprite%402x.png" />
+    <Content Include="Content\fancybox\fancybox_sprite.png" />
+    <Content Include="Content\jquery.fancybox-buttons.css" />
+    <Content Include="Content\jquery.fancybox-thumbs.css" />
+    <Content Include="Content\jquery.fancybox.css" />
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
     <Content Include="Schemas\dbo.Cloud.sql" />
@@ -240,32 +250,15 @@
     <Content Include="Schemas\dbo.Disqus.sql" />
     <Content Include="Schemas\dbo.Entry.sql" />
     <Content Include="Scripts\dd_belatedpng.js" />
-    <Content Include="Scripts\Fancybox\blank.gif" />
-    <Content Include="Scripts\Fancybox\fancybox-x.png" />
-    <Content Include="Scripts\Fancybox\fancybox-y.png" />
-    <Content Include="Scripts\Fancybox\fancybox.png" />
-    <Content Include="Scripts\Fancybox\fancy_close.png" />
-    <Content Include="Scripts\Fancybox\fancy_loading.png" />
-    <Content Include="Scripts\Fancybox\fancy_nav_left.png" />
-    <Content Include="Scripts\Fancybox\fancy_nav_right.png" />
-    <Content Include="Scripts\Fancybox\fancy_shadow_e.png" />
-    <Content Include="Scripts\Fancybox\fancy_shadow_n.png" />
-    <Content Include="Scripts\Fancybox\fancy_shadow_ne.png" />
-    <Content Include="Scripts\Fancybox\fancy_shadow_nw.png" />
-    <Content Include="Scripts\Fancybox\fancy_shadow_s.png" />
-    <Content Include="Scripts\Fancybox\fancy_shadow_se.png" />
-    <Content Include="Scripts\Fancybox\fancy_shadow_sw.png" />
-    <Content Include="Scripts\Fancybox\fancy_shadow_w.png" />
-    <Content Include="Scripts\Fancybox\fancy_title_left.png" />
-    <Content Include="Scripts\Fancybox\fancy_title_main.png" />
-    <Content Include="Scripts\Fancybox\fancy_title_over.png" />
-    <Content Include="Scripts\Fancybox\fancy_title_right.png" />
-    <Content Include="Scripts\Fancybox\jquery.easing-1.3.pack.js" />
-    <Content Include="Scripts\Fancybox\jquery.fancybox-1.3.2.css" />
-    <Content Include="Scripts\Fancybox\jquery.fancybox-1.3.2.js" />
-    <Content Include="Scripts\Fancybox\jquery.fancybox-1.3.2.pack.js" />
-    <Content Include="Scripts\Fancybox\jquery.mousewheel-3.0.4.pack.js" />
-    <Content Include="Scripts\jquery-1.4.4.min.js" />
+    <None Include="Scripts\jquery-1.8.0.intellisense.js" />
+    <Content Include="Scripts\jquery-1.8.0.js" />
+    <Content Include="Scripts\jquery-1.8.0.min.js" />
+    <Content Include="Scripts\jquery.fancybox-buttons.js" />
+    <Content Include="Scripts\jquery.fancybox-media.js" />
+    <Content Include="Scripts\jquery.fancybox-thumbs.js" />
+    <Content Include="Scripts\jquery.fancybox.js" />
+    <Content Include="Scripts\jquery.fancybox.pack.js" />
+    <Content Include="Scripts\jquery.mousewheel-3.0.6.pack.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Jobs.config" />
@@ -283,6 +276,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\jquery.watermark.js" />
+    <Content Include="Scripts\jquery.watermark.min.js" />
     <Content Include="Scripts\jQueryOpenIdPlugin\images\aolW.png" />
     <Content Include="Scripts\jQueryOpenIdPlugin\images\blogger.png" />
     <Content Include="Scripts\jQueryOpenIdPlugin\images\claimid.png" />
