@@ -69,6 +69,7 @@ namespace NBlog.Web
 
 			var repositoryKeys = new RepositoryKeys();
 			repositoryKeys.Add<Entry>(e => e.Slug);
+			repositoryKeys.Add<About>(a => a.Title);
 			repositoryKeys.Add<Config>(c => c.Site);
 			repositoryKeys.Add<User>(u => u.Username);
 

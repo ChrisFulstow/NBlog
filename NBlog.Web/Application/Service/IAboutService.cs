@@ -6,5 +6,9 @@ namespace NBlog.Web.Application.Service
 	public interface IAboutService
 	{
 		List<About> GetAll();
+		void Save(About about);
+		About GetByTitle(string title);
+		bool Exists(string title);
+		void Delete(string title);
 	}
 }

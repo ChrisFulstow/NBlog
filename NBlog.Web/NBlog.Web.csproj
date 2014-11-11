@@ -455,6 +455,7 @@
     <Content Include="Themes\MBlog\Views\Search\Index.cshtml" />
     <Content Include="Themes\MBlog\Views\Web.config" />
     <Content Include="Themes\MBlog\Views\About\Index.cshtml" />
+    <Content Include="Themes\MBlog\Views\About\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

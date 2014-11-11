@@ -61,7 +61,7 @@ namespace NBlog.Web.Application.Storage.Azure
 
 			foreach (var blob in blobs)
 			{
-				string relativePath = string.Format("{0}{1}", blob.Parent.Prefix, blob.Uri.Segments.LastOrDefault());
+				string relativePath = string.Format("{0}{1}", blob.Parent.Prefix, Uri.UnescapeDataString(blob.Uri.Segments.LastOrDefault()));
 				ICloudBlob b = _container.GetBlockBlobReference(relativePath);
 				string json = b.DownloadText();
 
