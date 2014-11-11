@@ -6,6 +6,7 @@ namespace NBlog.Web.Controllers
 	{
 		public class AboutModel : LayoutModel
 		{
+			public string Title { get; set; }
 			public string Name { get; set; }
 			public string Content { get; set; }
 		}

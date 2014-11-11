@@ -373,10 +373,13 @@
     <Compile Include="Application\Infrastructure\StringExtensions.cs" />
     <Compile Include="Application\Infrastructure\ThemeableRazorViewEngine.cs" />
     <Compile Include="Application\Jobs\Backup.cs" />
+    <Compile Include="Application\Service\Internal\AboutService.cs" />
+    <Compile Include="Application\Service\Entity\About.cs" />
     <Compile Include="Application\Service\Entity\Config.cs" />
     <Compile Include="Application\Service\Entity\Entry.cs" />
     <Compile Include="Application\Service\Entity\Theme.cs" />
     <Compile Include="Application\Service\Entity\User.cs" />
+    <Compile Include="Application\Service\IAboutService.cs" />
     <Compile Include="Application\Service\ICloudService.cs" />
     <Compile Include="Application\Service\IConfigService.cs" />
     <Compile Include="Application\Service\IEntryService.cs" />
@@ -390,7 +393,7 @@
     <Compile Include="Application\Service\IServices.cs" />
     <Compile Include="Application\Service\IThemeService.cs" />
     <Compile Include="Application\Service\IUserService.cs" />
-    <Compile Include="Application\Service\MessageService.cs" />
+    <Compile Include="Application\Service\IMessageService.cs" />
     <Compile Include="Application\Storage\Azure\AzureBlobRepository.cs" />
     <Compile Include="Application\Storage\Azure\AzureExtensions.cs" />
     <Compile Include="Application\Storage\IRepository.cs" />
@@ -459,9 +462,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\About\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>

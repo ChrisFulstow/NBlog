@@ -22,7 +22,7 @@ namespace NBlog.Web
 {
 	public class ContainerConfig
 	{
-		private static readonly string RepositoryType = ConfigurationManager.AppSettings["RepositoryType"];
+		private static readonly string _repositoryType = ConfigurationManager.AppSettings["RepositoryType"];
 
 		public static void SetUpContainer()
 		{
@@ -95,14 +95,17 @@ namespace NBlog.Web
 			});
 
 			builder.RegisterControllers(typeof(ContainerConfig).Assembly)
-				.WithParameter(GetResolvedParameterByName<IRepository>(RepositoryType));
+				.WithParameter(GetResolvedParameterByName<IRepository>(_repositoryType));
 			builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
 
 			builder.RegisterType<ConfigService>().As<IConfigService>().InstancePerLifetimeScope()
-				.WithParameter(GetResolvedParameterByName<IRepository>(RepositoryType));
+				.WithParameter(GetResolvedParameterByName<IRepository>(_repositoryType));
 
 			builder.RegisterType<EntryService>().As<IEntryService>().InstancePerLifetimeScope()
-				.WithParameter(GetResolvedParameterByName<IRepository>(RepositoryType));
+				.WithParameter(GetResolvedParameterByName<IRepository>(_repositoryType));
+
+			builder.RegisterType<AboutService>().As<IAboutService>().InstancePerLifetimeScope()
+				.WithParameter(GetResolvedParameterByName<IRepository>(_repositoryType));
 
 			builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
 			builder.RegisterType<MessageService>().As<IMessageService>().InstancePerLifetimeScope();

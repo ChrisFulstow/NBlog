@@ -1,5 +1,6 @@
 ﻿using NBlog.Web.Application.Infrastructure;
 using NBlog.Web.Application.Service;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace NBlog.Web.Controllers
@@ -13,11 +14,12 @@ namespace NBlog.Web.Controllers
 		public ActionResult Index()
 		{
 			var model = new AboutModel();
-			if (Services.Entry.Exists("about"))
+			var about = Services.About.GetAll().FirstOrDefault();
+			if (about != null)
 			{
-				var about = Services.Entry.GetBySlug("about");
-				model.Name = about.Author;
-				model.Content = about.Markdown;
+				model.Name = about.Name;
+				model.Title = about.Title;
+				model.Content = about.Content;
 			}
 
 			return View(model);
