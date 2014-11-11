@@ -5,10 +5,19 @@
     {
         <div class="admin-box text-links">
             Admin:
-            @Html.ActionLink("Edit", "Edit", "About", new { title = Model.Title }, null)
+            @if (string.IsNullOrWhiteSpace(Model.Title))
+            {
+                @Html.ActionLink("Add", "Edit", "About", new { title = Model.Title }, null);
+            }
+            else
+            {
+                @Html.ActionLink("Edit", "Edit", "About", new { title = Model.Title }, null);
+                @Html.Raw(" | ");
+                @Html.ActionLink("Delete", "Delete", "About", new { title = Model.Title }, null);
+            }
         </div>
     }
-    
+
     <h1>@Model.Title</h1>
 
     <h2>@Model.Name</h2>
@@ -17,6 +26,8 @@
         @Html.Safe(@Model.Content)
     </div>
 </article>
+
+
 
 @section Scripts {
     <script>

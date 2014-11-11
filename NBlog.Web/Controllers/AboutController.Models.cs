@@ -27,5 +27,10 @@ namespace NBlog.Web.Controllers
 			[Required(ErrorMessage = "Please enter some content.")]
 			public string Content { get; set; }
 		}
+
+		public class DeleteModel : LayoutModel
+		{
+			public string Title { get; set; }
+		}
 	}
 }

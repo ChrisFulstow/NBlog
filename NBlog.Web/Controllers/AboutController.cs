@@ -65,5 +65,21 @@ namespace NBlog.Web.Controllers
 
 			return RedirectToAction("Index", "About");
 		}
+
+		[AdminOnly]
+		[HttpGet]
+		public ActionResult Delete(string title)
+		{
+			return View(new DeleteModel() { Title = title });
+		}
+
+		[AdminOnly]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Delete(DeleteModel model)
+		{
+			Services.About.Delete(model.Title);
+			return RedirectToAction("Index", "About");
+		}
 	}
 }
