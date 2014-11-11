@@ -54,7 +54,7 @@ namespace NBlog.Web.Controllers
 				return View(model);
 			}
 
-			var about = Services.About.GetByTitle(model.Title);
+			var about = Services.About.Exists(model.Title) ? Services.About.GetByTitle(model.Title) : new About();
 			if (about != null)
 			{
 				about.Name = model.Name;
