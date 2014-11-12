@@ -1,5 +1,8 @@
 ﻿@model AboutController.ShowModel
-
+@{
+    var Title = string.IsNullOrWhiteSpace(Model.Title) ? "About" : Model.Title;
+    ViewBag.Title = string.Format("{0} | {1}", Model.Config.Heading, Title);
+}
 <article class="entry">
     @if (Model.User.IsAdmin)
     {
@@ -18,22 +21,23 @@
         </div>
     }
 
-    <h1>@Model.Title</h1>
+    <h1>@Title</h1>
 
     <h2>@Model.Name</h2>
 
-    @if (!string.IsNullOrWhiteSpace(Model.Content) && !string.IsNullOrWhiteSpace(Model.ImageUrl))
-    {
-        <section>
+    
+    <section>
+        @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+        {
             <div class="image-box">
                 <img class="about-image" src="@Html.Safe(@Model.ImageUrl)">
             </div>
-            <div>
-                @Html.Safe(@Model.Content)
-            </div>
-            <div class="clear-box"></div>
-        </section>
-    }
+        }
+        <div>
+            @Html.Safe(@Model.Content)
+        </div>
+        <div class="clear-box"></div>
+    </section>
 </article>
 
 

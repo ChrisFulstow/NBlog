@@ -64,11 +64,14 @@ namespace NBlog.Web.Controllers
 				about.Content = model.Content;
 				// Save the image on in server filesystem
 				// TODO: Save images in blob storage
-				var imageDir = "/Resources/Images";
-				var relativeFilePath = Path.Combine(imageDir, Path.GetFileName(model.Image.FileName));
-				var imageUrl = Server.UrlPathEncode(relativeFilePath);
-				model.Image.SaveAs(Server.MapPath(relativeFilePath));
-				about.ImageUrl = imageUrl;
+				if (model.Image != null)
+				{
+					var imageDir = "/Resources/Images";
+					var relativeFilePath = Path.Combine(imageDir, Path.GetFileName(model.Image.FileName));
+					var imageUrl = Server.UrlPathEncode(relativeFilePath);
+					model.Image.SaveAs(Server.MapPath(relativeFilePath));
+					about.ImageUrl = imageUrl;
+				}
 				Services.About.Save(about);
 			}
 
