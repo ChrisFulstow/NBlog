@@ -8,7 +8,7 @@
 
     <h1>@Heading</h1>
 
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Edit", "About", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
 
@@ -22,6 +22,11 @@
             @Html.LabelFor(m => m.Name)<br />
             @Html.EditorFor(m => m.Name)
             @Html.ValidationMessageFor(m => m.Name)
+        </div>
+        
+        <div class="field short">
+            @Html.LabelFor(m => m.Image)<br />
+            @Html.TextBoxFor(m => m.Image, new { type = "file", accept = "image/*" })
         </div>
 
         <div class="field long markdown">

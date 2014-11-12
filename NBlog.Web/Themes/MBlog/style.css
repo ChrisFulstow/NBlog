@@ -125,3 +125,7 @@ a.button:link:hover { color:#212121 }
     color: #aa0000;
     display: inline;
 }
+
+.image-box { float: left; margin-right:25px; margin-bottom:25px; }
+.about-image { height: 150px; }
+.clear-box { clear: both; }

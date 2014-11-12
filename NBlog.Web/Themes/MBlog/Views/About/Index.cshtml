@@ -13,7 +13,7 @@
             {
                 @Html.ActionLink("Edit", "Edit", "About", new { title = Model.Title }, null);
                 @Html.Raw(" | ");
-                @Html.ActionLink("Delete", "Delete", "About", new { title = Model.Title }, null);
+                @Html.ActionLink("Delete", "Delete", "About", new { title = Model.Title, imageUrl = Model.ImageUrl }, null);
             }
         </div>
     }
@@ -22,9 +22,18 @@
 
     <h2>@Model.Name</h2>
 
-    <div class="text-links">
-        @Html.Safe(@Model.Content)
-    </div>
+    @if (!string.IsNullOrWhiteSpace(Model.Content) && !string.IsNullOrWhiteSpace(Model.ImageUrl))
+    {
+        <section>
+            <div class="image-box">
+                <img class="about-image" src="@Html.Safe(@Model.ImageUrl)">
+            </div>
+            <div>
+                @Html.Safe(@Model.Content)
+            </div>
+            <div class="clear-box"></div>
+        </section>
+    }
 </article>
 
 
