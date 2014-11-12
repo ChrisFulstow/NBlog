@@ -9,7 +9,8 @@
 			IMessageService messageService,
 			ICloudService cloudService,
 			IThemeService themeService,
-			IAboutService aboutService)
+			IAboutService aboutService,
+			IImageService imageService)
 		{
 			Entry = entryService;
 			User = userService;
@@ -18,6 +19,7 @@
 			Cloud = cloudService;
 			Theme = themeService;
 			About = aboutService;
+			Image = imageService;
 		}
 
 		public IEntryService Entry { get; private set; }
@@ -27,5 +29,6 @@
 		public ICloudService Cloud { get; private set; }
 		public IThemeService Theme { get; private set; }
 		public IAboutService About { get; private set; }
+		public IImageService Image { get; private set; }
 	}
 }

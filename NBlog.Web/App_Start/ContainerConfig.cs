@@ -108,6 +108,9 @@ namespace NBlog.Web
 			builder.RegisterType<AboutService>().As<IAboutService>().InstancePerLifetimeScope()
 				.WithParameter(GetResolvedParameterByName<IRepository>(_repositoryType));
 
+			builder.RegisterType<ImageService>().As<IImageService>().InstancePerLifetimeScope()
+				.WithParameter(GetResolvedParameterByName<IRepository>(_repositoryType));
+
 			builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
 			builder.RegisterType<MessageService>().As<IMessageService>().InstancePerLifetimeScope();
 			builder.RegisterType<ThemeService>().As<IThemeService>().InstancePerLifetimeScope();

@@ -9,5 +9,6 @@
 		ICloudService Cloud { get; }
 		IThemeService Theme { get; }
 		IAboutService About { get; }
+		IImageService Image { get; }
 	}
 }

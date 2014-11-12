@@ -1,6 +1,7 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using NBlog.Web.Application.Infrastructure;
+using NBlog.Web.Application.Service.Entity;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,14 @@ namespace NBlog.Web.Application.Storage.Azure
 
 		private string GetItemPath<TEntity>(string key)
 		{
-			return String.Format("{0}/{1}.json", typeof(TEntity).Name, key);
+			if (typeof(TEntity).Equals(typeof(Image)))
+			{
+				return string.Format("{0}/{1}", typeof(TEntity).Name, key);
+			}
+			else
+			{
+				return string.Format("{0}/{1}.json", typeof(TEntity).Name, key);
+			}
 		}
 
 		public TEntity Single<TEntity>(object key) where TEntity : class, new()
@@ -48,9 +56,19 @@ namespace NBlog.Web.Application.Storage.Azure
 			{
 				throw new FileNotFoundException("The item '" + relativePath + "' could not be found. Container: " + _container.Name + " " + _container.Uri);
 			}
-			string json = blob.DownloadText();
-			var item = JsonConvert.DeserializeObject<TEntity>(json);
-			return item;
+			if (typeof(TEntity).Equals(typeof(Image)))
+			{
+				var image = new Image();
+				image.Path = blob.Uri.AbsoluteUri;
+				var item = image as TEntity;
+				return item;
+			}
+			else
+			{
+				string json = blob.DownloadText();
+				var item = JsonConvert.DeserializeObject<TEntity>(json);
+				return item;
+			}
 		}
 
 		public IEnumerable<TEntity> All<TEntity>() where TEntity : class, new()
@@ -63,10 +81,19 @@ namespace NBlog.Web.Application.Storage.Azure
 			{
 				string relativePath = string.Format("{0}{1}", blob.Parent.Prefix, Uri.UnescapeDataString(blob.Uri.Segments.LastOrDefault()));
 				ICloudBlob b = _container.GetBlockBlobReference(relativePath);
-				string json = b.DownloadText();
-
-				var entity = JsonConvert.DeserializeObject<TEntity>(json);
-				list.Add(entity);
+				if (typeof(TEntity).Equals(typeof(Image)))
+				{
+					var image = new Image();
+					image.Path = blob.Uri.AbsoluteUri;
+					var item = image as TEntity;
+					list.Add(item);
+				}
+				else
+				{
+					string json = b.DownloadText();
+					var entity = JsonConvert.DeserializeObject<TEntity>(json);
+					list.Add(entity);
+				}
 			}
 
 			return list;
@@ -81,11 +108,19 @@ namespace NBlog.Web.Application.Storage.Azure
 
 		public void Save<TEntity>(TEntity item) where TEntity : class, new()
 		{
-			var json = JsonConvert.SerializeObject(item, Formatting.Indented);
 			var key = _keys.GetKeyValue(item).ToString();
 			string relativePath = GetItemPath<TEntity>(key);
 			ICloudBlob blob = _container.GetBlockBlobReference(relativePath);
-			blob.UploadText(json);
+			if (typeof(TEntity).Equals(typeof(Image)))
+			{
+				var image = item as Image;
+				blob.UploadFromStream(image.File.InputStream);
+			}
+			else
+			{
+				var json = JsonConvert.SerializeObject(item, Formatting.Indented);
+				blob.UploadText(json);
+			}
 		}
 
 		public void Delete<TEntity>(object key) where TEntity : class, new()
