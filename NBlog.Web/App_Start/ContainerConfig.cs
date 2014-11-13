@@ -22,8 +22,8 @@ namespace NBlog.Web
 {
 	public class ContainerConfig
 	{
-		private static readonly string _jsonRepositoryType = ConfigurationManager.AppSettings["JsonRepositoryType"];
-		private static readonly string _imagesRepositoryType = ConfigurationManager.AppSettings["ImagesRepositoryType"];
+		public static readonly string JsonRepositoryType = ConfigurationManager.AppSettings["JsonRepositoryType"];
+		private static readonly string ImagesRepositoryType = ConfigurationManager.AppSettings["ImagesRepositoryType"];
 
 		public static void SetUpContainer()
 		{
@@ -98,20 +98,20 @@ namespace NBlog.Web
 			});
 
 			builder.RegisterControllers(typeof(ContainerConfig).Assembly)
-				.WithParameter(GetResolvedParameterByName<IRepository>(_jsonRepositoryType));
+				.WithParameter(GetResolvedParameterByName<IRepository>(JsonRepositoryType));
 			builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
 
 			builder.RegisterType<ConfigService>().As<IConfigService>().InstancePerLifetimeScope()
-				.WithParameter(GetResolvedParameterByName<IRepository>(_jsonRepositoryType));
+				.WithParameter(GetResolvedParameterByName<IRepository>(JsonRepositoryType));
 
 			builder.RegisterType<EntryService>().As<IEntryService>().InstancePerLifetimeScope()
-				.WithParameter(GetResolvedParameterByName<IRepository>(_jsonRepositoryType));
+				.WithParameter(GetResolvedParameterByName<IRepository>(JsonRepositoryType));
 
 			builder.RegisterType<AboutService>().As<IAboutService>().InstancePerLifetimeScope()
-				.WithParameter(GetResolvedParameterByName<IRepository>(_jsonRepositoryType));
+				.WithParameter(GetResolvedParameterByName<IRepository>(JsonRepositoryType));
 
 			builder.RegisterType<ImageService>().As<IImageService>().InstancePerLifetimeScope()
-				.WithParameter(GetResolvedParameterByName<IRepository>(_imagesRepositoryType));
+				.WithParameter(GetResolvedParameterByName<IRepository>(ImagesRepositoryType));
 
 			builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
 			builder.RegisterType<MessageService>().As<IMessageService>().InstancePerLifetimeScope();

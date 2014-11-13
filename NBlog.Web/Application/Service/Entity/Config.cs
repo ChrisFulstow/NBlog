@@ -2,7 +2,6 @@
 using PetaPoco;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 
 namespace NBlog.Web.Application.Service.Entity
@@ -10,7 +9,7 @@ namespace NBlog.Web.Application.Service.Entity
 	[PrimaryKey("Id")]
 	public class Config
 	{
-		private readonly bool isSqlRepositoryType = ConfigurationManager.AppSettings["RepositoryType"].Equals("sql", StringComparison.InvariantCultureIgnoreCase);
+		private readonly bool isSqlRepositoryType = ContainerConfig.JsonRepositoryType.Equals("sql", StringComparison.InvariantCultureIgnoreCase);
 
 		[Column("Admins")]
 		public string AdminsCsv { get; set; }
