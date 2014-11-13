@@ -14,6 +14,7 @@ using Quartz;
 using Quartz.Impl;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
@@ -72,6 +73,7 @@ namespace NBlog.Web
 			repositoryKeys.Add<About>(a => a.Title);
 			repositoryKeys.Add<Config>(c => c.Site);
 			repositoryKeys.Add<User>(u => u.Username);
+			repositoryKeys.Add<Image>(i => Path.GetFileName(i.File.FileName));
 
 			builder.RegisterType<JsonRepository>().Named<IRepository>("json").InstancePerLifetimeScope().WithParameters(new[] {
 				new NamedParameter("keys", repositoryKeys),

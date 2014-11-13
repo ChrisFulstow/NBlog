@@ -10,7 +10,6 @@
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.Title)
-        @Html.HiddenFor(m => m.ImageUrl)
         <input type="submit" value="Yes" />
         <input type="button" value="No" id="no" onclick="window.history.back()" />
     }

@@ -2,6 +2,7 @@
 using NBlog.Web.Application.Infrastructure;
 using NBlog.Web.Application.Service;
 using NBlog.Web.Application.Service.Entity;
+using System;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
@@ -57,32 +58,28 @@ namespace NBlog.Web.Controllers
 			}
 
 			var about = Services.About.Exists(model.Title) ? Services.About.GetByTitle(model.Title) : new About();
-			if (about != null)
+			about.Name = model.Name;
+			about.Title = model.Title;
+			about.Content = model.Content;
+			// Save image in blob storage
+			if (model.Image != null)
 			{
-				about.Name = model.Name;
-				about.Title = model.Title;
-				about.Content = model.Content;
-				// Save the image on in server filesystem
-				// TODO: Save images in blob storage
-				if (model.Image != null)
-				{
-					var imageDir = "/Resources/Images";
-					var relativeFilePath = Path.Combine(imageDir, Path.GetFileName(model.Image.FileName));
-					var imageUrl = Server.UrlPathEncode(relativeFilePath);
-					model.Image.SaveAs(Server.MapPath(relativeFilePath));
-					about.ImageUrl = imageUrl;
-				}
-				Services.About.Save(about);
+				var imageFileName = Path.GetFileName(model.Image.FileName);
+				var image = Services.Image.Exists(imageFileName) ? Services.Image.GetByFileName(imageFileName) : new Image();
+				image.File = model.Image;
+				Services.Image.Save(image);
+				about.ImageUrl = Services.Image.GetByFileName(imageFileName).Url;
 			}
+			Services.About.Save(about);
 
 			return RedirectToAction("Index", "About");
 		}
 
 		[AdminOnly]
 		[HttpGet]
-		public ActionResult Delete(string title, string imageUrl)
+		public ActionResult Delete(string title)
 		{
-			return View(new DeleteModel() { Title = title, ImageUrl = imageUrl });
+			return View(new DeleteModel() { Title = title });
 		}
 
 		[AdminOnly]
@@ -90,8 +87,16 @@ namespace NBlog.Web.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Delete(DeleteModel model)
 		{
+			var imageUrl = Services.About.GetByTitle(model.Title).ImageUrl;
+			if (!string.IsNullOrWhiteSpace(imageUrl))
+			{
+				Uri imageUri = new Uri(imageUrl);
+				if (imageUri.IsFile)
+				{
+					Services.Image.Delete(Path.GetFileName(imageUri.LocalPath));
+				}
+			}
 			Services.About.Delete(model.Title);
-			System.IO.File.Delete(Server.MapPath(model.ImageUrl));
 			return RedirectToAction("Index", "About");
 		}
 	}

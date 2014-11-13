@@ -36,7 +36,6 @@ namespace NBlog.Web.Controllers
 		public class DeleteModel : LayoutModel
 		{
 			public string Title { get; set; }
-			public string ImageUrl { get; set; }
 		}
 	}
 }

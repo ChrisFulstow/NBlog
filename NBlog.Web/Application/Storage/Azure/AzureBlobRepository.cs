@@ -15,7 +15,8 @@ namespace NBlog.Web.Application.Storage.Azure
 	{
 		private readonly RepositoryKeys _keys;
 		private readonly HttpTenantSelector _tenantSelector;
-		private readonly CloudBlobContainer _container;
+		private readonly CloudBlobContainer _jsonContainer;
+		private readonly CloudBlobContainer _imagesContainer;
 
 		public AzureBlobRepository(RepositoryKeys keys, HttpTenantSelector tenantSelector)
 		{
@@ -25,7 +26,10 @@ namespace NBlog.Web.Application.Storage.Azure
 			var storage = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureBlob"].ConnectionString);
 			var blobClient = storage.CreateCloudBlobClient();
 			string name = GetContainerSafeName(tenantSelector);
-			_container = blobClient.GetContainerReference(name);
+			_jsonContainer = blobClient.GetContainerReference(ConfigurationManager.AppSettings["JsonBlobContainerName"]);
+			_jsonContainer.CreateIfNotExists(BlobContainerPublicAccessType.Off);
+			_imagesContainer = blobClient.GetContainerReference(ConfigurationManager.AppSettings["ImagesBlobContainerName"]);
+			_imagesContainer.CreateIfNotExists(BlobContainerPublicAccessType.Blob);
 		}
 
 		private string GetContainerSafeName(HttpTenantSelector selector)
@@ -40,31 +44,37 @@ namespace NBlog.Web.Application.Storage.Azure
 		{
 			if (typeof(TEntity).Equals(typeof(Image)))
 			{
-				return string.Format("{0}/{1}", typeof(TEntity).Name, key);
+				return string.Format("{0}/{1}", typeof(TEntity).Name.ToLower(), key);
 			}
 			else
 			{
-				return string.Format("{0}/{1}.json", typeof(TEntity).Name, key);
+				return string.Format("{0}/{1}.json", typeof(TEntity).Name.ToLower(), key);
 			}
 		}
 
 		public TEntity Single<TEntity>(object key) where TEntity : class, new()
 		{
 			string relativePath = GetItemPath<TEntity>(key.ToString());
-			ICloudBlob blob = _container.GetBlockBlobReference(relativePath);
-			if (!blob.Exists())
-			{
-				throw new FileNotFoundException("The item '" + relativePath + "' could not be found. Container: " + _container.Name + " " + _container.Uri);
-			}
+			ICloudBlob blob = null;
 			if (typeof(TEntity).Equals(typeof(Image)))
 			{
+				blob = _imagesContainer.GetBlockBlobReference(relativePath);
+				if (!blob.Exists())
+				{
+					throw new FileNotFoundException("The item '" + relativePath + "' could not be found. Container: " + _imagesContainer.Name + " " + _imagesContainer.Uri);
+				}
 				var image = new Image();
-				image.Path = blob.Uri.AbsoluteUri;
+				image.Url = blob.Uri.AbsoluteUri;
 				var item = image as TEntity;
 				return item;
 			}
 			else
 			{
+				blob = _jsonContainer.GetBlockBlobReference(relativePath);
+				if (!blob.Exists())
+				{
+					throw new FileNotFoundException("The item '" + relativePath + "' could not be found. Container: " + _jsonContainer.Name + " " + _jsonContainer.Uri);
+				}
 				string json = blob.DownloadText();
 				var item = JsonConvert.DeserializeObject<TEntity>(json);
 				return item;
@@ -74,22 +84,32 @@ namespace NBlog.Web.Application.Storage.Azure
 		public IEnumerable<TEntity> All<TEntity>() where TEntity : class, new()
 		{
 			var list = new List<TEntity>();
-			var directory = _container.GetDirectoryReference(typeof(TEntity).Name);
+			CloudBlobDirectory directory = null;
+			if (typeof(TEntity).Equals(typeof(Image)))
+			{
+				directory = _imagesContainer.GetDirectoryReference(typeof(TEntity).Name.ToLower());
+			}
+			else
+			{
+				directory = _jsonContainer.GetDirectoryReference(typeof(TEntity).Name.ToLower());
+			}
 			var blobs = directory.ListBlobs();
 
 			foreach (var blob in blobs)
 			{
 				string relativePath = string.Format("{0}{1}", blob.Parent.Prefix, Uri.UnescapeDataString(blob.Uri.Segments.LastOrDefault()));
-				ICloudBlob b = _container.GetBlockBlobReference(relativePath);
+				ICloudBlob b = null;
 				if (typeof(TEntity).Equals(typeof(Image)))
 				{
+					b = _imagesContainer.GetBlockBlobReference(relativePath);
 					var image = new Image();
-					image.Path = blob.Uri.AbsoluteUri;
+					image.Url = blob.Uri.AbsoluteUri;
 					var item = image as TEntity;
 					list.Add(item);
 				}
 				else
 				{
+					b = _jsonContainer.GetBlockBlobReference(relativePath);
 					string json = b.DownloadText();
 					var entity = JsonConvert.DeserializeObject<TEntity>(json);
 					list.Add(entity);
@@ -102,7 +122,15 @@ namespace NBlog.Web.Application.Storage.Azure
 		public bool Exists<TEntity>(object key) where TEntity : class, new()
 		{
 			string relativePath = GetItemPath<TEntity>(key.ToString());
-			ICloudBlob blob = _container.GetBlockBlobReference(relativePath);
+			ICloudBlob blob = null;
+			if (typeof(TEntity).Equals(typeof(Image)))
+			{
+				blob = _imagesContainer.GetBlockBlobReference(relativePath);
+			}
+			else
+			{
+				blob = _jsonContainer.GetBlockBlobReference(relativePath);
+			}
 			return blob.Exists();
 		}
 
@@ -110,14 +138,16 @@ namespace NBlog.Web.Application.Storage.Azure
 		{
 			var key = _keys.GetKeyValue(item).ToString();
 			string relativePath = GetItemPath<TEntity>(key);
-			ICloudBlob blob = _container.GetBlockBlobReference(relativePath);
+			ICloudBlob blob = null;
 			if (typeof(TEntity).Equals(typeof(Image)))
 			{
+				blob = _imagesContainer.GetBlockBlobReference(relativePath);
 				var image = item as Image;
 				blob.UploadFromStream(image.File.InputStream);
 			}
 			else
 			{
+				blob = _jsonContainer.GetBlockBlobReference(relativePath);
 				var json = JsonConvert.SerializeObject(item, Formatting.Indented);
 				blob.UploadText(json);
 			}
@@ -126,7 +156,15 @@ namespace NBlog.Web.Application.Storage.Azure
 		public void Delete<TEntity>(object key) where TEntity : class, new()
 		{
 			string relativePath = GetItemPath<TEntity>(key.ToString());
-			ICloudBlob blob = _container.GetBlockBlobReference(relativePath);
+			ICloudBlob blob = null;
+			if (typeof(TEntity).Equals(typeof(Image)))
+			{
+				blob = _imagesContainer.GetBlockBlobReference(relativePath);
+			}
+			else
+			{
+				blob = _jsonContainer.GetBlockBlobReference(relativePath);
+			}
 			blob.Delete();
 		}
 	}
