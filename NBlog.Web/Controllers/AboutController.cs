@@ -91,10 +91,7 @@ namespace NBlog.Web.Controllers
 			if (!string.IsNullOrWhiteSpace(imageUrl))
 			{
 				Uri imageUri = new Uri(imageUrl);
-				if (imageUri.IsFile)
-				{
-					Services.Image.Delete(Path.GetFileName(imageUri.LocalPath));
-				}
+				Services.Image.Delete(Path.GetFileName(imageUri.LocalPath));
 			}
 			Services.About.Delete(model.Title);
 			return RedirectToAction("Index", "About");
