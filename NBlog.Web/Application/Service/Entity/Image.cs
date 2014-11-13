@@ -1,10 +1,11 @@
-﻿using System.Web;
+﻿using System.IO;
 
 namespace NBlog.Web.Application.Service.Entity
 {
 	public class Image
 	{
-		public HttpPostedFileBase File { get; set; }
+		public string FileName { get; set; }
 		public string Url { get; set; }
+		public Stream StreamToUpload { get; set; }
 	}
 }

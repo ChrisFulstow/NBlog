@@ -1,4 +1,5 @@
-﻿using MarkdownSharp;
+﻿using ImageResizer;
+using MarkdownSharp;
 using NBlog.Web.Application.Infrastructure;
 using NBlog.Web.Application.Service;
 using NBlog.Web.Application.Service.Entity;
@@ -61,13 +62,21 @@ namespace NBlog.Web.Controllers
 			about.Name = model.Name;
 			about.Title = model.Title;
 			about.Content = model.Content;
-			// Save image in blob storage
+			// Save the image in blob storage
 			if (model.Image != null)
 			{
 				var imageFileName = Path.GetFileName(model.Image.FileName);
-				var image = Services.Image.Exists(imageFileName) ? Services.Image.GetByFileName(imageFileName) : new Image();
-				image.File = model.Image;
-				Services.Image.Save(image);
+				var image = Services.Image.Exists(imageFileName) ? Services.Image.GetByFileName(imageFileName) : new NBlog.Web.Application.Service.Entity.Image();
+				// Scale the image before saving
+				using (var scaledImageStream = new MemoryStream())
+				{
+					var settings = new ResizeSettings(200, 150, FitMode.None, "jpg");
+					ImageBuilder.Current.Build(model.Image.InputStream, scaledImageStream, settings);
+					image.FileName = imageFileName;
+					image.StreamToUpload = scaledImageStream;
+					Services.Image.Save(image);
+				}
+				// Get the url to link to the About Entity
 				about.ImageUrl = Services.Image.GetByFileName(imageFileName).Url;
 			}
 			Services.About.Save(about);

@@ -143,7 +143,9 @@ namespace NBlog.Web.Application.Storage.Azure
 			{
 				blob = _imagesContainer.GetBlockBlobReference(relativePath);
 				var image = item as Image;
-				blob.UploadFromStream(image.File.InputStream);
+				// Ensure position is reset so upload occurs successfully
+				image.StreamToUpload.Seek(0, SeekOrigin.Begin);
+				blob.UploadFromStream(image.StreamToUpload);
 			}
 			else
 			{
