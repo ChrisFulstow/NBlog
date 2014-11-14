@@ -464,6 +464,9 @@
     <Content Include="Themes\MBlog\Views\About\Index.cshtml" />
     <Content Include="Themes\MBlog\Views\About\Edit.cshtml" />
     <Content Include="Themes\MBlog\Views\About\Delete.cshtml" />
+    <Content Include="Themes\Default\Views\About\Delete.cshtml" />
+    <Content Include="Themes\Default\Views\About\Edit.cshtml" />
+    <Content Include="Themes\Default\Views\About\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

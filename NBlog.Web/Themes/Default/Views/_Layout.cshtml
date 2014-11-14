@@ -60,6 +60,7 @@
                     @TwitterLink(@Model.Config.TwitterUsername)
                     @Html.ActionLink("RSS", "Index", "Feed") |
                     @Html.ActionLink("Contact", "Index", "Contact") |
+                    @Html.ActionLink("About", "Index", "About") |
                     @(Model.User.IsAuthenticated ? Html.ActionLink("Sign Out", "Logout", "Authentication") : Html.ActionLink("Sign In", "Login", "Authentication"))
                 </div>
                 <div id="search">
