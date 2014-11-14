@@ -57,6 +57,7 @@ namespace NBlog.Web.Controllers
 				return View(model);
 			}
 
+			// Get the About entity if it exists, so ImageUrl doesn't get overriden to null if no image is selected and user is saving in json instead of sql.
 			var about = Services.About.Exists(model.Title) ? Services.About.GetByTitle(model.Title) : new About();
 			about.Name = model.Name;
 			about.Title = model.Title;
@@ -65,7 +66,7 @@ namespace NBlog.Web.Controllers
 			if (model.Image != null)
 			{
 				var imageFileName = Path.GetFileName(model.Image.FileName);
-				var image = Services.Image.Exists(imageFileName) ? Services.Image.GetByFileName(imageFileName) : new NBlog.Web.Application.Service.Entity.Image();
+				var image = new NBlog.Web.Application.Service.Entity.Image();
 				// Scale the image before saving
 				using (var scaledImageStream = new MemoryStream())
 				{
