@@ -136,7 +136,7 @@ namespace NBlog.Web.Application.Storage.Sql
 
 		private string[] GetSQLScriptFiles()
 		{
-			Directory.SetCurrentDirectory(string.Format("{0}../NBlog.Database.SQL", HttpContext.Current.Server.MapPath("/")));
+			Directory.SetCurrentDirectory(string.Format("{0}/SQL", HttpContext.Current.Server.MapPath("/")));
 			return Directory.GetFiles("Tables/");
 		}
 

@@ -19,7 +19,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <NuGetPackageImportStamp>a0eeb11f</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>8644e64b</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -235,6 +235,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\NBlog.Database.SQL\Tables\dbo.About.sql">
+      <Link>SQL\Tables\dbo.About.sql</Link>
+    </Content>
+    <Content Include="..\NBlog.Database.SQL\Tables\dbo.Cloud.sql">
+      <Link>SQL\Tables\dbo.Cloud.sql</Link>
+    </Content>
+    <Content Include="..\NBlog.Database.SQL\Tables\dbo.Config.sql">
+      <Link>SQL\Tables\dbo.Config.sql</Link>
+    </Content>
+    <Content Include="..\NBlog.Database.SQL\Tables\dbo.ContactForm.sql">
+      <Link>SQL\Tables\dbo.ContactForm.sql</Link>
+    </Content>
+    <Content Include="..\NBlog.Database.SQL\Tables\dbo.Disqus.sql">
+      <Link>SQL\Tables\dbo.Disqus.sql</Link>
+    </Content>
+    <Content Include="..\NBlog.Database.SQL\Tables\dbo.Entry.sql">
+      <Link>SQL\Tables\dbo.Entry.sql</Link>
+    </Content>
     <Content Include="Content\fancybox\blank.gif" />
     <Content Include="Content\fancybox\fancybox_buttons.png" />
     <Content Include="Content\fancybox\fancybox_loading%402x.gif" />
@@ -506,7 +524,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+    <Error Condition="!Exists('..\packages\MSBuild.WebApplication.CopyContentLinkedFiles.1.0.0\build\MSBuild.WebApplication.CopyContentLinkedFiles.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSBuild.WebApplication.CopyContentLinkedFiles.1.0.0\build\MSBuild.WebApplication.CopyContentLinkedFiles.targets'))" />
   </Target>
+  <Import Project="..\packages\MSBuild.WebApplication.CopyContentLinkedFiles.1.0.0\build\MSBuild.WebApplication.CopyContentLinkedFiles.targets" Condition="Exists('..\packages\MSBuild.WebApplication.CopyContentLinkedFiles.1.0.0\build\MSBuild.WebApplication.CopyContentLinkedFiles.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
