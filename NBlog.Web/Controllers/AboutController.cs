@@ -36,8 +36,7 @@ namespace NBlog.Web.Controllers
 		public ActionResult Edit(string title)
 		{
 			var model = new EditModel();
-			var about = !string.IsNullOrEmpty(title) ? Services.About.GetByTitle(title) :
-				Services.About.GetAll().FirstOrDefault();
+			var about = !string.IsNullOrEmpty(title) ? Services.About.GetByTitle(title) : Services.About.GetAll().FirstOrDefault();
 			if (about != null)
 			{
 				model.Title = about.Title;

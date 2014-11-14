@@ -252,6 +252,7 @@
     <Content Include="Content\Prettify\Themes\sunburst.css" />
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
+    <Content Include="Schemas\dbo.About.sql" />
     <Content Include="Schemas\dbo.Cloud.sql" />
     <Content Include="Schemas\dbo.Config.sql" />
     <Content Include="Schemas\dbo.ContactForm.sql" />

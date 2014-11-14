@@ -37,7 +37,7 @@ namespace NBlog.Web.Application.Storage.Sql
 		{
 			var keyName = _keys.GetKeyName<TEntity>();
 			TEntity entity = null;
-			// Custom query for settings because due the model schema, it traverses multiple tables
+			// Custom query that traverses multiple tables for the Config settings due to the model schema
 			if (typeof(TEntity).Equals(typeof(Config)))
 			{
 				entity = _db.Query<TEntity, Config.CloudConfig, Config.ContactFormConfig, Config.DisqusConfig>(
