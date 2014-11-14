@@ -93,8 +93,7 @@ namespace NBlog.Web
 			});
 
 			builder.RegisterType<AzureBlobRepository>().Named<IRepository>("azureblob").InstancePerRequest().WithParameters(new[] {
-				new NamedParameter("keys", repositoryKeys),
-				new NamedParameter("tenantSelector", new HttpTenantSelector())
+				new NamedParameter("keys", repositoryKeys)
 			});
 
 			builder.RegisterControllers(typeof(ContainerConfig).Assembly)

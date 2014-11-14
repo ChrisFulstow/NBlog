@@ -1,6 +1,5 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
-using NBlog.Web.Application.Infrastructure;
 using NBlog.Web.Application.Service.Entity;
 using Newtonsoft.Json;
 using System;
@@ -14,30 +13,19 @@ namespace NBlog.Web.Application.Storage.Azure
 	public class AzureBlobRepository : IRepository
 	{
 		private readonly RepositoryKeys _keys;
-		private readonly HttpTenantSelector _tenantSelector;
 		private readonly CloudBlobContainer _jsonContainer;
 		private readonly CloudBlobContainer _imagesContainer;
 
-		public AzureBlobRepository(RepositoryKeys keys, HttpTenantSelector tenantSelector)
+		public AzureBlobRepository(RepositoryKeys keys)
 		{
 			_keys = keys;
-			_tenantSelector = tenantSelector;
 
 			var storage = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureBlob"].ConnectionString);
 			var blobClient = storage.CreateCloudBlobClient();
-			string name = GetContainerSafeName(tenantSelector);
 			_jsonContainer = blobClient.GetContainerReference(ConfigurationManager.AppSettings["JsonBlobContainerName"]);
 			_jsonContainer.CreateIfNotExists(BlobContainerPublicAccessType.Off);
 			_imagesContainer = blobClient.GetContainerReference(ConfigurationManager.AppSettings["ImagesBlobContainerName"]);
 			_imagesContainer.CreateIfNotExists(BlobContainerPublicAccessType.Blob);
-		}
-
-		private string GetContainerSafeName(HttpTenantSelector selector)
-		{
-			string name = selector.Name;
-			if (name.Any(c => Char.IsNumber(c)))
-				name = "localhost";
-			return name;
 		}
 
 		private string GetItemPath<TEntity>(string key)
