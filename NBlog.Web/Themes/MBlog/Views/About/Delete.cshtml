@@ -1,0 +1,17 @@
+﻿@model AboutController.DeleteModel
+@{
+    ViewBag.Title = Model.Title + " | " + Model.Config.Heading;
+}
+
+<article>
+    <h1>Delete About?</h1>
+    <h2>Are you sure you want to delete '@Model.Title'?</h2>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.Title)
+        <input type="submit" value="Yes" />
+        <input type="button" value="No" id="no" onclick="window.history.back()" />
+    }
+</article>
+

@@ -1,0 +1,51 @@
+﻿@model AboutController.ShowModel
+@{
+    var Title = string.IsNullOrWhiteSpace(Model.Title) ? "About" : Model.Title;
+    ViewBag.Title = string.Format("{0} | {1}", Model.Config.Heading, Title);
+}
+<article class="entry">
+    @if (Model.User.IsAdmin)
+    {
+        <div class="admin-box text-links">
+            Admin:
+            @if (string.IsNullOrWhiteSpace(Model.Title))
+            {
+                @Html.ActionLink("Add", "Edit", "About", new { title = Model.Title }, null);
+            }
+            else
+            {
+                @Html.ActionLink("Edit", "Edit", "About", new { title = Model.Title }, null);
+                @Html.Raw(" | ");
+                @Html.ActionLink("Delete", "Delete", "About", new { title = Model.Title }, null);
+            }
+        </div>
+    }
+
+    <h1>@Title</h1>
+
+    <h2>@Model.Name</h2>
+
+    
+    <section>
+        @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+        {
+            <div class="image-box">
+                <img class="about-image" src="@Html.Safe(@Model.ImageUrl)">
+            </div>
+        }
+        <div>
+            @Html.Safe(@Model.Content)
+        </div>
+        <div class="clear-box"></div>
+    </section>
+</article>
+
+
+
+@section Scripts {
+    <script>
+    $(function () {
+        prettyPrint();
+    });
+    </script>
+}

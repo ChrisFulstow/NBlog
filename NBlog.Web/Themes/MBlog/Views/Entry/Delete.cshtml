@@ -1,0 +1,16 @@
+﻿@model EntryController.DeleteModel
+@{
+    ViewBag.Title = Model.Title + " | " + Model.Config.Heading;
+}
+
+<article>
+<h1>Delete Post?</h1>
+<h2>Are you sure you want to delete '@Model.Title'?</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Slug)
+    <input type="submit" value="Yes" />
+    <input type="button" value="No" id="no" onclick="window.history.back()" />
+}
+</article>

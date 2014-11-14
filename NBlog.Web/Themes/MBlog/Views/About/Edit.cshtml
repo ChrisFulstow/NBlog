@@ -1,0 +1,68 @@
+﻿@model AboutController.EditModel
+@{
+    var IsCreating = string.IsNullOrWhiteSpace(Model.Title);
+    ViewBag.Title = IsCreating ? "New About" : "Edit About - " + Model.Title;
+    var Heading = IsCreating ? "New About" : "Edit About";
+}
+<article class="form">
+
+    <h1>@Heading</h1>
+
+    @using (Html.BeginForm("Edit", "About", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="field long">
+            @Html.LabelFor(m => m.Title)<br />
+            @Html.EditorFor(m => m.Title)
+            @Html.ValidationMessageFor(m => m.Title)
+        </div>
+        
+        <div class="field long">
+            @Html.LabelFor(m => m.Name)<br />
+            @Html.EditorFor(m => m.Name)
+            @Html.ValidationMessageFor(m => m.Name)
+        </div>
+        
+        <div class="field short">
+            @Html.LabelFor(m => m.Image)<br />
+            @Html.TextBoxFor(m => m.Image, new { type = "file", accept = "image/*" })
+        </div>
+
+        <div class="field long markdown">
+            <div id="wmd-button-bar"></div>
+            @Html.TextAreaFor(m => m.Content, new { @class = "text-box, wmd-input", @id = "wmd-input" })
+            <div id="wmd-preview" class="wmd-preview"></div>
+            @Html.ValidationMessageFor(m => m.Content)
+        </div>
+
+        <div class="field">
+            <input type="submit" value="Save" />
+            @Html.ActionLink("< Back", "Index", "About", null, new { @class = "button" })
+        </div>
+    }
+
+</article>
+
+@section Scripts {
+    <script>
+    $(function () {
+
+        var alertOnLeaving = true;
+        window.onbeforeunload = function() {
+            return alertOnLeaving ? 'If you navigate away from this page you\'ll lose any unsaved changes' : null;
+        }
+
+        $(".form form").submit(function() {
+            if ($(this).valid()) { alertOnLeaving = false; }
+        });
+
+        var converter = new Markdown.getSanitizingConverter();
+        var editor = new Markdown.Editor(converter);
+        editor.run();
+    });
+    </script>
+}
+
+
+

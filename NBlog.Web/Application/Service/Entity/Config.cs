@@ -1,61 +1,111 @@
 ﻿using Newtonsoft.Json;
+using PetaPoco;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NBlog.Web.Application.Service.Entity
 {
-    public class Config
-    {
-        public List<string> Admins { get; set; }
+	[PrimaryKey("Id")]
+	public class Config
+	{
+		private readonly bool isSqlRepositoryType = ContainerConfig.JsonRepositoryType.Equals("sql", StringComparison.InvariantCultureIgnoreCase);
 
-        public CloudConfig Cloud { get; set; }
+		[Column("Admins")]
+		public string AdminsCsv { get; set; }
 
-        public ContactFormConfig ContactForm { get; set; }
+		[JsonProperty("Admins")]
+		private List<string> _admins;
 
-        public string Crossbar { get; set; }
+		[Ignore]
+		[JsonIgnore]
+		public List<string> Admins
+		{
+			get
+			{
+				if (!isSqlRepositoryType)
+				{
+					return _admins;
+				}
+				else
+				{
+					return AdminsCsv.Split(',').ToList();
+				}
+			}
+			set
+			{
+				_admins = value;
+			}
+		}
 
-        public DisqusConfig Disqus { get; set; }
+		public int CloudId { get; set; }
 
-        public string GoogleAnalyticsId { get; set; }
+		[ResultColumn]
+		public CloudConfig Cloud { get; set; }
 
-        public string Heading { get; set; }
+		public int ContactFormId { get; set; }
 
-        public string MetaDescription { get; set; }
+		[ResultColumn]
+		public ContactFormConfig ContactForm { get; set; }
 
-        public string Site { get; set; }
+		public string Crossbar { get; set; }
 
-        public string Tagline { get; set; }
+		public int DisqusId { get; set; }
 
-        public string Theme { get; set; }
+		[ResultColumn]
+		public DisqusConfig Disqus { get; set; }
 
-        public string Title { get; set; }
+		public string GoogleAnalyticsId { get; set; }
 
-        public string TwitterUsername { get; set; }
+		public string Heading { get; set; }
 
-        public class CloudConfig
-        {
-            public string ConsumerKey { get; set; }
+		public string MetaDescription { get; set; }
 
-            public string ConsumerSecret { get; set; }
+		public string Site { get; set; }
 
-            public string UserSecret { get; set; }
+		public string Tagline { get; set; }
 
-            public string UserToken { get; set; }
-        }
+		public string Theme { get; set; }
 
-        public class ContactFormConfig
-        {
-            public string RecipientEmail { get; set; }
+		public string Title { get; set; }
 
-            public string RecipientName { get; set; }
+		public string TwitterUsername { get; set; }
 
-            public string Subject { get; set; }
-        }
+		public string ClientId { get; set; }
 
-        public class DisqusConfig
-        {
-            public bool DevelopmentMode { get; set; }
+		public string ClientSecret { get; set; }
 
-            public string Shortname { get; set; }
-        }
-    }
+		[TableName("Cloud")]
+		[PrimaryKey("Id")]
+		public class CloudConfig
+		{
+			public string ConsumerKey { get; set; }
+
+			public string ConsumerSecret { get; set; }
+
+			public string UserSecret { get; set; }
+
+			public string UserToken { get; set; }
+		}
+
+		[TableName("ContactForm")]
+		[PrimaryKey("Id")]
+		public class ContactFormConfig
+		{
+			public string RecipientEmail { get; set; }
+
+			public string RecipientName { get; set; }
+
+			public string Subject { get; set; }
+		}
+
+		[TableName("Disqus")]
+		[PrimaryKey("Id")]
+		public class DisqusConfig
+		{
+			public bool DevelopmentMode { get; set; }
+
+			public string Shortname { get; set; }
+		}
+	}
 }
