@@ -3,8 +3,10 @@ using PetaPoco;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Web;
 
 namespace NBlog.Web.Application.Storage.Sql
 {
@@ -27,6 +29,14 @@ namespace NBlog.Web.Application.Storage.Sql
 			if (!DatabaseExists())
 			{
 				CreateDatabase();
+			}
+
+			foreach (var tableNameAndSchema in GetTableNamesAndSchemas())
+			{
+				if (!TableExists(tableNameAndSchema.Value, tableNameAndSchema.Key))
+				{
+					CreateTable(tableNameAndSchema.Value, tableNameAndSchema.Key);
+				}
 			}
 
 			_db = new Database(GetDatabaseConnectionString(), "System.Data.SqlClient");
@@ -96,19 +106,6 @@ namespace NBlog.Web.Application.Storage.Sql
 		{
 			var createDatabaseSql = string.Format("CREATE DATABASE [{0}]", _databaseName);
 
-			const string createTableEntrySql = @"
-                CREATE TABLE [dbo].[Entry]
-                (
-                    [Id] int NOT NULL IDENTITY (1, 1) PRIMARY KEY,
-	                [Slug] [nvarchar](250) NOT NULL,
-	                [Title] [nvarchar](250) NULL,
-	                [Author] [nvarchar](250) NULL,
-	                [DateCreated] [datetime] NULL,
-	                [Markdown] [nvarchar](max) NULL,
-	                [IsPublished] [bit] NULL,
-	                [IsCodePrettified] [bit] NULL
-                )";
-
 			using (var cnn = new SqlConnection(_serverConnectionString))
 			{
 				cnn.Open();
@@ -118,16 +115,74 @@ namespace NBlog.Web.Application.Storage.Sql
 					cmd.Parameters.AddWithValue("DatabaseName", _databaseName);
 					cmd.ExecuteNonQuery();
 				}
-
-				cnn.ChangeDatabase(_databaseName);
-
-				using (var cmd = new SqlCommand(createTableEntrySql, cnn))
-				{
-					cmd.ExecuteNonQuery();
-				}
 			}
 		}
 
+		private bool TableExists(string schema, string tableName)
+		{
+			bool exists = false;
+			var tableExistsSql = string.Format(@"SELECT *  FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{0}' AND  TABLE_NAME = '{1}'", schema, tableName);
+			using (var cnn = new SqlConnection(_serverConnectionString))
+			{
+				cnn.Open();
+				cnn.ChangeDatabase(_databaseName);
+				using (var cmd = new SqlCommand(tableExistsSql, cnn))
+				{
+					exists = cmd.ExecuteScalar() != null;
+				}
+			}
+			return exists;
+		}
+
+		private string[] GetSchemaFiles()
+		{
+			Directory.SetCurrentDirectory(HttpContext.Current.Server.MapPath("~/"));
+			return Directory.GetFiles("Schemas/");
+		}
+
+		private List<string> GetSchemaFileNames()
+		{
+			List<string> fileNames = new List<string>();
+			var schemaFiles = GetSchemaFiles();
+			foreach (var schemaFile in schemaFiles)
+			{
+				fileNames.Add(schemaFile.Substring(schemaFile.LastIndexOf('/') + 1));
+			}
+			return fileNames;
+		}
+
+		private Dictionary<string, string> GetTableNamesAndSchemas()
+		{
+			Dictionary<string, string> tableNamesAndSchemas = new Dictionary<string, string>();
+			foreach (var fileName in GetSchemaFileNames())
+			{
+				var schemaAndTableName = fileName.Substring(0, fileName.LastIndexOf('.'));
+				tableNamesAndSchemas.Add(
+					schemaAndTableName.Substring(schemaAndTableName.LastIndexOf('.') + 1),
+					schemaAndTableName.Substring(0, schemaAndTableName.LastIndexOf('.')));
+			}
+			return tableNamesAndSchemas;
+		}
+
+		private void CreateTable(string schema, string table)
+		{
+			var schemaFiles = GetSchemaFiles();
+			foreach (var schemaFile in schemaFiles)
+			{
+				if (schemaFile.EndsWith(string.Format("{0}.{1}.sql", schema, table)))
+				{
+					var createTableSql = string.Format(@"{0}", File.ReadAllText(schemaFile));
+					using (var cnn = new SqlConnection(_serverConnectionString))
+					{
+						cnn.Open();
+						using (var cmd = new SqlCommand(createTableSql, cnn))
+						{
+							cmd.ExecuteNonQuery();
+						}
+					}
+				}
+			}
+		}
 
 		private bool DatabaseExists()
 		{
