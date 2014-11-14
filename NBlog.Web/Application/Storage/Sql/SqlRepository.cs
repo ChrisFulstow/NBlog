@@ -134,19 +134,19 @@ namespace NBlog.Web.Application.Storage.Sql
 			return exists;
 		}
 
-		private string[] GetSchemaFiles()
+		private string[] GetSQLScriptFiles()
 		{
 			Directory.SetCurrentDirectory(HttpContext.Current.Server.MapPath("~/"));
-			return Directory.GetFiles("Schemas/");
+			return Directory.GetFiles("SQL_Scripts/");
 		}
 
-		private List<string> GetSchemaFileNames()
+		private List<string> GetSQLScriptFileNames()
 		{
 			List<string> fileNames = new List<string>();
-			var schemaFiles = GetSchemaFiles();
-			foreach (var schemaFile in schemaFiles)
+			var sqlScriptFiles = GetSQLScriptFiles();
+			foreach (var sqlScriptFile in sqlScriptFiles)
 			{
-				fileNames.Add(schemaFile.Substring(schemaFile.LastIndexOf('/') + 1));
+				fileNames.Add(sqlScriptFile.Substring(sqlScriptFile.LastIndexOf('/') + 1));
 			}
 			return fileNames;
 		}
@@ -154,7 +154,7 @@ namespace NBlog.Web.Application.Storage.Sql
 		private Dictionary<string, string> GetTableNamesAndSchemas()
 		{
 			Dictionary<string, string> tableNamesAndSchemas = new Dictionary<string, string>();
-			foreach (var fileName in GetSchemaFileNames())
+			foreach (var fileName in GetSQLScriptFileNames())
 			{
 				var schemaAndTableName = fileName.Substring(0, fileName.LastIndexOf('.'));
 				tableNamesAndSchemas.Add(
@@ -166,12 +166,12 @@ namespace NBlog.Web.Application.Storage.Sql
 
 		private void CreateTable(string schema, string table)
 		{
-			var schemaFiles = GetSchemaFiles();
-			foreach (var schemaFile in schemaFiles)
+			var sqlScriptFiles = GetSQLScriptFiles();
+			foreach (var sqlScriptFile in sqlScriptFiles)
 			{
-				if (schemaFile.EndsWith(string.Format("{0}.{1}.sql", schema, table)))
+				if (sqlScriptFile.EndsWith(string.Format("{0}.{1}.sql", schema, table)))
 				{
-					var createTableSql = string.Format(@"{0}", File.ReadAllText(schemaFile));
+					var createTableSql = string.Format(@"{0}", File.ReadAllText(sqlScriptFile));
 					using (var cnn = new SqlConnection(_serverConnectionString))
 					{
 						cnn.Open();
