@@ -29,7 +29,6 @@ namespace NBlog.Web.Controllers
 			[Required(ErrorMessage = "Please enter some content.")]
 			public string Content { get; set; }
 
-			[AllowHtml]
 			public HttpPostedFileBase Image { get; set; }
 		}
 

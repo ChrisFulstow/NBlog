@@ -65,19 +65,20 @@ namespace NBlog.Web.Controllers
 			// Save the image in blob storage
 			if (model.Image != null)
 			{
-				var imageFileName = Path.GetFileName(model.Image.FileName);
 				var image = new NBlog.Web.Application.Service.Entity.Image();
+				var fileName = Path.GetFileName(model.Image.FileName);
 				// Scale the image before saving
 				using (var scaledImageStream = new MemoryStream())
 				{
 					var settings = new ResizeSettings(200, 150, FitMode.None, "jpg");
 					ImageBuilder.Current.Build(model.Image.InputStream, scaledImageStream, settings);
-					image.FileName = imageFileName;
 					image.StreamToUpload = scaledImageStream;
+					// Set FileName to save as, gets read as a repository key
+					image.FileName = fileName;
 					Services.Image.Save(image);
 				}
 				// Get the url to link to the About Entity
-				about.ImageUrl = Services.Image.GetByFileName(imageFileName).Url;
+				about.ImageUrl = Services.Image.GetByFileName(fileName).Uri;
 			}
 			Services.About.Save(about);
 

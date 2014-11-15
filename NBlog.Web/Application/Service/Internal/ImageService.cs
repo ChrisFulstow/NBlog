@@ -1,7 +1,5 @@
 ﻿using NBlog.Web.Application.Service.Entity;
 using NBlog.Web.Application.Storage;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace NBlog.Web.Application.Service.Internal
 {
@@ -14,9 +12,9 @@ namespace NBlog.Web.Application.Service.Internal
 			_repository = repository;
 		}
 
-		public void Save(Image image)
+		public void Save(Image stream)
 		{
-			_repository.Save<Image>(image);
+			_repository.Save<Image>(stream);
 		}
 
 		public Image GetByFileName(string fileName)
@@ -24,19 +22,9 @@ namespace NBlog.Web.Application.Service.Internal
 			return _repository.Single<Image>(fileName);
 		}
 
-		public List<Image> GetList()
-		{
-			return _repository.All<Image>().ToList();
-		}
-
 		public void Delete(string fileName)
 		{
 			_repository.Delete<Image>(fileName);
-		}
-
-		public bool Exists(string fileName)
-		{
-			return _repository.Exists<Image>(fileName);
 		}
 	}
 }
