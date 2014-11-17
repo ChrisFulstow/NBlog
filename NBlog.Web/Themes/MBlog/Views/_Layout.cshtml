@@ -31,7 +31,7 @@
                 return config.disableExceptionTracking || (i = "onerror", s("_" + i), u = f[i], f[i] = function (config, r, f, e, o) {
                     var s = u && u(config, r, f, e, o); return s !== !0 && t["_" + i](config, r, f, e, o), s }), t
             }({
-                instrumentationKey: @Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration.Active.InstrumentationKey
+                instrumentationKey: "@Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration.Active.InstrumentationKey"
             });
 
             window.appInsights = appInsights;
