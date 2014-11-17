@@ -23,7 +23,6 @@ namespace NBlog.Web
 	public class ContainerConfig
 	{
 		public static readonly string JsonRepositoryType = ConfigurationManager.AppSettings["JsonRepositoryType"];
-		private static readonly string ImagesRepositoryType = ConfigurationManager.AppSettings["ImagesRepositoryType"];
 
 		public static void SetUpContainer()
 		{
@@ -93,8 +92,7 @@ namespace NBlog.Web
 			});
 
 			builder.RegisterType<AzureBlobRepository>().Named<IRepository>("azureblob").InstancePerRequest().WithParameters(new[] {
-				new NamedParameter("keys", repositoryKeys),
-				new NamedParameter("tenantSelector", new HttpTenantSelector())
+				new NamedParameter("keys", repositoryKeys)
 			});
 
 			builder.RegisterControllers(typeof(ContainerConfig).Assembly)
@@ -111,7 +109,7 @@ namespace NBlog.Web
 				.WithParameter(GetResolvedParameterByName<IRepository>(JsonRepositoryType));
 
 			builder.RegisterType<ImageService>().As<IImageService>().InstancePerLifetimeScope()
-				.WithParameter(GetResolvedParameterByName<IRepository>(ImagesRepositoryType));
+				.WithParameter(GetResolvedParameterByName<IRepository>(ConfigurationManager.AppSettings["ImagesRepositoryType"]));
 
 			builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
 			builder.RegisterType<MessageService>().As<IMessageService>().InstancePerLifetimeScope();
