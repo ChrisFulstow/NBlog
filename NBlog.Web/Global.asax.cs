@@ -11,10 +11,10 @@ namespace NBlog.Web
 		private void Application_Start(object sender, EventArgs e)
 		{
 			// Code that runs on application startup
-			RouteConfig.RegisterRoutes(RouteTable.Routes);
-			ContainerConfig.SetUpContainer();
 			// Override the Instrumentation Key from ApplicationInsights.config, so we can set it from the app settings in the azure configuration dashboard
 			Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration.Active.InstrumentationKey = ConfigurationManager.AppSettings["ApplicationInsightsInstrumentationKey"];
+			RouteConfig.RegisterRoutes(RouteTable.Routes);
+			ContainerConfig.SetUpContainer();
 		}
 
 		private void Application_End(object sender, EventArgs e)
