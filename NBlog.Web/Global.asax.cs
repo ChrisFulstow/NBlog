@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Web;
+using System.Web.Compilation;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -11,6 +12,8 @@ namespace NBlog.Web
 		private void Application_Start(object sender, EventArgs e)
 		{
 			// Code that runs on application startup
+			// So injection on controllers that use other assemblies can happen correctly
+			BuildManager.GetReferencedAssemblies();
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			ContainerConfig.SetUpContainer();
 			// Override the Instrumentation Key from ApplicationInsights.config, so we can set it from the app settings in the azure configuration dashboard
