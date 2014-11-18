@@ -12,7 +12,7 @@ namespace NBlog.Web
 		private void Application_Start(object sender, EventArgs e)
 		{
 			// Code that runs on application startup
-			// So injection on controllers that use other assemblies can happen correctly
+			// Need this line so injection on controllers that use other assemblies can happen correctly
 			BuildManager.GetReferencedAssemblies();
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			ContainerConfig.SetUpContainer();
