@@ -26,6 +26,7 @@ namespace NBlog.Web.Application.Service.Internal
 				&& _configService.Current.Admins.Contains(identity.Name, StringComparer.InvariantCultureIgnoreCase);
 			if (isAdmin)
 			{
+				Roles.CreateRole("Admin");
 				GenericPrincipal adminPrincipal = new GenericPrincipal(identity, new string[] { "Admin" });
 			}
 
