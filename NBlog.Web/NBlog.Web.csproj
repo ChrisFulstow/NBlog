@@ -277,6 +277,7 @@
     <Content Include="..\NBlog.Database.SQL\Tables\dbo.Entry.sql">
       <Link>SQL\Tables\dbo.Entry.sql</Link>
     </Content>
+    <Content Include="App_Data\RolesData\azmanstore.xml" />
     <Content Include="Content\fancybox\blank.gif" />
     <Content Include="Content\fancybox\fancybox_buttons.png" />
     <Content Include="Content\fancybox\fancybox_loading%402x.gif" />
