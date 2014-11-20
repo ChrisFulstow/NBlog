@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using Elmah;
+using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace NBlog.Web
@@ -9,8 +10,6 @@ namespace NBlog.Web
 		{
 			routes.RouteExistingFiles = false;
 			routes.LowercaseUrls = true;
-
-			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
 			// homepage
 			routes.MapRoute("", "", new { controller = "Home", action = "Index" });
@@ -33,6 +32,9 @@ namespace NBlog.Web
 
 			// about
 			routes.MapRoute("", "about", new { controller = "About", action = "Index" });
+			
+			// Elmah
+			routes.MapRoute("", "elmah/{type}", new { controller = "Elmah", action = "Index", type = UrlParameter.Optional });			
 
 			// entry pages
 			routes.MapRoute("", "{id}", new { controller = "Entry", action = "Show" });

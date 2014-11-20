@@ -24,12 +24,6 @@ namespace NBlog.Web.Application.Service.Internal
 				identity.IsAuthenticated
 				&& _configService.Current.Admins != null
 				&& _configService.Current.Admins.Contains(identity.Name, StringComparer.InvariantCultureIgnoreCase);
-			if (isAdmin)
-			{
-				var admin = "Admin";
-				Roles.CreateRole(admin);
-				GenericPrincipal adminPrincipal = new GenericPrincipal(identity, new string[] { admin });
-			}
 
 			var user = new User
 			{

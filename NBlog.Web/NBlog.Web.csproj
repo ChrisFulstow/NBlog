@@ -259,7 +259,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\RolesData\azmanstore.xml" />
     <Content Include="Content\fancybox\blank.gif" />
     <Content Include="Content\fancybox\fancybox_buttons.png" />
     <Content Include="Content\fancybox\fancybox_loading%402x.gif" />
@@ -386,6 +385,7 @@
     <Compile Include="Application\Infrastructure\AutofacJobFactory.cs" />
     <Compile Include="Application\Infrastructure\BuildNumberProvider.cs" />
     <Compile Include="Application\Infrastructure\DateExtensions.cs" />
+    <Compile Include="Application\Infrastructure\ElmahResult.cs" />
     <Compile Include="Application\Infrastructure\HtmlExtensions.cs" />
     <Compile Include="Application\Infrastructure\HttpTenantSelector.cs" />
     <Compile Include="Application\Infrastructure\LayoutController.cs" />
@@ -437,6 +437,7 @@
     <Compile Include="Controllers\AuthenticationController.Models.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\ContactController.Models.cs" />
+    <Compile Include="Controllers\ElmahController.cs" />
     <Compile Include="Controllers\EntryController.cs" />
     <Compile Include="Controllers\EntryController.Models.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
