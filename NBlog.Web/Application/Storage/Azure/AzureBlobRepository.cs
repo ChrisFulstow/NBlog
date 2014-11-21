@@ -65,8 +65,8 @@ namespace NBlog.Web.Application.Storage.Azure
 			else
 			{
 				var uri = blob.Uri.AbsoluteUri;
-				var blobEndpoint = ConfigurationManager.ConnectionStrings["AzureBlobEndpoint"].ConnectionString;
-				var cdnEndpoint = ConfigurationManager.ConnectionStrings["AzureCDNEndpoint"].ConnectionString;
+				var blobEndpoint = ConfigurationManager.ConnectionStrings["AzureBlobEndpointURL"].ConnectionString;
+				var cdnEndpoint = ConfigurationManager.ConnectionStrings["AzureCDNEndpointURL"].ConnectionString;
 				if (ConfigurationManager.AppSettings["UseCDN"] == true.ToString() && (!string.IsNullOrWhiteSpace(blobEndpoint) && !string.IsNullOrWhiteSpace(cdnEndpoint)))
 				{
 					uri = uri.Replace(blobEndpoint, cdnEndpoint);
