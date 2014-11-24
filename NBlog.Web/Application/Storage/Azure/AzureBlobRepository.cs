@@ -64,7 +64,14 @@ namespace NBlog.Web.Application.Storage.Azure
 			}
 			else
 			{
-				var image = new Image() { Uri = blob.Uri.AbsoluteUri };
+				var uri = blob.Uri.AbsoluteUri;
+				var blobEndpoint = ConfigurationManager.ConnectionStrings["AzureBlobEndpointURL"].ConnectionString;
+				var cdnEndpoint = ConfigurationManager.ConnectionStrings["AzureCDNEndpointURL"].ConnectionString;
+				if (ConfigurationManager.AppSettings["UseCDN"] == true.ToString().ToLower() && (!string.IsNullOrWhiteSpace(blobEndpoint) && !string.IsNullOrWhiteSpace(cdnEndpoint)))
+				{
+					uri = uri.Replace(blobEndpoint, cdnEndpoint);
+				}
+				var image = new Image() { Uri = uri };
 				item = image as TEntity;
 			}
 			return item;

@@ -3,10 +3,8 @@ using PetaPoco;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web;
 
 namespace NBlog.Web.Application.Storage.Sql
 {
@@ -25,19 +23,6 @@ namespace NBlog.Web.Application.Storage.Sql
 			_databaseName = databaseName;
 
 			AssertValidDatabaseName();
-
-			if (!DatabaseExists())
-			{
-				CreateDatabase();
-			}
-
-			foreach (var tableNameAndSchema in GetTableNamesAndSchemas())
-			{
-				if (!TableExists(tableNameAndSchema.Value, tableNameAndSchema.Key))
-				{
-					CreateTable(tableNameAndSchema.Value, tableNameAndSchema.Key);
-				}
-			}
 
 			_db = new Database(GetDatabaseConnectionString(), "System.Data.SqlClient");
 		}
@@ -99,111 +84,6 @@ namespace NBlog.Web.Application.Storage.Sql
 			var tableName = GetTableName<TEntity>();
 			var keyName = _keys.GetKeyName<TEntity>();
 			_db.Execute(string.Format("DELETE FROM {0} WHERE [{1}] = @0", tableName, keyName), key);
-		}
-
-
-		private void CreateDatabase()
-		{
-			var createDatabaseSql = string.Format("CREATE DATABASE [{0}]", _databaseName);
-
-			using (var cnn = new SqlConnection(_serverConnectionString))
-			{
-				cnn.Open();
-
-				using (var cmd = new SqlCommand(createDatabaseSql, cnn))
-				{
-					cmd.Parameters.AddWithValue("DatabaseName", _databaseName);
-					cmd.ExecuteNonQuery();
-				}
-			}
-		}
-
-		private bool TableExists(string schema, string tableName)
-		{
-			bool exists = false;
-			var tableExistsSql = string.Format(@"SELECT *  FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{0}' AND  TABLE_NAME = '{1}'", schema, tableName);
-			using (var cnn = new SqlConnection(_serverConnectionString))
-			{
-				cnn.Open();
-				cnn.ChangeDatabase(_databaseName);
-				using (var cmd = new SqlCommand(tableExistsSql, cnn))
-				{
-					exists = cmd.ExecuteScalar() != null;
-				}
-			}
-			return exists;
-		}
-
-		private string[] GetSQLScriptFiles()
-		{
-			Directory.SetCurrentDirectory(string.Format("{0}/SQL", HttpContext.Current.Server.MapPath("/")));
-			return Directory.GetFiles("Tables/");
-		}
-
-		private List<string> GetSQLScriptFileNames()
-		{
-			List<string> fileNames = new List<string>();
-			var sqlScriptFiles = GetSQLScriptFiles();
-			foreach (var sqlScriptFile in sqlScriptFiles)
-			{
-				fileNames.Add(sqlScriptFile.Substring(sqlScriptFile.LastIndexOf('/') + 1));
-			}
-			return fileNames;
-		}
-
-		private Dictionary<string, string> GetTableNamesAndSchemas()
-		{
-			Dictionary<string, string> tableNamesAndSchemas = new Dictionary<string, string>();
-			foreach (var fileName in GetSQLScriptFileNames())
-			{
-				var schemaAndTableName = fileName.Substring(0, fileName.LastIndexOf('.'));
-				tableNamesAndSchemas.Add(
-					schemaAndTableName.Substring(schemaAndTableName.LastIndexOf('.') + 1),
-					schemaAndTableName.Substring(0, schemaAndTableName.LastIndexOf('.')));
-			}
-			return tableNamesAndSchemas;
-		}
-
-		private void CreateTable(string schema, string table)
-		{
-			var sqlScriptFiles = GetSQLScriptFiles();
-			foreach (var sqlScriptFile in sqlScriptFiles)
-			{
-				if (sqlScriptFile.EndsWith(string.Format("{0}.{1}.sql", schema, table)))
-				{
-					var createTableSql = string.Format(@"{0}", File.ReadAllText(sqlScriptFile));
-					using (var cnn = new SqlConnection(_serverConnectionString))
-					{
-						cnn.Open();
-						using (var cmd = new SqlCommand(createTableSql, cnn))
-						{
-							cmd.ExecuteNonQuery();
-						}
-					}
-				}
-			}
-		}
-
-		private bool DatabaseExists()
-		{
-			try
-			{
-				const string sql = "SELECT database_id FROM sys.databases WHERE Name = @DatabaseName";
-
-				using (var cnn = new SqlConnection(_serverConnectionString))
-				using (var cmd = new SqlCommand(sql, cnn))
-				{
-					cnn.Open();
-					cmd.Parameters.AddWithValue("DatabaseName", _databaseName);
-					var databaseId = cmd.ExecuteScalar();
-					var databaseExists = (databaseId != null);
-					return databaseExists;
-				}
-			}
-			catch (Exception ex)
-			{
-				throw new Exception("Could not connect to SQL Server database '" + _databaseName + "', check your connection string.", ex);
-			}
 		}
 
 

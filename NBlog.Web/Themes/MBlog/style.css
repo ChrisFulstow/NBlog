@@ -63,9 +63,9 @@ article.entry pre.prettyprint { border: 1px dotted #777; padding: 10px; backgrou
 
 footer { margin-top: 30px; margin-bottom: 30px; padding-top: 10px; padding-bottom: 10px; border-top: 1px dotted #3c454f; text-align: center; }
 
-a { text-decoration:none; }
-a:link { border-bottom:1px dotted; color:#04b; text-decoration:none; }
-a:link:hover { border-bottom:1px solid; text-decoration:none; }
+a:link { border-bottom:1px dotted; color:#333; text-decoration:none; }
+a:visited { color:#555; }
+a:link:hover, a:visited:hover { border-bottom:1px solid; text-decoration:none; color:#333 }
 
 .admin-box
 {

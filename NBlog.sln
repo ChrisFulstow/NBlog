@@ -1,13 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBlog.Tests", "NBlog.Tests\NBlog.Tests.csproj", "{DF1D802E-F26B-4A53-8BFD-9B75BF8FB87C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBlog.Web", "NBlog.Web\NBlog.Web.csproj", "{76786AF8-65CC-488C-A0C3-0418A989B044}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "NBlog.Database.SQL", "NBlog.Database.SQL\NBlog.Database.SQL.sqlproj", "{65ED8171-4A1D-4B77-8C66-5B13A753F343}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{62CFE5A9-B59F-4FF0-A696-E4E7F1D19A88}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
