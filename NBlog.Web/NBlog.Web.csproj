@@ -21,6 +21,7 @@
     <IISExpressUseClassicPipelineMode />
     <NuGetPackageImportStamp>8644e64b</NuGetPackageImportStamp>
     <ApplicationInsightsResourceId>/subscriptions/062529f8-cfb2-4877-b205-235ce3d857bd/resourcegroups/Default-Web-EastUS2/providers/microsoft.insights/components/themblog</ApplicationInsightsResourceId>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -372,8 +373,8 @@
     <Content Include="Scripts\Profiling\config.js" />
     <Content Include="Scripts\Profiling\yahoo-profiling.css" />
     <Content Include="Scripts\Profiling\yahoo-profiling.min.js" />
-    <Content Include="Themes\MBlog\favicon.ico" />
-    <Content Include="Themes\MBlog\style.css" />
+    <Content Include="Themes\MNBlog\favicon.ico" />
+    <Content Include="Themes\MNBlog\style.css" />
     <Content Include="Themes\Default\favicon.ico" />
     <Content Include="Themes\Default\style.css" />
     <Content Include="Web.config">
@@ -470,21 +471,21 @@
     <Content Include="Themes\Default\Views\Web.config" />
     <Content Include="Themes\Default\Views\_Layout.cshtml" />
     <Content Include="Themes\Default\Views\_ViewStart.cshtml" />
-    <Content Include="Themes\MBlog\Views\_Layout.cshtml" />
-    <Content Include="Themes\MBlog\Views\_ViewStart.cshtml" />
-    <Content Include="Themes\MBlog\Views\Authentication\Login.cshtml" />
-    <Content Include="Themes\MBlog\Views\Contact\Confirm.cshtml" />
-    <Content Include="Themes\MBlog\Views\Contact\Index.cshtml" />
-    <Content Include="Themes\MBlog\Views\Entry\Delete.cshtml" />
-    <Content Include="Themes\MBlog\Views\Entry\Edit.cshtml" />
-    <Content Include="Themes\MBlog\Views\Entry\Show.cshtml" />
-    <Content Include="Themes\MBlog\Views\Error\Index.cshtml" />
-    <Content Include="Themes\MBlog\Views\Home\Index.cshtml" />
-    <Content Include="Themes\MBlog\Views\Search\Index.cshtml" />
-    <Content Include="Themes\MBlog\Views\Web.config" />
-    <Content Include="Themes\MBlog\Views\About\Index.cshtml" />
-    <Content Include="Themes\MBlog\Views\About\Edit.cshtml" />
-    <Content Include="Themes\MBlog\Views\About\Delete.cshtml" />
+    <Content Include="Themes\MNBlog\Views\_Layout.cshtml" />
+    <Content Include="Themes\MNBlog\Views\_ViewStart.cshtml" />
+    <Content Include="Themes\MNBlog\Views\Authentication\Login.cshtml" />
+    <Content Include="Themes\MNBlog\Views\Contact\Confirm.cshtml" />
+    <Content Include="Themes\MNBlog\Views\Contact\Index.cshtml" />
+    <Content Include="Themes\MNBlog\Views\Entry\Delete.cshtml" />
+    <Content Include="Themes\MNBlog\Views\Entry\Edit.cshtml" />
+    <Content Include="Themes\MNBlog\Views\Entry\Show.cshtml" />
+    <Content Include="Themes\MNBlog\Views\Error\Index.cshtml" />
+    <Content Include="Themes\MNBlog\Views\Home\Index.cshtml" />
+    <Content Include="Themes\MNBlog\Views\Search\Index.cshtml" />
+    <Content Include="Themes\MNBlog\Views\Web.config" />
+    <Content Include="Themes\MNBlog\Views\About\Index.cshtml" />
+    <Content Include="Themes\MNBlog\Views\About\Edit.cshtml" />
+    <Content Include="Themes\MNBlog\Views\About\Delete.cshtml" />
     <Content Include="Themes\Default\Views\About\Delete.cshtml" />
     <Content Include="Themes\Default\Views\About\Edit.cshtml" />
     <Content Include="Themes\Default\Views\About\Index.cshtml" />
