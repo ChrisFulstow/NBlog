@@ -1,4 +1,4 @@
-#NBlog
+# NBlog
 ## An open source ASP.NET MVC 5 blog engine
 
 NBlog is a flexible, lightweight, open source blog engine built on ASP.NET MVC 5, C#, jQuery, Razor view engine, CSS3 and HTML5.  It doesn't need a database because it stores your data in JSON files, but if you like databases it also supports SQL Server and MongoDB.
@@ -45,5 +45,5 @@ To see NBlog in action, check out [blog.appharbor.com][0], [chrisfulstow.com][1]
 [14]: http://www.dropbox.com/
 [15]: http://themblog.azurewebsites.net/
 
-##License
+## License
 NBlog is open source under the [The MIT License (MIT)](http://www.opensource.org/licenses/mit-license.php)
