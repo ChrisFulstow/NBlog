@@ -26,7 +26,10 @@ NBlog is built using these fantastic open source libraries:
  - [Quartz.NET][12]
  - [HTML5 Boilerplate][13]
  
-To see NBlog in action, check out [blog.appharbor.com][0], [chrisfulstow.com][1], and [themblog.azurewebsites.net][15].
+To see NBlog in action, check out [blog.appharbor.com][0], [chrisfulstow.com][1].
+
+It looks like Azure has expired my example of this enhanceed forked blog, which has an "About Me" section and supports uploading a corresponding image to storage in Blob or SQL.
+From what I could find, the [lfoust/NBlog][14] fork still has some similarities to this demo, and it is still running here:  [blog.spontaneouspublicity.com/][15]
 
 [0]: http://blog.appharbor.com/
 [1]: http://chrisfulstow.com/
@@ -43,7 +46,8 @@ To see NBlog in action, check out [blog.appharbor.com][0], [chrisfulstow.com][1]
 [12]: http://quartznet.sourceforge.net/
 [13]: http://html5boilerplate.com/
 [14]: http://www.dropbox.com/
-[15]: http://themblog.azurewebsites.net/
+[15]: https://github.com/lfoust/NBlog/
+[16]: https://blog.spontaneouspublicity.com/
 
 ##License
 NBlog is open source under the [The MIT License (MIT)](http://www.opensource.org/licenses/mit-license.php)
