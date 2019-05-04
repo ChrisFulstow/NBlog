@@ -29,7 +29,7 @@ NBlog is built using these fantastic open source libraries:
 To see NBlog in action, check out [blog.appharbor.com][0], [chrisfulstow.com][1].
 
 It looks like Azure has expired my example of this enhanceed forked blog, which has an "About Me" section and supports uploading a corresponding image to storage in Blob or SQL.
-From what I could find, the [lfoust/NBlog][15] fork still has some similarities to this demo, and it is still running here:  [blog.spontaneouspublicity.com/][16]
+From what I could find, the [lfoust/NBlog][15] fork still has some similarities to this demo, and it is still running here:  [blog.spontaneouspublicity.com][16]
 
 [0]: http://blog.appharbor.com/
 [1]: http://chrisfulstow.com/
