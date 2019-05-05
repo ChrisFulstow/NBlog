@@ -51,3 +51,4 @@ _ReSharper*/
 
 # Office Temp Files
 ~$*
+/.vs/config/applicationhost.config
